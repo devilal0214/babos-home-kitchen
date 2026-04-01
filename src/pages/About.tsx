@@ -1,0 +1,84 @@
+import React from 'react';
+import { Heart, Leaf, ShieldCheck } from 'lucide-react';
+
+export default function About() {
+  return (
+    <div className="bg-stone-50 min-h-screen">
+      {/* Story Section */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <div className="relative">
+              <div className="absolute inset-0 bg-orange-100 rounded-3xl transform -translate-x-4 translate-y-4"></div>
+              <img 
+                src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1000&auto=format&fit=crop" 
+                alt="Babo cooking" 
+                className="relative rounded-3xl object-cover w-full h-[600px]"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+
+            <div>
+              <h1 className="text-4xl md:text-5xl font-serif font-bold text-stone-900 mb-8">Delicacies of Bengal</h1>
+              
+              <div className="space-y-6 text-lg text-stone-700 leading-relaxed">
+                <p>
+                  Babo's Home Kitchen, a boutique culinary venture in New Delhi, is the brainchild of an obsessive foodie, sometime journalist, and media relations professional Dipayan Mazumdar, lovingly known as Babo.
+                </p>
+                <p>
+                  From the delicate balance of panch phoron to the rich aromas of a slow-cooked curry, Babo's Home Kitchen is a celebration of Bengali heritage. Born out of pure love and passion for cooking for his daughter, friends, and family, Babo creates exquisite and unique Bengali delicacies with secret family recipes that have been passed down through generations.
+                </p>
+                <p>
+                  Unlike major restaurants and delivery chains, Babo's Home Kitchen prides itself on excellence. Every dish is made to order with utmost focus on flavor, freshness, and wholesome goodness—leaving you craving more.
+                </p>
+                <p className="font-medium text-stone-900 italic border-l-4 border-orange-500 pl-4 py-2 bg-orange-50">
+                  "A humble home kitchen approach that blends traditional panch phoron techniques with a modern focus on wholesome, soulful flavors."
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="py-20 bg-white border-t border-stone-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4">Our Core Values</h2>
+            <p className="text-lg text-stone-600 max-w-2xl mx-auto">The principles that guide every meal we prepare.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              {
+                icon: <ShieldCheck size={40} className="text-orange-600" />,
+                title: "Curated Experience",
+                desc: "Our menu features exquisite and unique Bengali delicacies designed to offer a deep sense of culinary nostalgia."
+              },
+              {
+                icon: <Leaf size={40} className="text-orange-600" />,
+                title: "Locally Sourced",
+                desc: "Babo undertakes extensive research to source the freshest ingredients and is very particular about procuring produce locally."
+              },
+              {
+                icon: <Heart size={40} className="text-orange-600" />,
+                title: "Balancing Tradition",
+                desc: "We strictly follow age-old recipes to maintain the original taste and flavor while integrating creative touches."
+              }
+            ].map((value, i) => (
+              <div key={i} className="text-center p-8 bg-stone-50 rounded-3xl border border-stone-100">
+                <div className="w-20 h-20 mx-auto bg-orange-100 rounded-full flex items-center justify-center mb-6">
+                  {value.icon}
+                </div>
+                <h3 className="text-2xl font-bold font-serif text-stone-900 mb-4">{value.title}</h3>
+                <p className="text-stone-600 leading-relaxed">{value.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
