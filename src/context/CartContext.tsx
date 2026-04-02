@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { toast } from 'sonner';
 
 export interface CartItem {
   id: string | number;
@@ -29,10 +30,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, { ...item, quantity: 1 }];
     });
+    toast.success(`${item.name} added to cart`);
   };
 
   const removeFromCart = (id: string | number) => {
-    setCart(prev => prev.filter(i => i.id !== id));
+    setCart(prev => {
+      const item = prev.find(i => i.id === id);
+      if (item) {
+        toast.error(`${item.name} removed from cart`);
+      }
+      return prev.filter(i => i.id !== id);
+    });
   };
 
   const updateQuantity = (id: string | number, quantity: number) => {

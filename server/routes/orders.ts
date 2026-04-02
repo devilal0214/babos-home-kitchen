@@ -1,0 +1,71 @@
+import { Router, Request, Response } from 'express';
+import { getDb } from '../db.js';
+import { authenticateAdmin, AuthRequest } from '../middleware/auth.js';
+
+const router = Router();
+
+// Public: Submit a new order (called from cart page before WhatsApp opens)
+router.post('/', async (req: Request, res: Response): Promise<void> => {
+  const { customer_name, customer_mobile, delivery_type, delivery_date, delivery_time, address, items, subtotal } = req.body;
+
+  if (!customer_name || !customer_mobile || !delivery_type || !delivery_date || !delivery_time || !Array.isArray(items)) {
+    res.status(400).json({ error: 'Missing required fields' });
+    return;
+  }
+
+  try {
+    const db = await getDb();
+    const result = await db.run(
+      'INSERT INTO orders (customer_name, customer_mobile, delivery_type, delivery_date, delivery_time, address, items_json, subtotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [
+        customer_name,
+        customer_mobile,
+        delivery_type,
+        delivery_date,
+        delivery_time,
+        address || null,
+        JSON.stringify(items),
+        Number(subtotal) || 0,
+      ]
+    );
+    res.status(201).json({ id: result.lastID, success: true });
+  } catch (err) {
+    console.error('Create order error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Admin: Get all orders (newest first)
+router.get('/', authenticateAdmin, async (_req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const db = await getDb();
+    const rows = await db.all('SELECT * FROM orders ORDER BY created_at DESC');
+    const orders = rows.map((row: Record<string, unknown>) => ({
+      ...row,
+      items: JSON.parse((row.items_json as string) || '[]'),
+    }));
+    res.json(orders);
+  } catch (err) {
+    console.error('Get orders error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Admin: Get unique users (deduplicated by mobile — latest name per mobile)
+router.get('/users', authenticateAdmin, async (_req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const db = await getDb();
+    const rows = await db.all(`
+      SELECT customer_name AS name, customer_mobile AS mobile
+      FROM orders
+      GROUP BY customer_mobile
+      ORDER BY MAX(created_at) DESC
+    `);
+    res.json(rows);
+  } catch (err) {
+    console.error('Get order users error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+export default router;

@@ -1,11 +1,17 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import AnnouncementBar from './AnnouncementBar';
 import Header from './Header';
 import Footer from './Footer';
-import WhatsAppButton from './WhatsAppButton';
+import FloatingCart from './FloatingCart';
+import { useCart } from '../context/CartContext';
 
 export default function Layout() {
+  const location = useLocation();
+  const { totalItems } = useCart();
+  const isCartPage = location.pathname === '/cart';
+  const showFloatingCart = totalItems > 0 && !isCartPage;
+
   return (
     <div className="min-h-screen flex flex-col font-sans bg-stone-50 text-stone-900">
       <AnnouncementBar />
@@ -14,7 +20,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
-      <WhatsAppButton isFloating />
+      <FloatingCart />
     </div>
   );
 }

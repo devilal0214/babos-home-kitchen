@@ -3,25 +3,24 @@ import { Link } from 'react-router-dom';
 import { Clock, ShieldCheck, Utensils, Star, ArrowRight, Plus, Minus, ShoppingCart } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
 import { useCart } from '../context/CartContext';
+import { useMenuData } from '../context/MenuDataContext';
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
   const { cart, addToCart, updateQuantity } = useCart();
+  const { menuItems, categories, loading } = useMenuData();
 
-  const categories = ['All', 'Veg', 'Non Veg', 'Starters', 'Main course', 'Deserts'];
+  // Show Signature-tagged dishes first; fall back to first 6 if none
+  const signatureDishes = menuItems.filter(item => item.tags?.includes('Signature'));
+  const allDishes = signatureDishes.length > 0 ? signatureDishes : menuItems.slice(0, 6);
 
-  const allDishes = [
-    { id: 18, name: "Mutton Rezala", desc: "Creamy Mughlai-style mutton curry with yogurt and mild spices, rich, royal, and best paired with luchi or rice.", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc0?q=80&w=800&auto=format&fit=crop", category: "Non Veg", portion: "1000 ML, Family Pack", price: "₹1900" },
-    { id: 15, name: "Hilsa Bhapa", desc: "Famous Bengali steamed hilsa fish cooked with mustard paste and spices, aromatic and a true delicacy.", img: "https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?q=80&w=800&auto=format&fit=crop", category: "Non Veg", portion: "1 Pc, Serves 1", price: "₹850" },
-    { id: 17, name: "Mutton Biriyani", desc: "Fragrant biriyani rice cooked with tender mutton pieces and aromatic spices, a hearty and festive Bengali favorite.", img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=800&auto=format&fit=crop", category: "Main Course", portion: "750 ML, Serves 2", price: "₹750" },
-    { id: 13, name: "Chicken Biriyani", desc: "Aromatic basmati rice cooked with tender chicken pieces, spices, and herbs, a flavorful Bengali biriyani classic.", img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=800&auto=format&fit=crop", category: "Main Course", portion: "750 ML, Serves 2", price: "₹650" },
-    { id: 11, name: "Pandal Khichuri", desc: "Bengali-style khichuri cooked with lentils, rice, ghee, and spices, often served during festivals.", img: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?q=80&w=800&auto=format&fit=crop", category: "Veg", portion: "1000 ML, Min. 3 Plates", price: "₹450" },
-    { id: 1, name: "Bhetki Fish Fry", desc: "A Kolkata legend! Four pieces of premium, boneless Bhetki (Barramundi) fillets, marinated in a zesty green herb paste. Double-coated in crispy breadcrumbs.", img: "https://images.unsplash.com/photo-1626804475297-41609ea0eb49?q=80&w=800&auto=format&fit=crop", category: "Starters", portion: "4 Pcs, Serves 2", price: "₹600" },
-  ];
-
-  const filteredDishes = activeCategory === 'All' 
-    ? allDishes 
-    : allDishes.filter(dish => dish.category === activeCategory);
+  const filteredDishes = activeCategory === 'All'
+    ? allDishes
+    : allDishes.filter(dish =>
+        dish.category === activeCategory ||
+        dish.dietary === activeCategory ||
+        dish.tags?.includes(activeCategory)
+      );
 
   return (
     <div className="bg-stone-50">
@@ -29,7 +28,8 @@ export default function Home() {
       <section className="relative bg-stone-900 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-40">
           <img 
-            src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop" 
+            // src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop" 
+            src="http://localhost:5173/uploads/gallery/cover-image.jpg.jpeg"
             alt="Bengali Thali" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
@@ -119,15 +119,21 @@ export default function Home() {
               const cartItem = cart.find(item => item.id === dish.id);
               return (
                 <div key={i} className="bg-white rounded-2xl overflow-hidden border border-stone-100 group flex flex-col">
-                  <div className="h-48 overflow-hidden relative">
+                  <div className="aspect-[4/3] overflow-hidden relative">
                     <img src={dish.img} alt={dish.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-stone-800">
-                      {dish.category}
-                    </div>
+                    {/* Veg / Non-Veg indicator */}
+                    <div className={`absolute top-3 left-3 w-3.5 h-3.5 rounded-full border-2 border-white shadow-md ${dish.dietary === 'Veg' ? 'bg-green-500' : 'bg-red-500'}`} title={dish.dietary} />
+                    {dish.tags && dish.tags.length > 0 && (
+                      <div className="absolute top-4 right-4 flex flex-col gap-1 items-end">
+                        {dish.tags.map(t => (
+                          <span key={t} className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-orange-700">{t}</span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   <div className="p-6 flex flex-col flex-1">
                     <h3 className="text-xl font-bold font-serif text-stone-800 mb-2">{dish.name}</h3>
-                    <p className="text-stone-600 text-sm mb-4 flex-1">{dish.desc}</p>
+                    <p className="text-stone-600 text-sm mb-4 flex-1">{dish.description}</p>
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-xs font-medium text-stone-500 bg-stone-100 px-2 py-1 rounded-md">
                         {dish.portion}

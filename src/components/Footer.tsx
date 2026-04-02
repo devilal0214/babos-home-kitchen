@@ -31,7 +31,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link to="/" className="flex items-center gap-2 mb-6 transition-opacity hover:opacity-90">
-              <img src="/logo.png" alt="Babo's Home Kitchen" className="h-16 w-auto brightness-0 invert" />
+              <img src="http://localhost:5173/uploads/gallery/footer-logo.svg" alt="Babo's Home Kitchen" className="h-16 w-auto brightness-0 invert" />
             </Link>
             <p className="text-sm leading-relaxed mb-6">
               Authentic Bengali delicacies, made fresh only when you order. No precooking. No shortcuts.<br />
