@@ -46,7 +46,7 @@ export default function Home() {
               This is not fast food. This is food worth waiting for.
             </h1>
             <p className="text-lg md:text-xl text-stone-300 mb-10 leading-relaxed">
-              Experience the Magic of Bengal. Authentic flavors. Handcrafted by Chef Babo.
+              Experience the Magic of Bengal. Authentic flavors. <br></br>Handcrafted by Chef Babo.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <WhatsAppButton text="Order on WhatsApp" />
@@ -257,29 +257,101 @@ export default function Home() {
         </section>
       </div>
 
-      {/* Testimonials */}
-      <section className="py-20 bg-white">
+      {/* Testimonials — Google Reviews Ticker */}
+      <section className="py-20 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4">Loved by Families</h2>
-            <p className="text-lg text-stone-600">Don't just take our word for it. We've received raving reviews in The Times of India, ANI, Dainik Bhaskar & The Hindu.</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { name: "Padmashri Pushpesh Pant", text: "A true celebration of Bengali heritage. The flavors are authentic and deeply nostalgic." },
-              { name: "Rahul Verma", text: "Babo's Home Kitchen brings back the lost art of slow, home-cooked Bengali meals." },
-              { name: "Priya D.", text: "Ordered for a family get-together. The packaging was neat and the food was still warm. Everyone loved it." },
-              { name: "Sourav B.", text: "The 1-day advance notice is totally worth it. You can taste the freshness in every bite." }
-            ].map((review, i) => (
-              <div key={i} className="bg-stone-50 p-6 rounded-2xl border border-stone-100">
-                <div className="flex text-yellow-500 mb-4">
-                  {[...Array(5)].map((_, j) => <Star key={j} size={16} fill="currentColor" />)}
-                </div>
-                <p className="text-stone-700 mb-4 italic">"{review.text}"</p>
-                <p className="font-bold text-stone-900 font-serif">- {review.name}</p>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-3">Loved by Families</h2>
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <svg viewBox="0 0 24 24" className="w-6 h-6" aria-hidden="true">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+              <span className="text-stone-500 text-sm font-medium">Google Reviews</span>
+              <div className="flex text-yellow-500 gap-0.5">
+                {[...Array(5)].map((_, j) => <Star key={j} size={14} fill="currentColor" />)}
               </div>
-            ))}
+              <span className="text-stone-700 font-semibold text-sm">5.0</span>
+            </div>
+            <p className="text-stone-500 text-sm">Rated 5 stars by our happy customers</p>
+          </div>
+
+          {/* Ticker */}
+          <div className="relative">
+            <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 z-10" style={{background: 'linear-gradient(to right, white, transparent)'}} />
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 z-10" style={{background: 'linear-gradient(to left, white, transparent)'}} />
+            <div className="overflow-hidden">
+              <div className="ticker-track">
+                {[
+                  { name: "Padmashri Pushpesh Pant", text: "A true celebration of Bengali heritage. The flavors are authentic and deeply nostalgic.", rating: 5 },
+                  { name: "Priya D.", text: "Ordered for a family get-together. The packaging was neat and the food was still warm. Everyone loved it.", rating: 5 },
+                  { name: "Rahul Verma", text: "Babo's Home Kitchen brings back the lost art of slow, home-cooked Bengali meals.", rating: 5 },
+                  { name: "Riya Sen", text: "The Kosha Mangsho here is exactly how my grandmother used to make it. The flavors are perfectly balanced.", rating: 5 },
+                  { name: "Sourav B.", text: "The 1-day advance notice is totally worth it. You can taste the freshness in every bite.", rating: 5 },
+                  { name: "Amitabh Das", text: "We ordered catering for my daughter's annaprashan. The Chingri Malai Curry was a massive hit!", rating: 5 },
+                  { name: "Sneha Mukherjee", text: "Finding authentic Bengali food that doesn't feel commercialized is hard. Babo's Kitchen nails it.", rating: 5 },
+                  { name: "Sandeep Roy", text: "Consistently delicious food. Great packaging, on-time delivery, and always authentic taste.", rating: 5 },
+                  { name: "Padmashri Pushpesh Pant", text: "A true celebration of Bengali heritage. The flavors are authentic and deeply nostalgic.", rating: 5 },
+                  { name: "Priya D.", text: "Ordered for a family get-together. The packaging was neat and the food was still warm. Everyone loved it.", rating: 5 },
+                  { name: "Rahul Verma", text: "Babo's Home Kitchen brings back the lost art of slow, home-cooked Bengali meals.", rating: 5 },
+                  { name: "Riya Sen", text: "The Kosha Mangsho here is exactly how my grandmother used to make it. The flavors are perfectly balanced.", rating: 5 },
+                  { name: "Sourav B.", text: "The 1-day advance notice is totally worth it. You can taste the freshness in every bite.", rating: 5 },
+                  { name: "Amitabh Das", text: "We ordered catering for my daughter's annaprashan. The Chingri Malai Curry was a massive hit!", rating: 5 },
+                  { name: "Sneha Mukherjee", text: "Finding authentic Bengali food that doesn't feel commercialized is hard. Babo's Kitchen nails it.", rating: 5 },
+                  { name: "Sandeep Roy", text: "Consistently delicious food. Great packaging, on-time delivery, and always authentic taste.", rating: 5 },
+                ].map((review, i) => (
+                  <div key={i} className="flex-shrink-0 w-72 mx-3 bg-stone-50 border border-stone-100 rounded-2xl p-5">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-9 h-9 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-sm flex-shrink-0">
+                        {review.name[0]}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-stone-900 text-sm truncate">{review.name}</p>
+                        <div className="flex gap-0.5">
+                          {[...Array(review.rating)].map((_, j) => <Star key={j} size={11} className="fill-yellow-500 text-yellow-500" />)}
+                        </div>
+                      </div>
+                      <svg viewBox="0 0 24 24" className="w-4 h-4 ml-auto flex-shrink-0" aria-hidden="true">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                      </svg>
+                    </div>
+                    <p className="text-stone-600 text-sm italic leading-relaxed line-clamp-3">"{review.text}"</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* CTA buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-10">
+            <a
+              href="https://www.google.com/search?sca_esv=ec7c3bdcf43043be&rlz=1C1UEAD_enIN1103IN1103&sxsrf=ANbL-n6H7sTNUnsxbe1sKvz7C5jXKgRoYw:1775204154718&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOWFKEVraJLFPsGQiyKYtxbBt8XbWWHp5BYmem24NNaaag2dH4JoIeLqPoI8gtbcbaTUziwuRdNEAb63YMJ6fCcUVm6ch3YiMpvjSNH4odrsS_RS8Jw%3D%3D&q=Babo%27s+Home+Kitchen+Reviews&sa=X&ved=2ahUKEwjExK7ontGTAxVpUGcHHX1KLbYQ0bkNegQIPRAF&biw=1536&bih=730&dpr=1.25"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-stone-200 bg-white text-stone-700 font-medium text-sm hover:bg-stone-50 transition-colors shadow-sm"
+            >
+              <svg viewBox="0 0 24 24" className="w-4 h-4" aria-hidden="true">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+              View all reviews
+            </a>
+            <a
+              href="https://www.google.com/search?sca_esv=ec7c3bdcf43043be&sxsrf=ANbL-n43mDkMrXznQYLcDnQKH15dZszlng:1775204388996&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOWFKEVraJLFPsGQiyKYtxbBt8XbWWHp5BYmem24NNaaag2dH4JoIeLqPoI8gtbcbaTUziwuRdNEAb63YMJ6fCcUVm6ch3YiMpvjSNH4odrsS_RS8Jw%3D%3D&q=Babo%27s+Home+Kitchen+Reviews&sa=X&ved=2ahUKEwjc4InYn9GTAxUDwzgGHduuEpAQ0bkNegQIQRAF&biw=1698&bih=813&dpr=1.13#lrd=0x390ce7475a89f5ed:0x2d6637ec50166ef7,3,,,,"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-orange-600 text-white font-medium text-sm hover:bg-orange-700 transition-colors shadow-sm"
+            >
+              <Star size={15} fill="currentColor" />
+              Write a review
+            </a>
           </div>
         </div>
       </section>
