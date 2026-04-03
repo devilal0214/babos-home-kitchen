@@ -25,16 +25,17 @@ export default function Home() {
   return (
     <div className="bg-stone-50">
       {/* Hero Section */}
-      <section className="relative bg-stone-900 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-40">
-          <img 
-            src="/uploads/gallery/cover-image.jpg.jpeg"
-            alt="Bengali Thali" 
-            className="w-full h-full object-cover object-right"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-stone-900 via-stone-900/80 to-transparent"></div>
-        </div>
+      <section
+        className="relative bg-stone-900 text-white overflow-hidden"
+        style={{
+          backgroundImage: 'url(https://babos.jaiveeru.site/uploads/gallery/Chef-image.jpg.jpeg)',
+          backgroundSize: 'cover',
+          backgroundPosition: '70% center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        {/* Dark overlay — heavier on left so text is readable */}
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(20,13,4,0.92) 0%, rgba(20,13,4,0.75) 50%, rgba(20,13,4,0.25) 100%)' }} />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="max-w-2xl">
