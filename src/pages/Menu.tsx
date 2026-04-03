@@ -111,7 +111,7 @@ export default function Menu() {
                   <div className="aspect-[4/3] overflow-hidden relative">
                   <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                   {/* Veg / Non-Veg indicator */}
-                  <img src={item.dietary === 'Veg' ? '/uploads/gallery/Veg.svg' : '/uploads/gallery/Non_Veg_.svg'} alt={item.dietary} title={item.dietary} className="absolute top-3 left-3 w-6 h-6 drop-shadow" />
+                  <img src={item.dietary === 'Veg' ? 'https://babos.jaiveeru.site/uploads/gallery/Veg.svg' : 'https://babos.jaiveeru.site/uploads/gallery/Non_Veg_.svg'} alt={item.dietary} title={item.dietary} className="absolute top-3 left-3 w-6 h-6 drop-shadow" />
                   {item.tags && item.tags.length > 0 && (
                     <div className="absolute top-4 right-4 flex flex-col gap-1 items-end">
                       {item.tags.map(t => (
