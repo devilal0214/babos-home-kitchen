@@ -25,9 +25,9 @@ function serializeTags(tags: unknown): string | null {
 // Public: Get all menus
 router.get('/', async (_req: Request, res: Response): Promise<void> => {
   try {
-    const db = await getDb();
-    const rows = await db.all('SELECT * FROM menus ORDER BY id ASC');
-    res.json(rows.map((r) => mapRow(r as Record<string, unknown>)));
+    const db = getDb();
+    const rows = db.prepare('SELECT * FROM menus ORDER BY id ASC').all() as Record<string, unknown>[];
+    res.json(rows.map((r) => mapRow(r)));
   } catch (err) {
     console.error('Get menus error:', err);
     res.status(500).json({ error: 'Internal server error' });
@@ -44,13 +44,12 @@ router.post('/', authenticateAdmin, async (req: AuthRequest, res: Response): Pro
   }
 
   try {
-    const db = await getDb();
-    const result = await db.run(
-      'INSERT INTO menus (name, description, price, portion, category, dietary, tag, img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [name, description || '', price, portion || '', category, dietary, serializeTags(tags), img || '']
-    );
-    const created = await db.get('SELECT * FROM menus WHERE id = ?', [result.lastID]);
-    res.status(201).json(mapRow(created as Record<string, unknown>));
+    const db = getDb();
+    const result = db.prepare(
+      'INSERT INTO menus (name, description, price, portion, category, dietary, tag, img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    ).run(name, description || '', price, portion || '', category, dietary, serializeTags(tags), img || '');
+    const created = db.prepare('SELECT * FROM menus WHERE id = ?').get(Number(result.lastInsertRowid)) as Record<string, unknown>;
+    res.status(201).json(mapRow(created));
   } catch (err) {
     console.error('Create menu error:', err);
     res.status(500).json({ error: 'Internal server error' });
@@ -68,19 +67,18 @@ router.put('/:id', authenticateAdmin, async (req: AuthRequest, res: Response): P
   }
 
   try {
-    const db = await getDb();
-    const existing = await db.get('SELECT id FROM menus WHERE id = ?', [id]);
+    const db = getDb();
+    const existing = db.prepare('SELECT id FROM menus WHERE id = ?').get(id);
     if (!existing) {
       res.status(404).json({ error: 'Menu item not found' });
       return;
     }
 
-    await db.run(
-      'UPDATE menus SET name=?, description=?, price=?, portion=?, category=?, dietary=?, tag=?, img=? WHERE id=?',
-      [name, description || '', price, portion || '', category, dietary, serializeTags(tags), img || '', id]
-    );
-    const updated = await db.get('SELECT * FROM menus WHERE id = ?', [id]);
-    res.json(mapRow(updated as Record<string, unknown>));
+    db.prepare(
+      'UPDATE menus SET name=?, description=?, price=?, portion=?, category=?, dietary=?, tag=?, img=? WHERE id=?'
+    ).run(name, description || '', price, portion || '', category, dietary, serializeTags(tags), img || '', id);
+    const updated = db.prepare('SELECT * FROM menus WHERE id = ?').get(id) as Record<string, unknown>;
+    res.json(mapRow(updated));
   } catch (err) {
     console.error('Update menu error:', err);
     res.status(500).json({ error: 'Internal server error' });
@@ -92,14 +90,14 @@ router.delete('/:id', authenticateAdmin, async (req: AuthRequest, res: Response)
   const { id } = req.params;
 
   try {
-    const db = await getDb();
-    const existing = await db.get('SELECT id FROM menus WHERE id = ?', [id]);
+    const db = getDb();
+    const existing = db.prepare('SELECT id FROM menus WHERE id = ?').get(id);
     if (!existing) {
       res.status(404).json({ error: 'Menu item not found' });
       return;
     }
 
-    await db.run('DELETE FROM menus WHERE id = ?', [id]);
+    db.prepare('DELETE FROM menus WHERE id = ?').run(id);
     res.json({ success: true });
   } catch (err) {
     console.error('Delete menu error:', err);
@@ -127,20 +125,20 @@ router.post('/import', authenticateAdmin, async (req: AuthRequest, res: Response
   }
 
   try {
-    const db = await getDb();
+    const db = getDb();
     if (mode === 'replace') {
-      await db.run('DELETE FROM menus');
+      db.prepare('DELETE FROM menus').run();
     }
 
+    const stmt = db.prepare(
+      'INSERT INTO menus (name, description, price, portion, category, dietary, tag, img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    );
     for (const item of items) {
-      await db.run(
-        'INSERT INTO menus (name, description, price, portion, category, dietary, tag, img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-        [item.name, item.description || '', item.price, item.portion || '', item.category, item.dietary, serializeTags(item.tags), item.img || '']
-      );
+      stmt.run(item.name, item.description || '', item.price, item.portion || '', item.category, item.dietary, serializeTags(item.tags), item.img || '');
     }
 
-    const allRows = await db.all('SELECT * FROM menus ORDER BY id ASC');
-    res.json({ imported: items.length, total: allRows.length, menus: allRows.map((r) => mapRow(r as Record<string, unknown>)) });
+    const allRows = db.prepare('SELECT * FROM menus ORDER BY id ASC').all() as Record<string, unknown>[];
+    res.json({ imported: items.length, total: allRows.length, menus: allRows.map((r) => mapRow(r)) });
   } catch (err) {
     console.error('Import menus error:', err);
     res.status(500).json({ error: 'Internal server error' });

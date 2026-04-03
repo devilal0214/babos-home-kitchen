@@ -1,8 +1,7 @@
-import sqlite3 from 'sqlite3';
-import { open, Database } from 'sqlite';
+import BetterSqlite3 from 'better-sqlite3';
 import bcrypt from 'bcrypt';
 
-let db: Database;
+let db: BetterSqlite3.Database;
 
 const DEFAULT_MENUS = [
   { name: "Bhetki Fish Fry", description: "A Kolkata legend! Four pieces of premium, boneless Bhetki (Barramundi) fillets, marinated in a zesty green herb paste. Double-coated in crispy breadcrumbs.", price: "₹600", portion: "4 Pcs, Serves 2", category: "Starters", dietary: "Non Veg", tag: "Popular", img: "https://images.unsplash.com/photo-1626804475297-41609ea0eb49?q=80&w=800&auto=format&fit=crop" },
@@ -29,17 +28,14 @@ const DEFAULT_MENUS = [
   { name: "Rosogolla", description: "Spongy cottage cheese balls soaked in light sugar syrup, a quintessential Bengali sweet.", price: "₹100", portion: "4 Pcs, Serves 2", category: "Desserts", dietary: "Veg", tag: null, img: "https://images.unsplash.com/photo-1605197132819-d29314451009?q=80&w=800&auto=format&fit=crop" },
 ];
 
-export async function getDb(): Promise<Database> {
+export function getDb(): BetterSqlite3.Database {
   return db;
 }
 
 export async function initDb(): Promise<void> {
-  db = await open({
-    filename: './database.sqlite',
-    driver: sqlite3.Database,
-  });
+  db = new BetterSqlite3('./database.sqlite');
 
-  await db.exec(`
+  db.exec(`
     CREATE TABLE IF NOT EXISTS menus (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
@@ -74,21 +70,21 @@ export async function initDb(): Promise<void> {
   `);
 
   // Seed default admin if not exists
-  const adminExists = await db.get('SELECT id FROM admins WHERE username = ?', ['admin']);
+  const adminExists = db.prepare('SELECT id FROM admins WHERE username = ?').get('admin');
   if (!adminExists) {
     const hash = await bcrypt.hash('admin@babos', 10);
-    await db.run('INSERT INTO admins (username, password_hash) VALUES (?, ?)', ['admin', hash]);
+    db.prepare('INSERT INTO admins (username, password_hash) VALUES (?, ?)').run('admin', hash);
     console.log('Default admin created: username=admin, password=admin@babos');
   }
 
   // Seed default menus if table is empty
-  const menuCount = await db.get<{ count: number }>('SELECT COUNT(*) as count FROM menus');
+  const menuCount = db.prepare('SELECT COUNT(*) as count FROM menus').get() as { count: number };
   if (menuCount && menuCount.count === 0) {
+    const stmt = db.prepare(
+      'INSERT INTO menus (name, description, price, portion, category, dietary, tag, img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    );
     for (const menu of DEFAULT_MENUS) {
-      await db.run(
-        'INSERT INTO menus (name, description, price, portion, category, dietary, tag, img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-        [menu.name, menu.description, menu.price, menu.portion, menu.category, menu.dietary, menu.tag, menu.img]
-      );
+      stmt.run(menu.name, menu.description, menu.price, menu.portion, menu.category, menu.dietary, menu.tag ?? null, menu.img);
     }
     console.log(`Seeded ${DEFAULT_MENUS.length} default menu items`);
   }

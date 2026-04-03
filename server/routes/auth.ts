@@ -14,11 +14,8 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
   }
 
   try {
-    const db = await getDb();
-    const admin = await db.get<{ id: number; username: string; password_hash: string }>(
-      'SELECT * FROM admins WHERE username = ?',
-      [username]
-    );
+    const db = getDb();
+    const admin = db.prepare('SELECT * FROM admins WHERE username = ?').get(username) as { id: number; username: string; password_hash: string } | undefined;
 
     if (!admin) {
       res.status(401).json({ error: 'Invalid credentials' });

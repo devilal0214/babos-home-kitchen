@@ -14,21 +14,20 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
   }
 
   try {
-    const db = await getDb();
-    const result = await db.run(
-      'INSERT INTO orders (customer_name, customer_mobile, delivery_type, delivery_date, delivery_time, address, items_json, subtotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [
-        customer_name,
-        customer_mobile,
-        delivery_type,
-        delivery_date,
-        delivery_time,
-        address || null,
-        JSON.stringify(items),
-        Number(subtotal) || 0,
-      ]
+    const db = getDb();
+    const result = db.prepare(
+      'INSERT INTO orders (customer_name, customer_mobile, delivery_type, delivery_date, delivery_time, address, items_json, subtotal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    ).run(
+      customer_name,
+      customer_mobile,
+      delivery_type,
+      delivery_date,
+      delivery_time,
+      address || null,
+      JSON.stringify(items),
+      Number(subtotal) || 0,
     );
-    res.status(201).json({ id: result.lastID, success: true });
+    res.status(201).json({ id: Number(result.lastInsertRowid), success: true });
   } catch (err) {
     console.error('Create order error:', err);
     res.status(500).json({ error: 'Internal server error' });
@@ -38,9 +37,9 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
 // Admin: Get all orders (newest first)
 router.get('/', authenticateAdmin, async (_req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const db = await getDb();
-    const rows = await db.all('SELECT * FROM orders ORDER BY created_at DESC');
-    const orders = rows.map((row: Record<string, unknown>) => ({
+    const db = getDb();
+    const rows = db.prepare('SELECT * FROM orders ORDER BY created_at DESC').all() as Record<string, unknown>[];
+    const orders = rows.map((row) => ({
       ...row,
       items: JSON.parse((row.items_json as string) || '[]'),
     }));
@@ -54,13 +53,13 @@ router.get('/', authenticateAdmin, async (_req: AuthRequest, res: Response): Pro
 // Admin: Get unique users (deduplicated by mobile — latest name per mobile)
 router.get('/users', authenticateAdmin, async (_req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const db = await getDb();
-    const rows = await db.all(`
+    const db = getDb();
+    const rows = db.prepare(`
       SELECT customer_name AS name, customer_mobile AS mobile
       FROM orders
       GROUP BY customer_mobile
       ORDER BY MAX(created_at) DESC
-    `);
+    `).all();
     res.json(rows);
   } catch (err) {
     console.error('Get order users error:', err);
