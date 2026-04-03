@@ -9,9 +9,21 @@ import ordersRouter from './routes/orders.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const IS_PROD = process.env.NODE_ENV === 'production';
 
+// Allow dev origins + production domain
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'https://jobs.jaiveeru.site',
+  'https://babos.jaiveeru.site',
+];
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: (origin, cb) => {
+    // Allow same-origin (no origin header) and listed origins
+    if (!origin || allowedOrigins.includes(origin)) cb(null, true);
+    else cb(new Error(`CORS: origin ${origin} not allowed`));
+  },
   credentials: true,
 }));
 
@@ -29,10 +41,19 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// In production: serve the Vite-built frontend + SPA fallback
+if (IS_PROD) {
+  const distPath = path.join(process.cwd(), 'dist');
+  app.use(express.static(distPath));
+  app.use((_req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
+
 initDb()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`Babo's Kitchen API running on http://localhost:${PORT}`);
+      console.log(`Babo's Kitchen API running on http://localhost:${PORT} [${IS_PROD ? 'production' : 'development'}]`);
     });
   })
   .catch((err) => {

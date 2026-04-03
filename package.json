@@ -8,9 +8,12 @@
     "dev:server": "tsx watch server/index.ts",
     "dev:full": "start /B tsx watch server/index.ts && vite",
     "build": "vite build",
+    "build:server": "tsc --project tsconfig.server.json",
+    "build:all": "npm run build && npm run build:server",
+    "start": "node dist-server/index.js",
     "preview": "vite preview",
     "server": "tsx server/index.ts",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist dist-server",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
