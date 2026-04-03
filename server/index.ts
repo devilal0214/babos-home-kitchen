@@ -27,11 +27,15 @@ const allowedOrigins = [
   'https://babos.jaiveeru.site',
 ];
 app.use(cors({
-  origin: (origin, cb) => {
-    // Allow same-origin (no origin header) and listed origins
-    if (!origin || allowedOrigins.includes(origin)) cb(null, true);
-    else cb(new Error(`CORS: origin ${origin} not allowed`));
-  },
+  // In production everything comes from the same domain via LiteSpeed proxy —
+  // echoing the Origin header back is safe (auth is protected by JWT).
+  // In dev, restrict to known local origins.
+  origin: IS_PROD
+    ? true
+    : (origin, cb) => {
+        if (!origin || allowedOrigins.includes(origin)) cb(null, true);
+        else cb(null, false);
+      },
   credentials: true,
 }));
 
