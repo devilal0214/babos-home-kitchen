@@ -23,7 +23,7 @@ export default function Header() {
         <div className="flex justify-between h-20 items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 transition-opacity hover:opacity-90">
-            <img src="/logo.svg" alt="Babo's Home Kitchen" className="h-16 w-auto" />
+            <img src="https://babos.jaiveeru.site/uploads/gallery/logo.svg" alt="Babo's Home Kitchen" className="h-16 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
