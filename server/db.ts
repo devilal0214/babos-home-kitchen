@@ -1,5 +1,5 @@
 import BetterSqlite3 from 'better-sqlite3';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 let db: BetterSqlite3.Database;
 
