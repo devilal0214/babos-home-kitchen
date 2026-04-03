@@ -31,7 +31,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link to="/" className="flex items-center gap-2 mb-6 transition-opacity hover:opacity-90">
-              <img src="https://babos.jaiveeru.site/uploads/gallery/footer-logo.svg" alt="Babo's Home Kitchen" className="h-16 w-auto brightness-0 invert" />
+              <img src="https://babos.jaiveeru.site/uploads/gallery/footer-logo-y.svg" alt="Babo's Home Kitchen" className="h-25 w-auto brightness-100 " /> 
             </Link>
             <p className="text-sm leading-relaxed mb-6">
               Authentic Bengali delicacies, made fresh only when you order. No precooking. No shortcuts.<br />
@@ -156,7 +156,8 @@ export default function Footer() {
             </div>
           </div>
           <p className="text-xs text-stone-500 text-center lg:text-right">
-            Made with love for the love of Bengali food <span className="text-stone-700 mx-2 hidden sm:inline">•</span><br className="sm:hidden" /> powered by Jai Veeru
+            Made with love for the love of Bengali food <span className="text-stone-700 mx-2 hidden sm:inline">•</span><br className="sm:hidden" /> <Link to="https://jaiveeru.co.in" className="hover:text-white transition-colors">Powered by JaiVeeru Creatives</Link>
+
           </p>
         </div>
       </div>
