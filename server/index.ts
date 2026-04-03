@@ -8,7 +8,7 @@ import galleryRouter from './routes/gallery.js';
 import ordersRouter from './routes/orders.js';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3003;
 const IS_PROD = process.env.NODE_ENV === 'production';
 
 // Allow dev origins + production domain
