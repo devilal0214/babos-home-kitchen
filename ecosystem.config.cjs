@@ -4,7 +4,7 @@ module.exports = {
   apps: [
     {
       name: 'babos-kitchen',
-      script: 'dist-server/index.js',
+      script: 'server/index.js',
       cwd: '/home/babos.jaiveeru.site/public_html',
       instances: 1,
       autorestart: true,
