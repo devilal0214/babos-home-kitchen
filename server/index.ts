@@ -11,6 +11,14 @@ const app = express();
 const PORT = process.env.PORT || 3003;
 const IS_PROD = process.env.NODE_ENV === 'production';
 
+// In production: serve static assets BEFORE CORS middleware so browser module
+// requests (which include an Origin header) are not blocked by CORS checks.
+if (IS_PROD) {
+  const distPath = path.join(process.cwd(), 'dist');
+  app.use(express.static(distPath));
+  app.use('/uploads', express.static(path.join(process.cwd(), 'public', 'uploads')));
+}
+
 // Allow dev origins + production domain
 const allowedOrigins = [
   'http://localhost:5173',
@@ -29,8 +37,10 @@ app.use(cors({
 
 app.use(express.json({ limit: '5mb' }));
 
-// Serve uploaded gallery images as static files
-app.use('/uploads', express.static(path.join(process.cwd(), 'public', 'uploads')));
+// Serve uploaded gallery images as static files (dev mode; prod handled above)
+if (!IS_PROD) {
+  app.use('/uploads', express.static(path.join(process.cwd(), 'public', 'uploads')));
+}
 
 app.use('/api/auth', authRouter);
 app.use('/api/menus', menusRouter);
@@ -41,10 +51,9 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// In production: serve the Vite-built frontend + SPA fallback
+// In production: SPA fallback (static files already registered above)
 if (IS_PROD) {
   const distPath = path.join(process.cwd(), 'dist');
-  app.use(express.static(distPath));
   app.use((_req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
   });
