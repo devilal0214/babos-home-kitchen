@@ -295,9 +295,9 @@ export default function Home() {
               <div className="flex text-yellow-500 gap-0.5">
                 {[...Array(5)].map((_, j) => <Star key={j} size={14} fill="currentColor" />)}
               </div>
-              <span className="text-stone-700 font-semibold text-sm">5.0</span>
+              <span className="text-stone-700 font-semibold text-sm">4.9</span>
             </div>
-            <p className="text-stone-500 text-sm">Rated 5 stars by our happy customers</p>
+            <p className="text-stone-500 text-sm">Rated 4.9 stars by our happy customers</p>
           </div>
 
           {/* Ticker */}
