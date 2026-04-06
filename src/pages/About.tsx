@@ -7,14 +7,15 @@ export default function About() {
       {/* Story Section */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
             
-            <div className="relative">
-              <div className="absolute inset-0 bg-orange-100 rounded-3xl transform -translate-x-4 translate-y-4"></div>
+            {/* Image fills grid cell driven by text column height */}
+            <div className="relative overflow-hidden rounded-3xl min-h-[400px]">
+              <div className="absolute inset-0 bg-orange-100 rounded-3xl transform -translate-x-4 translate-y-4 -z-10"></div>
               <img 
                 src="https://babos.jaiveeru.site/uploads/gallery/contact.jpg.jpeg" 
                 alt="Babo cooking" 
-                className="relative rounded-3xl object-cover w-full h-[600px]"
+                className="absolute inset-0 w-full h-full object-cover rounded-3xl"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -30,7 +31,7 @@ export default function About() {
                   From the delicate balance of panch phoron to the rich aromas of a slow-cooked curry, Babo's Home Kitchen is a celebration of Bengali heritage. Born out of pure love and passion for cooking for his daughter, friends, and family, Babo creates exquisite and unique Bengali delicacies with secret family recipes that have been passed down through generations.
                 </p>
                 <p>
-                  Unlike major restaurants and delivery chains, Babo's Home Kitchen prides itself on excellence. Every dish is made to order with utmost focus on flavor, freshness, and wholesome goodness—leaving you craving more.
+                  Unlike major restaurants and delivery chains, Babo's Home Kitchen prides itself on excellence. Every dish is made to order with utmost focus on flavor, freshness, and wholesome goodness—leaving you craving for more.
                 </p>
                 <p className="font-medium text-stone-900 italic border-l-4 border-orange-500 pl-4 py-2 bg-orange-50">
                   "A humble home kitchen approach that blends traditional panch phoron techniques with a modern focus on wholesome, soulful flavors."

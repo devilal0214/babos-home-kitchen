@@ -52,7 +52,7 @@ export default function Home() {
           style={{ background: 'linear-gradient(to right, rgba(20,13,4,0.93) 0%, rgba(20,13,4,0.87) 45%, rgba(20,13,4,0.70) 100%)' }}
         /> */}
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
           <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
             {/* Left: content — staggered fade-up */}
             <motion.div
@@ -61,7 +61,8 @@ export default function Home() {
               initial="hidden"
               animate="show"
             >
-              <motion.span variants={fadeUp} className="inline-block py-1 px-3 rounded-full bg-orange-500/20 text-orange-300 text-sm font-semibold mb-6 border border-orange-500/30">
+              <motion.span variants={fadeUp} className="inline-block py-1 px-3 rounded-full text-stone-900 text-sm font-semibold mb-6 "  style={{ backgroundColor: '#fcb316'      
+        }}>
                 Order at least 1 day in advance
               </motion.span>
               <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-none mb-6">
@@ -102,7 +103,7 @@ export default function Home() {
                 <img
                   src="https://babos.jaiveeru.site/uploads/gallery/main_banner_image.png"
                   alt="Chef Babo cooking"
-                  className={`w-full h-full object-cover transition-all duration-700 ${heroImgLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-xl scale-110'}`}
+                  className={`w-full h-full object-contain transition-all duration-700 ${heroImgLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-xl scale-110'}`}
                   referrerPolicy="no-referrer"
                   onLoad={() => setHeroImgLoaded(true)}
                 />
@@ -277,7 +278,7 @@ export default function Home() {
             <div className="relative">
               <div className="absolute inset-0 bg-orange-100 rounded-3xl transform translate-x-4 translate-y-4"></div>
               <img 
-                src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1000&auto=format&fit=crop" 
+                src="https://babos.jaiveeru.site/uploads/gallery/SHORSHE_ILISH.png" 
                 alt="Cooking process" 
                 className="relative rounded-3xl object-cover w-full h-[500px]"
                 referrerPolicy="no-referrer"
@@ -371,11 +372,12 @@ export default function Home() {
                 ].map((review, i) => (
                   <div key={i} className="flex-shrink-0 w-72 mx-3 bg-stone-50 border border-stone-100 rounded-2xl p-5">
                     <div className="flex items-center gap-2 mb-3">
-                      <img
-                        src={review.avatar}
-                        alt={review.name}
-                        className="w-9 h-9 rounded-full shrink-0 object-cover bg-orange-100"
-                      />
+                      <div
+                        className="w-9 h-9 rounded-full shrink-0 flex items-center justify-center text-white font-bold text-sm"
+                        style={{ backgroundColor: ['#c2410c','#b45309','#57534e','#b91c1c','#0369a1'][review.name.charCodeAt(0) % 5] }}
+                      >
+                        {review.name.charAt(0)}
+                      </div>
                       <div className="min-w-0">
                         <p className="font-semibold text-stone-900 text-sm truncate">{review.name}</p>
                         <div className="flex gap-0.5">
@@ -424,6 +426,39 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+        {/* Gallery */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4">A Feast for the Eyes</h2>
+            <p className="text-lg text-stone-600">Glimpses of our catering spreads.</p>
+          </div>
+
+          <div className="relative overflow-hidden rounded-2xl">
+            <div className="ticker-track-gallery">
+              {[...Array(2)].flatMap((_, setIdx) =>
+                [
+                  "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800&auto=format&fit=crop",
+                  "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=800&auto=format&fit=crop",
+                  "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=800&auto=format&fit=crop",
+                  "https://images.unsplash.com/photo-1606491956689-2ea866880c84?q=80&w=800&auto=format&fit=crop",
+                  "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800&auto=format&fit=crop",
+                  "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=800&auto=format&fit=crop",
+                  "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=800&auto=format&fit=crop",
+                  "https://images.unsplash.com/photo-1606491956689-2ea866880c84?q=80&w=800&auto=format&fit=crop",
+                ].map((img, i) => (
+                  <div key={`${setIdx}-${i}`} className="flex-shrink-0 w-64 h-48 mx-3 rounded-2xl overflow-hidden bg-stone-100" aria-hidden={setIdx > 0}>
+                    <img src={img} alt={`Gallery ${i + 1}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+
     </div>
   );
 }

@@ -55,3 +55,15 @@
 .ticker-track:hover {
   animation-play-state: paused;
 }
+
+.ticker-track-gallery {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 40s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.ticker-track-gallery:hover {
+  animation-play-state: paused;
+}

@@ -18,7 +18,7 @@ export default function CustomOrders() {
           <div className="relative">
             <div className="absolute inset-0 bg-orange-100 rounded-3xl transform -translate-x-4 translate-y-4"></div>
             <img 
-              src="https://images.unsplash.com/photo-1589301760014-d929f39ce9b1?q=80&w=1000&auto=format&fit=crop" 
+              src="https://babos.jaiveeru.site/uploads/gallery/SHORSHE_ILISH.png" 
               alt="Custom Bengali Food" 
               className="relative rounded-3xl object-cover w-full h-[500px]"
               referrerPolicy="no-referrer"

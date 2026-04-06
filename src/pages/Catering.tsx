@@ -34,10 +34,10 @@ export default function Catering() {
       {/* Occasions & Offerings */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-stretch">
             
             {/* Occasions */}
-            <div>
+            <div className="flex flex-col">
               <h2 className="text-3xl font-serif font-bold text-stone-900 mb-8 flex items-center gap-3">
                 <PartyPopper className="text-orange-500" size={32} />
                 Perfect For
@@ -63,12 +63,12 @@ export default function Catering() {
             </div>
 
             {/* Offerings */}
-            <div>
+            <div className="flex flex-col">
               <h2 className="text-3xl font-serif font-bold text-stone-900 mb-8 flex items-center gap-3">
                 <HeartHandshake className="text-orange-500" size={32} />
                 What We Offer
               </h2>
-              <div className="bg-white p-8 rounded-3xl border border-stone-200 h-full">
+              <div className="bg-white p-8 rounded-3xl border border-stone-200 flex-1">
                 <ul className="space-y-6">
                   {[
                     "Custom menu planning tailored to your event",

@@ -418,6 +418,10 @@ export default function Cart() {
                   className="w-full justify-center text-lg py-4"
                   onClick={handleCheckoutClick}
                 />
+                <p className="text-center text-xs text-stone-400 mt-3">
+                  By ordering you agree to our{' '}
+                  <Link to="/terms" className="text-orange-600 hover:underline font-medium">Terms &amp; Conditions</Link>
+                </p>
               </div>
               
               <div className="mt-8 space-y-4 bg-stone-50 p-5 rounded-xl border border-stone-200">

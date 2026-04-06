@@ -4,11 +4,11 @@ import { Star, Quote } from 'lucide-react';
 export default function Reviews() {
   const reviews = [
     {
-      name: "Riya Sen",
+      name: "Ranjini Banerjee",
       role: "Regular Customer",
-      content: "The Kosha Mangsho here is exactly how my grandmother used to make it. The meat falls off the bone and the spices are perfectly balanced. Highly recommended!",
+      content: "I recently had the pleasure of indulging in a plate of good mutton chops, and I must say it was a truly divine culinary experience. As a connoisseur of meat dishes, I have tasted my fair share of chops, but these mutton chops exceeded all expectations.What sets good mutton chops apart from the rest is the quality of the meat itself. The chefs clearly sourced the finest cuts, ensuring the meat was succulent and full of character. The chops were cooked to perfection, retaining their natural juices and achieving a perfect balance of tenderness and slight chewiness.The portion size was generous, ensuring that I left the table feeling truly satisfied. The mutton chops were undoubtedly the star of the show, and the quantity was more than enough to leave a lasting impression.",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
+      image: "https://babos.jaiveeru.site/uploads/gallery/ranjini.png"
     },
     {
       name: "Amitabh Das",
