@@ -7,6 +7,7 @@ import { useMenuData } from '../context/MenuDataContext';
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
+  const [heroImgLoaded, setHeroImgLoaded] = useState(false);
   const { cart, addToCart, updateQuantity } = useCart();
   const { menuItems, categories, loading } = useMenuData();
 
@@ -66,12 +67,19 @@ export default function Home() {
 
             {/* Right: square feature image — exactly half (shows first on mobile, second on desktop) */}
             <div className="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2">
-              <div className="w-72 h-72 lg:w-full lg:aspect-square lg:h-auto rounded-2xl overflow-hidden shadow-2xl border-4 border-white/15">
+              <div className="w-72 h-72 lg:w-full lg:aspect-square lg:h-auto rounded-2xl overflow-hidden shadow-2xl border-4 border-white/15 relative">
+                {/* Shimmer skeleton shown while loading */}
+                {!heroImgLoaded && (
+                  <div className="absolute inset-0 bg-gradient-to-br from-stone-600 via-stone-500 to-stone-700 animate-pulse">
+                    <div className="absolute inset-0 backdrop-blur-sm bg-white/5" />
+                  </div>
+                )}
                 <img
                   src="https://babos.jaiveeru.site/uploads/gallery/Chef-image12.jpg.jpeg"
                   alt="Chef Babo cooking"
-                  className="w-full h-full object-cover"
+                  className={`w-full h-full object-cover transition-all duration-700 ${heroImgLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-xl scale-110'}`}
                   referrerPolicy="no-referrer"
+                  onLoad={() => setHeroImgLoaded(true)}
                 />
               </div>
             </div>

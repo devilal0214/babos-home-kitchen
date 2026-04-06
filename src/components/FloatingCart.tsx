@@ -6,9 +6,9 @@ import { useCart } from '../context/CartContext';
 export default function FloatingCart() {
   const { cart, totalItems } = useCart();
   const location = useLocation();
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissedAt, setDismissedAt] = useState(0);
 
-  if (totalItems === 0 || location.pathname === '/cart' || dismissed) {
+  if (totalItems === 0 || location.pathname === '/cart' || (dismissedAt > 0 && totalItems === dismissedAt)) {
     return null;
   }
 
@@ -39,7 +39,7 @@ export default function FloatingCart() {
             <ChevronRight size={20} />
           </Link>
           <button
-            onClick={() => setDismissed(true)}
+            onClick={() => setDismissedAt(totalItems)}
             className="bg-white/20 hover:bg-white/30 transition-colors rounded-full p-1"
             aria-label="Close cart"
           >
