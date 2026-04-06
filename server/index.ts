@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import { initDb } from './db.js';
+import { initDb, closeDb } from './db.js';
 import authRouter from './routes/auth.js';
 import menusRouter from './routes/menus.js';
 import galleryRouter from './routes/gallery.js';
@@ -65,9 +65,16 @@ if (IS_PROD) {
 
 initDb()
   .then(() => {
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       console.log(`Babo's Kitchen API running on http://localhost:${PORT} [${IS_PROD ? 'production' : 'development'}]`);
     });
+
+    const shutdown = () => {
+      closeDb();
+      server.close(() => process.exit(0));
+    };
+    process.on('SIGTERM', shutdown);
+    process.on('SIGINT', shutdown);
   })
   .catch((err) => {
     console.error('Failed to initialize database:', err);

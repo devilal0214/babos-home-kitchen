@@ -35,6 +35,13 @@ export function getDb(): any {
   return db;
 }
 
+export function closeDb(): void {
+  if (db) {
+    try { db.close(); } catch (_) {}
+    db = null;
+  }
+}
+
 export async function initDb(): Promise<void> {
   db = new Database('./database.sqlite');
 
