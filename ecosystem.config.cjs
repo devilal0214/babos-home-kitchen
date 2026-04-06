@@ -7,6 +7,7 @@ module.exports = {
       script: 'dist-server/index.js',
       cwd: '/home/babos.jaiveeru.site/public_html',
       instances: 1,
+      exec_mode: 'fork',
       autorestart: true,
       watch: false,
       restart_delay: 3000,
