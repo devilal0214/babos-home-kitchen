@@ -96,7 +96,7 @@ export default function Home() {
                   </div>
                 )}
                 <img
-                  src="https://babos.jaiveeru.site/uploads/gallery/Chef-image12.jpg.jpeg"
+                  src="https://babos.jaiveeru.site/uploads/gallery/main_banner_image.png"
                   alt="Chef Babo cooking"
                   className={`w-full h-full object-cover transition-all duration-700 ${heroImgLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-xl scale-110'}`}
                   referrerPolicy="no-referrer"
