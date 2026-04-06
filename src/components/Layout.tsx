@@ -4,6 +4,7 @@ import AnnouncementBar from './AnnouncementBar';
 import Header from './Header';
 import Footer from './Footer';
 import FloatingCart from './FloatingCart';
+import PageTransition from './PageTransition';
 import { useCart } from '../context/CartContext';
 
 export default function Layout() {
@@ -17,7 +18,9 @@ export default function Layout() {
       <AnnouncementBar />
       <Header />
       <main className="flex-grow">
-        <Outlet />
+        <PageTransition>
+          <Outlet />
+        </PageTransition>
       </main>
       <Footer />
       <FloatingCart />

@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Clock, ShieldCheck, Utensils, Star, ArrowRight, Plus, Minus, ShoppingCart, Trash2 } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
 import { useCart } from '../context/CartContext';
 import { useMenuData } from '../context/MenuDataContext';
+
+// ── shared animation presets ──────────────────────────────────
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.25, 0.1, 0.25, 1] } },
+};
+const stagger = (delayChildren = 0.1) => ({
+  hidden: {},
+  show:   { transition: { staggerChildren: delayChildren } },
+});
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -29,32 +40,37 @@ export default function Home() {
       <section
         className="relative bg-stone-900 text-white overflow-hidden w-full"
         style={{
-          backgroundImage: 'url(https://babos.jaiveeru.site/uploads/gallery/Chef-image12.jpg.jpeg)',
+          backgroundImage: 'url(https://babos.jaiveeru.site/uploads/gallery/BHK-BG.jpg.jpeg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
       >
         {/* Gradient overlay — heavy on left for readability, moderately dark on right */}
-        <div
+        {/* <div
           className="absolute inset-0"
           style={{ background: 'linear-gradient(to right, rgba(20,13,4,0.93) 0%, rgba(20,13,4,0.87) 45%, rgba(20,13,4,0.70) 100%)' }}
-        />
+        /> */}
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
           <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
-            {/* Left: content — exactly half (shows second on mobile, first on desktop) */}
-            <div className="w-full lg:w-1/2 order-2 lg:order-1">
-              <span className="inline-block py-1 px-3 rounded-full bg-orange-500/20 text-orange-300 text-sm font-semibold mb-6 border border-orange-500/30">
+            {/* Left: content — staggered fade-up */}
+            <motion.div
+              className="w-full lg:w-1/2 order-2 lg:order-1"
+              variants={stagger(0.12)}
+              initial="hidden"
+              animate="show"
+            >
+              <motion.span variants={fadeUp} className="inline-block py-1 px-3 rounded-full bg-orange-500/20 text-orange-300 text-sm font-semibold mb-6 border border-orange-500/30">
                 Order at least 1 day in advance
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-none mb-6">
+              </motion.span>
+              <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-none mb-6">
                 This is not fast food. This is food worth waiting for.
-              </h1>
-              <p className="text-lg md:text-xl text-stone-300 mb-10 leading-relaxed">
+              </motion.h1>
+              <motion.p variants={fadeUp} className="text-lg md:text-xl text-stone-300 mb-10 leading-relaxed">
                 Experience the Magic of Bengal.<br /> Authentic flavors. <br />Handcrafted by Chef Babo.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              </motion.p>
+              <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
                 <WhatsAppButton text="Order on WhatsApp" />
                 <Link
                   to="/menu"
@@ -62,11 +78,16 @@ export default function Home() {
                 >
                   View Menu
                 </Link>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
-            {/* Right: square feature image — exactly half (shows first on mobile, second on desktop) */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2">
+            {/* Right: image — scale + fade in */}
+            <motion.div
+              className="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2"
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            >
               <div className="w-72 h-72 lg:w-full lg:aspect-square lg:h-auto rounded-2xl overflow-hidden shadow-2xl border-4 border-white/15 relative">
                 {/* Shimmer skeleton shown while loading */}
                 {!heroImgLoaded && (
@@ -82,7 +103,7 @@ export default function Home() {
                   onLoad={() => setHeroImgLoaded(true)}
                 />
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -90,29 +111,35 @@ export default function Home() {
       {/* Trust Highlights */}
       <section className="py-12 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="flex flex-col items-center p-6 bg-stone-50 rounded-2xl">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+            variants={stagger(0.15)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <motion.div variants={fadeUp} className="flex flex-col items-center p-6 bg-stone-50 rounded-2xl">
               <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4">
                 <Clock size={32} />
               </div>
               <h3 className="text-xl font-bold mb-2 font-serif text-stone-800">Freshly Cooked</h3>
               <p className="text-stone-600">No storage, no reheating. Your food is cooked just hours before delivery.</p>
-            </div>
-            <div className="flex flex-col items-center p-6 bg-stone-50 rounded-2xl">
+            </motion.div>
+            <motion.div variants={fadeUp} className="flex flex-col items-center p-6 bg-stone-50 rounded-2xl">
               <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4">
                 <Utensils size={32} />
               </div>
               <h3 className="text-xl font-bold mb-2 font-serif text-stone-800">Authentic Recipes</h3>
               <p className="text-stone-600">Traditional Bengali recipes passed down through generations.</p>
-            </div>
-            <div className="flex flex-col items-center p-6 bg-stone-50 rounded-2xl">
+            </motion.div>
+            <motion.div variants={fadeUp} className="flex flex-col items-center p-6 bg-stone-50 rounded-2xl">
               <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4">
                 <ShieldCheck size={32} />
               </div>
               <h3 className="text-xl font-bold mb-2 font-serif text-stone-800">Limited Orders</h3>
               <p className="text-stone-600">We take limited orders per day to maintain uncompromising quality.</p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
@@ -140,11 +167,17 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
+            variants={stagger(0.1)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.1 }}
+          >
             {filteredDishes.map((dish, i) => {
               const cartItem = cart.find(item => item.id === dish.id);
               return (
-                <div key={i} className="bg-white rounded-2xl overflow-hidden border border-stone-100 group flex flex-col">
+                <motion.div key={i} variants={fadeUp} className="bg-white rounded-2xl overflow-hidden border border-stone-100 group flex flex-col">
                   <div className="aspect-[4/3] overflow-hidden relative">
                     <img src={dish.img} alt={dish.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                     {/* Veg / Non-Veg indicator */}
@@ -198,10 +231,10 @@ export default function Home() {
                       )}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
           
           <div className="text-center">
             <Link to="/menu" className="inline-flex items-center justify-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-orange-700 transition-colors text-base">
