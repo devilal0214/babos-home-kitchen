@@ -1,7 +1,9 @@
-import BetterSqlite3 from 'better-sqlite3';
+import pkg from 'node-sqlite3-wasm';
+const { Database } = pkg as unknown as { Database: new (path: string) => any };
 import bcrypt from 'bcryptjs';
 
-let db: BetterSqlite3.Database;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let db: any;
 
 const DEFAULT_MENUS = [
   { name: "Bhetki Fish Fry", description: "A Kolkata legend! Four pieces of premium, boneless Bhetki (Barramundi) fillets, marinated in a zesty green herb paste. Double-coated in crispy breadcrumbs.", price: "₹600", portion: "4 Pcs, Serves 2", category: "Starters", dietary: "Non Veg", tag: "Popular", img: "https://images.unsplash.com/photo-1626804475297-41609ea0eb49?q=80&w=800&auto=format&fit=crop" },
@@ -28,12 +30,13 @@ const DEFAULT_MENUS = [
   { name: "Rosogolla", description: "Spongy cottage cheese balls soaked in light sugar syrup, a quintessential Bengali sweet.", price: "₹100", portion: "4 Pcs, Serves 2", category: "Desserts", dietary: "Veg", tag: null, img: "https://images.unsplash.com/photo-1605197132819-d29314451009?q=80&w=800&auto=format&fit=crop" },
 ];
 
-export function getDb(): BetterSqlite3.Database {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getDb(): any {
   return db;
 }
 
 export async function initDb(): Promise<void> {
-  db = new BetterSqlite3('./database.sqlite');
+  db = new Database('./database.sqlite');
 
   db.exec(`
     CREATE TABLE IF NOT EXISTS menus (

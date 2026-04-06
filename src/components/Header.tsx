@@ -43,10 +43,6 @@ export default function Header() {
 
           {/* Mobile & Desktop Cart + Mobile Menu Button */}
           <div className="flex items-center gap-4 lg:gap-6">
-            <div className="hidden lg:block">
-              <WhatsAppButton text="Order on WhatsApp" />
-            </div>
-            
             <Link
               to="/cart"
               className={`relative text-sm font-medium transition-colors hover:text-orange-600 flex items-center gap-1 ${
@@ -60,6 +56,12 @@ export default function Header() {
                 </span>
               )}
             </Link>
+            
+            <div className="hidden lg:block">
+              <WhatsAppButton text="Order on WhatsApp" />
+            </div>
+            
+            
 
             <button
               className="lg:hidden p-2 -mr-2 text-stone-600 hover:text-orange-600"

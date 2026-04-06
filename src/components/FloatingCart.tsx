@@ -19,12 +19,12 @@ export default function FloatingCart() {
   };
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-md bg-orange-600 text-white rounded-2xl shadow-2xl z-40 overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300">
-      <Link to="/cart" className="flex items-center justify-between p-4 hover:bg-orange-700 transition-colors">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-md bg-[#25D366]  text-white rounded-2xl shadow-2xl z-40 overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300">
+      <Link to="/cart" className="flex items-center justify-between p-4 hover:bg-[#128C7E] transition-colors">
         <div className="flex items-center gap-3">
           <div className="bg-white/20 p-2 rounded-full relative">
             <ShoppingBag size={24} />
-            <span className="absolute -top-1 -right-1 bg-white text-orange-600 text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+            <span className="absolute -top-1 -right-1 bg-white text-stone-900 text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
               {totalItems}
             </span>
           </div>

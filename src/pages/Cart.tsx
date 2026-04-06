@@ -165,9 +165,29 @@ export default function Cart() {
     window.open(`https://wa.me/917428666405?text=${encodeURIComponent(generateWhatsAppMessage())}`, '_blank');
   };
 
+  const breadcrumb = (
+    <div
+      className="relative flex items-center justify-center overflow-hidden"
+      style={{
+        height: '200px',
+        backgroundImage: 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1600&auto=format&fit=crop)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      <div className="absolute inset-0 bg-stone-900/60" />
+      <div className="relative text-center">
+        <p className="text-orange-300 text-sm font-semibold uppercase tracking-widest mb-2">Babo's Home Kitchen</p>
+        <h1 className="text-4xl md:text-5xl font-serif font-bold text-white">Your Order</h1>
+      </div>
+    </div>
+  );
+
   if (cart.length === 0) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
+      <>
+        {breadcrumb}
+        <div className="min-h-[50vh] flex flex-col items-center justify-center px-4">
         <div className="bg-white p-8 rounded-2xl text-center max-w-md w-full">
           <div className="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
             <ShoppingBag size={32} />
@@ -184,19 +204,21 @@ export default function Cart() {
           </Link>
         </div>
       </div>
+      </>
     );
   }
 
   return (
-    <div className="bg-stone-50 min-h-screen py-16 pb-32 lg:pb-16">
+    <>
+      {breadcrumb}
+      <div className="bg-stone-50 min-h-screen pt-12 pb-32 lg:pb-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-serif font-bold text-stone-900 mb-8">Your Order</h1>
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-7 space-y-8">
             {/* Cart Items */}
             <div className="space-y-4">
-              <h2 className="text-2xl font-serif font-bold text-stone-900">Items</h2>
+              {/* <h2 className="text-2xl font-serif font-bold text-stone-900">Items</h2> */}
               {cart.map((item) => (
                 <div key={item.id} className="bg-white p-4 sm:p-6 rounded-2xl border border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex-1">
@@ -513,5 +535,6 @@ export default function Cart() {
         </div>
       )}
     </div>
+    </>
   );
 }

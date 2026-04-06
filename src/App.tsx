@@ -29,6 +29,8 @@ import AdminCSVImport from './pages/admin/AdminCSVImport';
 import AdminGallery from './pages/admin/AdminGallery';
 import AdminOrders from './pages/admin/AdminOrders';
 import ProtectedAdminRoute from './pages/admin/ProtectedAdminRoute';
+import UnderConstruction from './pages/UnderConstruction';
+import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
   return (
@@ -36,6 +38,7 @@ export default function App() {
       <CartProvider>
         <AdminAuthProvider>
           <BrowserRouter>
+            <ScrollToTop />
             <Toaster position="top-center" richColors />
             <Routes>
               {/* Main public site */}
@@ -51,6 +54,12 @@ export default function App() {
                 <Route path="terms" element={<Terms />} />
                 <Route path="refund" element={<Refund />} />
                 <Route path="cart" element={<Cart />} />
+                <Route path="media" element={<UnderConstruction />} />
+                <Route path="brand" element={<UnderConstruction />} />
+                <Route path="csr" element={<UnderConstruction />} />
+                <Route path="partner" element={<UnderConstruction />} />
+                <Route path="feed-a-child" element={<UnderConstruction />} />
+                <Route path="faqs" element={<UnderConstruction />} />
               </Route>
 
               {/* Admin panel */}

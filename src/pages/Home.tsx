@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, ShieldCheck, Utensils, Star, ArrowRight, Plus, Minus, ShoppingCart } from 'lucide-react';
+import { Clock, ShieldCheck, Utensils, Star, ArrowRight, Plus, Minus, ShoppingCart, Trash2 } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
 import { useCart } from '../context/CartContext';
 import { useMenuData } from '../context/MenuDataContext';
@@ -26,36 +26,54 @@ export default function Home() {
     <div className="bg-stone-50">
       {/* Hero Section */}
       <section
-        className="relative bg-stone-900 text-white overflow-hidden"
+        className="relative bg-stone-900 text-white overflow-hidden w-full"
         style={{
-          backgroundImage: 'url(https://babos.jaiveeru.site/uploads/gallery/Chef-image.jpg.jpeg)',
+          backgroundImage: 'url(https://babos.jaiveeru.site/uploads/gallery/Chef-image12.jpg.jpeg)',
           backgroundSize: 'cover',
-          backgroundPosition: '70% center',
+          backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
       >
-        {/* Dark overlay — heavier on left so text is readable */}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(20,13,4,0.92) 0%, rgba(20,13,4,0.75) 50%, rgba(20,13,4,0.25) 100%)' }} />
-        
+        {/* Gradient overlay — heavy on left for readability, moderately dark on right */}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to right, rgba(20,13,4,0.93) 0%, rgba(20,13,4,0.87) 45%, rgba(20,13,4,0.70) 100%)' }}
+        />
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-          <div className="max-w-2xl">
-            <span className="inline-block py-1 px-3 rounded-full bg-orange-500/20 text-orange-300 text-sm font-semibold mb-6 border border-orange-500/30">
-              Order at least 1 day in advance
-            </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-6">
-              This is not fast food. This is food worth waiting for.
-            </h1>
-            <p className="text-lg md:text-xl text-stone-300 mb-10 leading-relaxed">
-              Experience the Magic of Bengal. Authentic flavors. <br></br>Handcrafted by Chef Babo.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <WhatsAppButton text="Order on WhatsApp" />
-              <Link 
-                to="/menu" 
-                className="inline-flex items-center justify-center gap-2 bg-white text-stone-900 px-6 py-3 rounded-lg font-medium hover:bg-stone-100 transition-colors text-base"
-              >
-                View Menu
-              </Link>
+          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+            {/* Left: content — exactly half */}
+            <div className="w-full lg:w-1/2">
+              <span className="inline-block py-1 px-3 rounded-full bg-orange-500/20 text-orange-300 text-sm font-semibold mb-6 border border-orange-500/30">
+                Order at least 1 day in advance
+              </span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-6">
+                This is not fast food. This is food worth waiting for.
+              </h1>
+              <p className="text-lg md:text-xl text-stone-300 mb-10 leading-relaxed">
+                Experience the Magic of Bengal.<br /> Authentic flavors. <br />Handcrafted by Chef Babo.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <WhatsAppButton text="Order on WhatsApp" />
+                <Link
+                  to="/menu"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-stone-900 px-6 py-3 rounded-lg font-medium hover:bg-stone-100 transition-colors text-base"
+                >
+                  View Menu
+                </Link>
+              </div>
+            </div>
+
+            {/* Right: square feature image — exactly half */}
+            <div className="w-full lg:w-1/2 flex items-center justify-center">
+              <div className="w-72 h-72 lg:w-full lg:aspect-square lg:h-auto rounded-2xl overflow-hidden shadow-2xl border-4 border-white/15">
+                <img
+                  src="https://babos.jaiveeru.site/uploads/gallery/Chef-image12.jpg.jpeg"
+                  alt="Chef Babo cooking"
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -98,7 +116,7 @@ export default function Home() {
             <p className="text-lg text-stone-600 max-w-2xl mx-auto mb-8">A glimpse of our most loved dishes, prepared with care and authentic spices.</p>
             
             <div className="flex flex-wrap justify-center gap-2 mb-8">
-              {categories.map((category) => (
+              {categories.filter(c => c !== 'Signature').map((category) => (
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
@@ -145,9 +163,13 @@ export default function Home() {
                         <div className="flex items-center justify-between bg-orange-50 rounded-lg p-1 border border-orange-100">
                           <button 
                             onClick={() => updateQuantity(dish.id, cartItem.quantity - 1)}
-                            className="w-8 h-8 flex items-center justify-center rounded-md bg-white text-orange-600 hover:bg-orange-100 transition-colors"
+                            className={`w-8 h-8 flex items-center justify-center rounded-md bg-white transition-colors ${
+                              cartItem.quantity === 1
+                                ? 'text-red-500 hover:bg-red-50'
+                                : 'text-orange-600 hover:bg-orange-100'
+                            }`}
                           >
-                            <Minus size={16} />
+                            {cartItem.quantity === 1 ? <Trash2 size={16} /> : <Minus size={16} />}
                           </button>
                           <span className="font-bold text-stone-800 w-8 text-center">{cartItem.quantity}</span>
                           <button 
@@ -285,28 +307,30 @@ export default function Home() {
             <div className="overflow-hidden">
               <div className="ticker-track">
                 {[
-                  { name: "Padmashri Pushpesh Pant", text: "A true celebration of Bengali heritage. The flavors are authentic and deeply nostalgic.", rating: 5 },
-                  { name: "Priya D.", text: "Ordered for a family get-together. The packaging was neat and the food was still warm. Everyone loved it.", rating: 5 },
-                  { name: "Rahul Verma", text: "Babo's Home Kitchen brings back the lost art of slow, home-cooked Bengali meals.", rating: 5 },
-                  { name: "Riya Sen", text: "The Kosha Mangsho here is exactly how my grandmother used to make it. The flavors are perfectly balanced.", rating: 5 },
-                  { name: "Sourav B.", text: "The 1-day advance notice is totally worth it. You can taste the freshness in every bite.", rating: 5 },
-                  { name: "Amitabh Das", text: "We ordered catering for my daughter's annaprashan. The Chingri Malai Curry was a massive hit!", rating: 5 },
-                  { name: "Sneha Mukherjee", text: "Finding authentic Bengali food that doesn't feel commercialized is hard. Babo's Kitchen nails it.", rating: 5 },
-                  { name: "Sandeep Roy", text: "Consistently delicious food. Great packaging, on-time delivery, and always authentic taste.", rating: 5 },
-                  { name: "Padmashri Pushpesh Pant", text: "A true celebration of Bengali heritage. The flavors are authentic and deeply nostalgic.", rating: 5 },
-                  { name: "Priya D.", text: "Ordered for a family get-together. The packaging was neat and the food was still warm. Everyone loved it.", rating: 5 },
-                  { name: "Rahul Verma", text: "Babo's Home Kitchen brings back the lost art of slow, home-cooked Bengali meals.", rating: 5 },
-                  { name: "Riya Sen", text: "The Kosha Mangsho here is exactly how my grandmother used to make it. The flavors are perfectly balanced.", rating: 5 },
-                  { name: "Sourav B.", text: "The 1-day advance notice is totally worth it. You can taste the freshness in every bite.", rating: 5 },
-                  { name: "Amitabh Das", text: "We ordered catering for my daughter's annaprashan. The Chingri Malai Curry was a massive hit!", rating: 5 },
-                  { name: "Sneha Mukherjee", text: "Finding authentic Bengali food that doesn't feel commercialized is hard. Babo's Kitchen nails it.", rating: 5 },
-                  { name: "Sandeep Roy", text: "Consistently delicious food. Great packaging, on-time delivery, and always authentic taste.", rating: 5 },
+                  { name: "Padmashri Pushpesh Pant", text: "A true celebration of Bengali heritage. The flavors are authentic and deeply nostalgic.", rating: 5, avatar: "https://randomuser.me/api/portraits/men/52.jpg" },
+                  { name: "Priya D.", text: "Ordered for a family get-together. The packaging was neat and the food was still warm. Everyone loved it.", rating: 5, avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
+                  { name: "Rahul Verma", text: "Babo's Home Kitchen brings back the lost art of slow, home-cooked Bengali meals.", rating: 5, avatar: "https://randomuser.me/api/portraits/men/33.jpg" },
+                  { name: "Riya Sen", text: "The Kosha Mangsho here is exactly how my grandmother used to make it. The flavors are perfectly balanced.", rating: 5, avatar: "https://randomuser.me/api/portraits/women/26.jpg" },
+                  { name: "Sourav B.", text: "The 1-day advance notice is totally worth it. You can taste the freshness in every bite.", rating: 5, avatar: "https://randomuser.me/api/portraits/men/71.jpg" },
+                  { name: "Amitabh Das", text: "We ordered catering for my daughter's annaprashan. The Chingri Malai Curry was a massive hit!", rating: 5, avatar: "https://randomuser.me/api/portraits/men/45.jpg" },
+                  { name: "Sneha Mukherjee", text: "Finding authentic Bengali food that doesn't feel commercialized is hard. Babo's Kitchen nails it.", rating: 5, avatar: "https://randomuser.me/api/portraits/women/63.jpg" },
+                  { name: "Sandeep Roy", text: "Consistently delicious food. Great packaging, on-time delivery, and always authentic taste.", rating: 5, avatar: "https://randomuser.me/api/portraits/men/22.jpg" },
+                  { name: "Padmashri Pushpesh Pant", text: "A true celebration of Bengali heritage. The flavors are authentic and deeply nostalgic.", rating: 5, avatar: "https://randomuser.me/api/portraits/men/52.jpg" },
+                  { name: "Priya D.", text: "Ordered for a family get-together. The packaging was neat and the food was still warm. Everyone loved it.", rating: 5, avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
+                  { name: "Rahul Verma", text: "Babo's Home Kitchen brings back the lost art of slow, home-cooked Bengali meals.", rating: 5, avatar: "https://randomuser.me/api/portraits/men/33.jpg" },
+                  { name: "Riya Sen", text: "The Kosha Mangsho here is exactly how my grandmother used to make it. The flavors are perfectly balanced.", rating: 5, avatar: "https://randomuser.me/api/portraits/women/26.jpg" },
+                  { name: "Sourav B.", text: "The 1-day advance notice is totally worth it. You can taste the freshness in every bite.", rating: 5, avatar: "https://randomuser.me/api/portraits/men/71.jpg" },
+                  { name: "Amitabh Das", text: "We ordered catering for my daughter's annaprashan. The Chingri Malai Curry was a massive hit!", rating: 5, avatar: "https://randomuser.me/api/portraits/men/45.jpg" },
+                  { name: "Sneha Mukherjee", text: "Finding authentic Bengali food that doesn't feel commercialized is hard. Babo's Kitchen nails it.", rating: 5, avatar: "https://randomuser.me/api/portraits/women/63.jpg" },
+                  { name: "Sandeep Roy", text: "Consistently delicious food. Great packaging, on-time delivery, and always authentic taste.", rating: 5, avatar: "https://randomuser.me/api/portraits/men/22.jpg" },
                 ].map((review, i) => (
                   <div key={i} className="flex-shrink-0 w-72 mx-3 bg-stone-50 border border-stone-100 rounded-2xl p-5">
                     <div className="flex items-center gap-2 mb-3">
-                      <div className="w-9 h-9 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-sm flex-shrink-0">
-                        {review.name[0]}
-                      </div>
+                      <img
+                        src={review.avatar}
+                        alt={review.name}
+                        className="w-9 h-9 rounded-full shrink-0 object-cover bg-orange-100"
+                      />
                       <div className="min-w-0">
                         <p className="font-semibold text-stone-900 text-sm truncate">{review.name}</p>
                         <div className="flex gap-0.5">
