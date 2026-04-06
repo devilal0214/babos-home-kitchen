@@ -109,7 +109,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm">
                 <MapPin size={18} className="text-orange-500 shrink-0 mt-0.5" />
-                <span>N-5, Behind HDFC Bank, Block N, Kalkaji,<br />New Delhi, Delhi 110019</span>
+                <span>N-5, Behind HDFC Bank, Block N, Kalkaji, New Delhi, Delhi 110019</span>
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <Phone size={18} className="text-orange-500 shrink-0 mt-0.5" />

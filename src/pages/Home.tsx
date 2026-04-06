@@ -82,18 +82,14 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* Right: image — scale + fade in, then gentle float */}
+            {/* Right: image — entrance fade+scale (motion), then CSS float loop */}
             <motion.div
               className="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2"
-              initial={{ opacity: 0, scale: 0.92, y: 0 }}
-              animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
-              transition={{
-                opacity: { duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] },
-                scale:   { duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] },
-                y: { duration: 4, delay: 0.9, repeat: Infinity, ease: 'easeInOut' },
-              }}
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              <div className="w-72 h-72 lg:w-full lg:aspect-square lg:h-auto rounded-2xl overflow-hidden relative">
+              <div className="hero-float w-72 h-72 lg:w-full lg:aspect-square lg:h-auto rounded-2xl overflow-hidden relative">
                 {/* Shimmer skeleton shown while loading */}
                 {!heroImgLoaded && (
                   <div className="absolute inset-0 bg-gradient-to-br from-stone-600 via-stone-500 to-stone-700 animate-pulse">
