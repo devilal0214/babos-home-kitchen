@@ -12,7 +12,7 @@ export default function About() {
             <div className="relative">
               <div className="absolute inset-0 bg-orange-100 rounded-3xl transform -translate-x-4 translate-y-4"></div>
               <img 
-                src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1000&auto=format&fit=crop" 
+                src="https://babos.jaiveeru.site/uploads/gallery/contact.jpg.jpeg" 
                 alt="Babo cooking" 
                 className="relative rounded-3xl object-cover w-full h-[600px]"
                 referrerPolicy="no-referrer"
