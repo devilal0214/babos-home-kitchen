@@ -5,7 +5,7 @@ const pageTitles: Record<string, string> = {
   '/media': 'Media',
   '/brand': 'Brand',
   '/csr': 'CSR',
-  '/partner': 'Partner With Us',
+  '/partner': 'Our Partner',
   '/feed-a-child': 'Feed a Child',
   '/faqs': 'FAQs',
 };

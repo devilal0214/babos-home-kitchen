@@ -173,7 +173,7 @@ export default function HowItWorks() {
       </div>
 
       {/* ── Rest of page content (unchanged) ── */}
-      <div className="bg-stone-50 py-20">
+      <div className="bg-stone-50 py-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white p-10 rounded-3xl border border-stone-200 text-center max-w-2xl mx-auto">
             <h2 className="text-2xl font-serif font-bold text-stone-900 mb-4">Why 1 Day Advance?</h2>

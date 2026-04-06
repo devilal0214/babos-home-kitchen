@@ -47,7 +47,7 @@ export default function Home() {
               <span className="inline-block py-1 px-3 rounded-full bg-orange-500/20 text-orange-300 text-sm font-semibold mb-6 border border-orange-500/30">
                 Order at least 1 day in advance
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-none mb-6">
                 This is not fast food. This is food worth waiting for.
               </h1>
               <p className="text-lg md:text-xl text-stone-300 mb-10 leading-relaxed">
