@@ -1,5 +1,4 @@
-import pkg from 'node-sqlite3-wasm';
-const { Database } = pkg as unknown as { Database: new (path: string) => any };
+import Database from 'better-sqlite3';
 import bcrypt from 'bcryptjs';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
