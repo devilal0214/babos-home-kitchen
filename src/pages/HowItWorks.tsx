@@ -1,71 +1,190 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Search, MessageCircle, CalendarCheck, UtensilsCrossed } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
 
 export default function HowItWorks() {
   const steps = [
     {
-      icon: <Search size={40} />,
+      icon: <Search size={32} />,
       title: "Browse the menu",
       description: "Explore our authentic Bengali dishes. Choose what you're craving for tomorrow."
     },
     {
-      icon: <MessageCircle size={40} />,
+      icon: <MessageCircle size={32} />,
       title: "Place order on WhatsApp",
       description: "Send us a message with your selected items and preferred delivery time."
     },
     {
-      icon: <CalendarCheck size={40} />,
+      icon: <CalendarCheck size={32} />,
       title: "Confirm 1 day in advance",
       description: "We need at least 24 hours notice to source fresh ingredients specifically for your meal."
     },
     {
-      icon: <UtensilsCrossed size={40} />,
+      icon: <UtensilsCrossed size={32} />,
       title: "We cook fresh for you",
       description: "Your food is prepared from scratch, packed hygienically, and delivered to your doorstep."
     }
   ];
 
-  return (
-    <div className="bg-stone-50 min-h-screen py-20">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="text-center mb-20">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-stone-900 mb-6">Simple. Fresh. Made for You.</h1>
-          <p className="text-lg text-stone-600 max-w-2xl mx-auto">
-            We don't run a commercial kitchen. Every meal is planned and cooked specifically for the families who order. Here's how it works.
-          </p>
-        </div>
+  // Scroll-driven animation state
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0); // 0–1
 
-        <div className="relative mb-24">
-          {/* Connecting line for desktop */}
-          {/* <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-orange-200 -translate-y-1/2 z-0"></div> */}
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-6 relative z-10">
-            {steps.map((step, index) => (
-              <div key={index} className="flex flex-col items-center text-center">
-                <div className="w-24 h-24 bg-white rounded-full border-4 border-orange-100 flex items-center justify-center text-orange-600 mb-6 relative">
-                  {step.icon}
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-stone-900 text-white rounded-full flex items-center justify-center font-bold text-sm border-2 border-white">
-                    {index + 1}
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const onScroll = () => {
+      const rect = scroller.getBoundingClientRect();
+      const scrollerHeight = scroller.offsetHeight;
+      const windowHeight = window.innerHeight;
+      // How far through the tall scroller have we scrolled
+      const scrolled = -rect.top;
+      const scrollable = scrollerHeight - windowHeight;
+      const p = Math.min(1, Math.max(0, scrolled / scrollable));
+      setProgress(p);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Line fills across 4 steps; each step activates at its threshold
+  const linePercent = Math.round(progress * 100);
+  const activeStep = Math.min(3, Math.floor(progress * 4));
+
+  return (
+    <div className="bg-stone-50">
+
+      {/* ── Sticky scroll section ── */}
+      {/* tall div gives scroll room; sticky child stays on screen */}
+      <div ref={scrollerRef} style={{ height: '400vh' }} className="relative">
+        <div ref={stickyRef} className="sticky top-0 h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+
+          {/* Header */}
+          <div className="text-center mb-6 md:mb-10">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-serif font-bold text-stone-900 mb-2 md:mb-4">Simple. Fresh. Made for You.</h1>
+            <p className="text-sm md:text-base text-stone-500 max-w-xl mx-auto">
+              Scroll to see how it works
+            </p>
+          </div>
+
+          {/* Steps + animated connector */}
+          <div className="w-full max-w-5xl relative">
+
+            {/* ── MOBILE: vertical animated line ── */}
+            <div className="md:hidden relative px-2">
+              {/* track */}
+              <div className="absolute left-9 top-7 bottom-7 w-0.5 bg-orange-100 rounded-full" />
+              {/* animated fill */}
+              <div
+                className="absolute left-9 top-7 w-0.5 bg-orange-500 rounded-full origin-top transition-all duration-100"
+                style={{ transform: `scaleY(${linePercent / 100})`, height: 'calc(100% - 56px)' }}
+              />
+              {steps.map((step, index) => {
+                const isActive = index <= activeStep;
+                return (
+                  <div key={index} className={`flex items-start gap-4 mb-8 last:mb-0 transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-30'}`}>
+                    <div className={`relative z-10 shrink-0 w-[72px] h-[72px] rounded-full border-4 flex items-center justify-center transition-all duration-500 ${
+                      isActive
+                        ? 'bg-orange-50 border-orange-400 text-orange-600 shadow-[0_0_0_6px_rgba(234,88,12,0.12)]'
+                        : 'bg-white border-orange-100 text-stone-400'
+                    }`}>
+                      {step.icon}
+                      <div className={`absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs border-2 border-white transition-colors duration-300 ${
+                        isActive ? 'bg-stone-900 text-white' : 'bg-stone-300 text-white'
+                      }`}>
+                        {index + 1}
+                      </div>
+                    </div>
+                    <div className="pt-2">
+                      <h3 className={`text-base font-bold font-serif mb-1 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
+                        {step.title}
+                      </h3>
+                      <p className={`text-xs leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
+                        {step.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <h3 className="text-xl font-bold font-serif text-stone-900 mb-3">{step.title}</h3>
-                <p className="text-stone-600 text-sm leading-relaxed">{step.description}</p>
+                );
+              })}
+            </div>
+
+            {/* ── DESKTOP: horizontal animated line ── */}
+            <div className="hidden md:block">
+              {/* track */}
+              <div className="absolute left-0 right-0 top-12 px-[calc(12.5%)] pointer-events-none">
+                <div className="h-0.5 w-full bg-orange-100 rounded-full" />
+                <div
+                  className="absolute top-0 left-0 h-0.5 bg-orange-500 rounded-full transition-all duration-100"
+                  style={{ width: `${linePercent}%` }}
+                />
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-orange-500 shadow-[0_0_0_4px_rgba(234,88,12,0.25)] transition-all duration-100"
+                  style={{ left: `calc(${linePercent}% - 8px)` }}
+                />
               </div>
-            ))}
+              <div className="grid grid-cols-4 gap-6 relative z-10">
+                {steps.map((step, index) => {
+                  const isActive = index <= activeStep;
+                  return (
+                    <div
+                      key={index}
+                      className={`flex flex-col items-center text-center transition-all duration-500 ${
+                        isActive ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-3'
+                      }`}
+                    >
+                      <div className={`w-24 h-24 rounded-full border-4 flex items-center justify-center mb-6 relative transition-all duration-500 ${
+                        isActive
+                          ? 'bg-orange-50 border-orange-400 text-orange-600 shadow-[0_0_0_6px_rgba(234,88,12,0.12)]'
+                          : 'bg-white border-orange-100 text-stone-400'
+                      }`}>
+                        {step.icon}
+                        <div className={`absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm border-2 border-white transition-colors duration-300 ${
+                          isActive ? 'bg-stone-900 text-white' : 'bg-stone-300 text-white'
+                        }`}>
+                          {index + 1}
+                        </div>
+                      </div>
+                      <h3 className={`text-xl font-bold font-serif mb-3 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
+                        {step.title}
+                      </h3>
+                      <p className={`text-sm leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
+                        {step.description}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+          </div>
+
+          {/* Scroll hint — hidden on mobile, fades out on desktop once scrolling begins */}
+          <div className={`hidden sm:flex mt-8 md:mt-12 flex-col items-center gap-2 transition-opacity duration-500 ${progress > 0.05 ? 'opacity-0' : 'opacity-100'}`}>
+            <span className="text-stone-400 text-sm">Scroll down</span>
+            <div className="w-5 h-8 rounded-full border-2 border-stone-300 flex justify-center pt-1.5">
+              <div className="w-1 h-2 bg-stone-400 rounded-full animate-bounce" />
+            </div>
           </div>
         </div>
-
-        <div className="bg-white p-10 rounded-3xl border border-stone-200 text-center max-w-2xl mx-auto">
-          <h2 className="text-2xl font-serif font-bold text-stone-900 mb-4">Why 1 Day Advance?</h2>
-          <p className="text-stone-600 mb-8">
-            Unlike restaurants, we don't keep pre-cooked gravies or frozen meats. When you order, we buy fresh vegetables, fish, and meat the next morning. This ensures you get the healthiest, most authentic home-cooked meal possible.
-          </p>
-          <WhatsAppButton text="Order Now on WhatsApp" />
-        </div>
-
       </div>
+
+      {/* ── Rest of page content (unchanged) ── */}
+      <div className="bg-stone-50 py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white p-10 rounded-3xl border border-stone-200 text-center max-w-2xl mx-auto">
+            <h2 className="text-2xl font-serif font-bold text-stone-900 mb-4">Why 1 Day Advance?</h2>
+            <p className="text-stone-600 mb-8">
+              Unlike restaurants, we don't keep pre-cooked gravies or frozen meats. When you order, we buy fresh vegetables, fish, and meat the next morning. This ensures you get the healthiest, most authentic home-cooked meal possible.
+            </p>
+            <WhatsAppButton text="Order Now on WhatsApp" />
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }

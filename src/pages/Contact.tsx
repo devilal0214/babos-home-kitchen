@@ -27,7 +27,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-stone-900 mb-1">Phone / WhatsApp</h3>
-                  <p className="text-stone-600">+91 7428666405<br />+91 9810016405</p>
+                  <p className="text-stone-600">+91 7428666405</p>
                   <p className="text-sm text-stone-500 mt-1">Our primary mode of communication</p>
                 </div>
               </div>

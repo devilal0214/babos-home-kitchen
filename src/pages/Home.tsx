@@ -42,8 +42,8 @@ export default function Home() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
-            {/* Left: content — exactly half */}
-            <div className="w-full lg:w-1/2">
+            {/* Left: content — exactly half (shows second on mobile, first on desktop) */}
+            <div className="w-full lg:w-1/2 order-2 lg:order-1">
               <span className="inline-block py-1 px-3 rounded-full bg-orange-500/20 text-orange-300 text-sm font-semibold mb-6 border border-orange-500/30">
                 Order at least 1 day in advance
               </span>
@@ -64,8 +64,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right: square feature image — exactly half */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center">
+            {/* Right: square feature image — exactly half (shows first on mobile, second on desktop) */}
+            <div className="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2">
               <div className="w-72 h-72 lg:w-full lg:aspect-square lg:h-auto rounded-2xl overflow-hidden shadow-2xl border-4 border-white/15">
                 <img
                   src="https://babos.jaiveeru.site/uploads/gallery/Chef-image12.jpg.jpeg"
