@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Clock, ShieldCheck, Utensils, Star, ArrowRight, Plus, Minus, ShoppingCart, Trash2 } from 'lucide-react';
+import { Clock, ShieldCheck, Utensils, Star, ArrowRight, Plus, Minus, ShoppingCart, Trash2, X } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
 import { useCart } from '../context/CartContext';
 import { useMenuData } from '../context/MenuDataContext';
+import type { MenuItem } from '../services/api';
 
 // ── shared animation presets ──────────────────────────────────
 const fadeUp = {
@@ -19,8 +20,26 @@ const stagger = (delayChildren = 0.1) => ({
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [heroImgLoaded, setHeroImgLoaded] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const { cart, addToCart, updateQuantity } = useCart();
   const { menuItems, categories, loading } = useMenuData();
+
+  // Body scroll lock + signal FloatingCart to hide when detail is open
+  useEffect(() => {
+    if (selectedItem) {
+      document.body.style.overflow = 'hidden';
+      document.dispatchEvent(new CustomEvent('itemDetailToggle', { detail: { open: true } }));
+    } else {
+      document.body.style.overflow = '';
+      document.dispatchEvent(new CustomEvent('itemDetailToggle', { detail: { open: false } }));
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [selectedItem]);
+
+  const openDetail = (item: MenuItem) => {
+    if (window.innerWidth < 768) setSelectedItem(item);
+  };
+  const closeDetail = () => setSelectedItem(null);
 
   // Show Signature-tagged dishes first; fall back to first 6 if none
   const signatureDishes = menuItems.filter(item => item.tags?.includes('Signature'));
@@ -179,58 +198,58 @@ export default function Home() {
               const cartItem = cart.find(item => item.id === dish.id);
               return (
                 <motion.div key={i} variants={fadeUp} className="bg-white rounded-2xl overflow-hidden border border-stone-100 group flex flex-col">
-                  <div className="aspect-[4/3] overflow-hidden relative">
-                    <img src={dish.img} alt={dish.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
-                    {/* Veg / Non-Veg indicator */}
-                    <img src={dish.dietary === 'Veg' ? 'https://babos.jaiveeru.site/uploads/gallery/Veg.svg' : 'https://babos.jaiveeru.site/uploads/gallery/Non_Veg_.svg'} alt={dish.dietary} title={dish.dietary} className="absolute top-3 left-3 w-6 h-6 drop-shadow" />
-                    {dish.tags && dish.tags.length > 0 && (
-                      <div className="absolute top-4 right-4 flex flex-col gap-1 items-end">
-                        {dish.tags.map(t => (
-                          <span key={t} className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-orange-700">{t}</span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="text-xl font-bold font-serif text-stone-800 mb-2">{dish.name}</h3>
-                    <p className="text-stone-600 text-sm mb-4 flex-1">{dish.description}</p>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs font-medium text-stone-500 bg-stone-100 px-2 py-1 rounded-md">
-                        {dish.portion}
-                      </span>
-                      <span className="text-lg font-bold text-stone-900">{dish.price}</span>
-                    </div>
-                    <div className="mt-auto pt-4 border-t border-stone-100">
-                      {cartItem ? (
-                        <div className="flex items-center justify-between bg-orange-50 rounded-lg p-1 border border-orange-100">
-                          <button 
-                            onClick={() => updateQuantity(dish.id, cartItem.quantity - 1)}
-                            className={`w-8 h-8 flex items-center justify-center rounded-md bg-white transition-colors ${
-                              cartItem.quantity === 1
-                                ? 'text-red-500 hover:bg-red-50'
-                                : 'text-orange-600 hover:bg-orange-100'
-                            }`}
-                          >
-                            {cartItem.quantity === 1 ? <Trash2 size={16} /> : <Minus size={16} />}
-                          </button>
-                          <span className="font-bold text-stone-800 w-8 text-center">{cartItem.quantity}</span>
-                          <button 
-                            onClick={() => updateQuantity(dish.id, cartItem.quantity + 1)}
-                            className="w-8 h-8 flex items-center justify-center rounded-md bg-orange-600 text-white hover:bg-orange-700 transition-colors"
-                          >
-                            <Plus size={16} />
-                          </button>
+                  {/* Clickable area (mobile: opens bottom sheet) */}
+                  <div className="flex flex-col flex-1 md:cursor-default cursor-pointer" onClick={() => openDetail(dish)}>
+                    <div className="aspect-[4/3] overflow-hidden relative">
+                      <img src={dish.img} alt={dish.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
+                      <img src={dish.dietary === 'Veg' ? 'https://babos.jaiveeru.site/uploads/gallery/Veg.svg' : 'https://babos.jaiveeru.site/uploads/gallery/Non_Veg_.svg'} alt={dish.dietary} title={dish.dietary} className="absolute top-3 left-3 w-6 h-6 drop-shadow" />
+                      {dish.tags && dish.tags.length > 0 && (
+                        <div className="absolute top-4 right-4 flex flex-col gap-1 items-end">
+                          {dish.tags.map(t => (
+                            <span key={t} className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-orange-700">{t}</span>
+                          ))}
                         </div>
-                      ) : (
-                        <button 
-                          onClick={() => addToCart({ id: dish.id, name: dish.name, price: dish.price })}
-                          className="w-full flex items-center justify-center gap-2 bg-white border-2 border-orange-600 text-orange-600 px-4 py-2 rounded-lg font-medium hover:bg-orange-50 transition-colors"
-                        >
-                          <ShoppingCart size={18} />
-                          Add to Cart
-                        </button>
                       )}
                     </div>
+                    <div className="p-3 sm:p-6 flex flex-col flex-1">
+                      <h3 className="text-sm sm:text-xl font-bold font-serif text-stone-800 mb-1 sm:mb-2">{dish.name}</h3>
+                      <p className="text-stone-600 text-xs sm:text-sm mb-2 sm:mb-4 flex-1 line-clamp-1 md:line-clamp-none">{dish.description}</p>
+                      <div className="flex items-center justify-between mb-2 sm:mb-4">
+                        <span className="text-xs font-medium text-stone-500 bg-stone-100 px-2 py-1 rounded-md truncate mr-2">{dish.portion}</span>
+                        <span className="text-sm sm:text-lg font-bold text-stone-900 shrink-0">{dish.price}</span>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Add to Cart — always interactive */}
+                  <div className="px-3 sm:px-6 pb-3 sm:pb-6 mt-auto border-t border-stone-100 pt-3 sm:pt-4">
+                    {cartItem ? (
+                      <div className="flex items-center justify-between bg-orange-50 rounded-lg p-1 border border-orange-100">
+                        <button 
+                          onClick={() => updateQuantity(dish.id, cartItem.quantity - 1)}
+                          className={`w-8 h-8 flex items-center justify-center rounded-md bg-white transition-colors ${
+                            cartItem.quantity === 1 ? 'text-red-500 hover:bg-red-50' : 'text-orange-600 hover:bg-orange-100'
+                          }`}
+                        >
+                          {cartItem.quantity === 1 ? <Trash2 size={16} /> : <Minus size={16} />}
+                        </button>
+                        <span className="font-bold text-stone-800 w-8 text-center">{cartItem.quantity}</span>
+                        <button 
+                          onClick={() => updateQuantity(dish.id, cartItem.quantity + 1)}
+                          className="w-8 h-8 flex items-center justify-center rounded-md bg-orange-600 text-white hover:bg-orange-700 transition-colors"
+                        >
+                          <Plus size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <button 
+                        onClick={() => addToCart({ id: dish.id, name: dish.name, price: dish.price })}
+                        className="w-full flex items-center justify-center gap-1 sm:gap-2 bg-white border-2 border-orange-600 text-orange-600 px-2 sm:px-4 py-2 rounded-lg font-medium hover:bg-orange-50 transition-colors text-sm sm:text-base"
+                      >
+                        <ShoppingCart size={16} className="shrink-0" />
+                        <span className="hidden sm:inline">Add to Cart</span>
+                        <span className="sm:hidden">Add</span>
+                      </button>
+                    )}
                   </div>
                 </motion.div>
               );
@@ -455,6 +474,83 @@ export default function Home() {
       </section>
 
 
+      {/* ── Mobile Item Detail Bottom Sheet (md:hidden) ───────────────── */}
+      {selectedItem && (
+        <div
+          className="fixed inset-0 z-50 md:hidden"
+          onClick={closeDetail}
+        >
+          <div className="absolute inset-0 bg-black/50" />
+          <div
+            className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl overflow-y-auto"
+            style={{ maxHeight: '90vh' }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="sticky top-0 bg-white pt-4 pb-2 flex justify-center z-10 border-b border-stone-100">
+              <button
+                onClick={closeDetail}
+                className="w-10 h-10 bg-stone-100 hover:bg-stone-200 rounded-full flex items-center justify-center transition-colors"
+                aria-label="Close"
+              >
+                <X size={20} className="text-stone-600" />
+              </button>
+            </div>
+            <div className="w-full aspect-video overflow-hidden">
+              <img src={selectedItem.img} alt={selectedItem.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            </div>
+            <div className="p-6 pb-10">
+              <div className="flex items-center gap-2 mb-3 flex-wrap">
+                <img
+                  src={selectedItem.dietary === 'Veg'
+                    ? 'https://babos.jaiveeru.site/uploads/gallery/Veg.svg'
+                    : 'https://babos.jaiveeru.site/uploads/gallery/Non_Veg_.svg'}
+                  alt={selectedItem.dietary}
+                  className="w-5 h-5"
+                />
+                {selectedItem.tags?.map(t => (
+                  <span key={t} className="text-xs font-semibold text-orange-700 bg-orange-50 border border-orange-100 px-2 py-0.5 rounded-full">{t}</span>
+                ))}
+              </div>
+              <h2 className="text-2xl font-serif font-bold text-stone-900 mb-3">{selectedItem.name}</h2>
+              <p className="text-stone-600 leading-relaxed mb-5">{selectedItem.description}</p>
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-sm font-medium text-stone-500 bg-stone-100 px-3 py-1 rounded-md">{selectedItem.portion}</span>
+                <span className="text-2xl font-bold text-stone-900">{selectedItem.price}</span>
+              </div>
+              {(() => {
+                const cartItem = cart.find(c => c.id === selectedItem.id);
+                return cartItem ? (
+                  <div className="flex items-center justify-between bg-orange-50 rounded-xl p-2 border border-orange-100">
+                    <button
+                      onClick={() => updateQuantity(selectedItem.id, cartItem.quantity - 1)}
+                      className={`w-11 h-11 flex items-center justify-center rounded-lg bg-white transition-colors ${
+                        cartItem.quantity === 1 ? 'text-red-500 hover:bg-red-50' : 'text-orange-600 hover:bg-orange-100'
+                      }`}
+                    >
+                      {cartItem.quantity === 1 ? <Trash2 size={18} /> : <Minus size={18} />}
+                    </button>
+                    <span className="font-bold text-stone-800 w-10 text-center text-lg">{cartItem.quantity}</span>
+                    <button
+                      onClick={() => updateQuantity(selectedItem.id, cartItem.quantity + 1)}
+                      className="w-11 h-11 flex items-center justify-center rounded-lg bg-orange-600 text-white hover:bg-orange-700 transition-colors"
+                    >
+                      <Plus size={18} />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => addToCart({ id: selectedItem.id, name: selectedItem.name, price: selectedItem.price })}
+                    className="w-full flex items-center justify-center gap-2 bg-orange-600 text-white px-6 py-4 rounded-xl font-semibold text-lg hover:bg-orange-700 transition-colors"
+                  >
+                    <ShoppingCart size={20} />
+                    Add to Cart
+                  </button>
+                );
+              })()}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
