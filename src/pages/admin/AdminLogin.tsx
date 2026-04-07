@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { ChefHat, Eye, EyeOff, Lock, User } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 
@@ -33,11 +33,12 @@ export default function AdminLogin() {
     <div className="min-h-screen bg-stone-900 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <ChefHat size={32} className="text-white" />
+          <div className="w-auto h-32 bg-transparent rounded-2xl flex items-center justify-center mx-auto mb-4">
+            {/* <ChefHat size={32} className="text-white" /> */}
+              <img src="https://babos.jaiveeru.site/uploads/gallery/logo-d.svg" alt="Babo's Home Kitchen" className="h-32 w-auto" />
           </div>
-          <h1 className="text-2xl font-bold text-white">Babo's Kitchen</h1>
-          <p className="text-stone-400 text-sm mt-1">Admin Panel</p>
+          {/* <h1 className="text-2xl font-bold text-white">Babo's Kitchen</h1> */}
+          {/* <p className="text-stone-400 text-sm mt-1">Admin Panel</p> */}
         </div>
 
         <form onSubmit={handleSubmit} className="bg-stone-800 rounded-2xl p-6 space-y-4 border border-stone-700">
@@ -94,7 +95,7 @@ export default function AdminLogin() {
         </form>
 
         <p className="text-center text-stone-500 text-xs mt-6">
-          Default: admin / admin@babos
+          <Link to="https://jaiveeru.co.in" className="text-[rgb(252,179,22)] lg:text-stone-500 hover:text-white transition-colors">Powered by JaiVeeru Creatives</Link>
         </p>
       </div>
     </div>

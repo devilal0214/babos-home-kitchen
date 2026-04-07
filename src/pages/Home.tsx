@@ -71,7 +71,7 @@ export default function Home() {
           style={{ background: 'linear-gradient(to right, rgba(20,13,4,0.93) 0%, rgba(20,13,4,0.87) 45%, rgba(20,13,4,0.70) 100%)' }}
         /> */}
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 lg:py-10">
           <div className="flex flex-col lg:flex-row items-center gap-5 lg:gap-14">
             {/* Left: content — staggered fade-up */}
             <motion.div
@@ -83,10 +83,10 @@ export default function Home() {
               <motion.span variants={fadeUp} className="hidden md:inline-block py-1 px-3 rounded-full text-stone-900 text-sm font-semibold mb-6" style={{ backgroundColor: '#fcb316' }}>
                 Order at least 1 day in advance
               </motion.span>
-              <motion.h1 variants={fadeUp} className="text-2xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-6 text-center md:text-left">
+              <motion.h1 variants={fadeUp} className="text-2xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-2 md:mb-6 text-center md:text-left">
                 This is not fast food.<br className="md:hidden" /> It's food worth waiting for.
               </motion.h1>
-              <motion.p variants={fadeUp} className="text-lg md:text-xl text-stone-300 mb-10 leading-relaxed text-center md:text-left">
+              <motion.p variants={fadeUp} className="text-base md:text-xl text-stone-300 mb-6 md:mb-10 leading-relaxed text-center md:text-left">
                 Experience the Delicacies of Bengal.<br />  Handcrafted by Chef Babo.
               </motion.p>
               <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
@@ -107,7 +107,7 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              <div className="hero-float w-full aspect-square lg:h-auto rounded-2xl overflow-hidden relative">
+              <div className="hero-float w-full rounded-2xl overflow-hidden relative lg:aspect-square">
                 {/* Shimmer skeleton shown while loading */}
                 {!heroImgLoaded && (
                   <div className="absolute inset-0 bg-gradient-to-br from-stone-600 via-stone-500 to-stone-700 animate-pulse">
@@ -117,7 +117,7 @@ export default function Home() {
                 <img
                   src="https://babos.jaiveeru.site/uploads/gallery/main-banner-image.png"
                   alt="Chef Babo cooking"
-                  className={`w-full h-full object-contain transition-all duration-700 ${heroImgLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-xl scale-110'}`}
+                  className={`w-full h-auto lg:h-full object-contain transition-all duration-700 ${heroImgLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-xl scale-110'}`}
                   referrerPolicy="no-referrer"
                   onLoad={() => setHeroImgLoaded(true)}
                 />
@@ -128,9 +128,8 @@ export default function Home() {
       </section>
 
       {/* Trust Highlights */}
-      <section className="py-12 bg-white border-b border-stone-200">
+      <section className="py-6 md:py-12 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Mobile: horizontal trust scroll — auto-scrolls AND is touch-draggable */}
           {/* Mobile: horizontal trust ticker — CSS transform (GPU, never lags) */}
           <div className="md:hidden overflow-hidden">
             <div className="ticker-track-trust">
@@ -185,10 +184,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Signature Dishes Preview */}
-      <section className="py-20 bg-stone-50">
+      <section className="py-8 md:py-20 bg-stone-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4">Our Signature Delicacies</h2>
             <p className="hidden md:block text-lg text-stone-600 max-w-2xl mx-auto mb-8">A glimpse of our most loved dishes, prepared with care and authentic spices.</p>
             
@@ -210,7 +208,7 @@ export default function Home() {
           </div>
           
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12"
+            className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12"
             variants={stagger(0.1)}
             initial="hidden"
             whileInView="show"
@@ -286,15 +284,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How It Works Preview */}
-      <section className="py-20 bg-white border-y border-stone-200">
+      <section className="py-8 md:py-20 bg-white border-y border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
             <div className="order-2 lg:order-1">
               <h2 className="text-xl md:text-4xl font-serif font-bold text-stone-900 mb-6 text-center lg:text-left">Simple. Fresh. Made for You.</h2>
-              <p className="text-lg text-stone-600 mb-10 text-center lg:text-left">We operate differently from restaurants. Every meal is planned and cooked specifically for the families who order.</p>
+              <p className="text-base md:text-lg text-stone-600 mb-6 md:mb-10 text-center lg:text-left">We operate differently from restaurants. Every meal is planned and cooked specifically for the families who order.</p>
               
-              <div className="mb-10">
+              <div className="mb-6 md:mb-10">
                 {[
                   "Browse our authentic Bengali menu",
                   "Message us your selection on WhatsApp",
@@ -332,13 +329,13 @@ export default function Home() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2">
         {/* Catering Highlight */}
-        <section className="py-20 lg:py-24 bg-orange-50 relative overflow-hidden flex flex-col justify-center">
+        <section className="py-10 md:py-20 lg:py-24 bg-orange-50 relative overflow-hidden flex flex-col justify-center">
           <div className="absolute top-0 right-0 w-64 h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform -translate-x-1/2 translate-y-1/2"></div>
           
           <div className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-6">Hosting a get-together or wedding?</h2>
-            <p className="text-lg text-stone-700 mb-10 mx-auto">
+            <h2 className="text-2xl md:text-4xl font-serif font-bold text-stone-900 mb-4">Hosting a get-together or wedding?</h2>
+            <p className="text-base md:text-lg text-stone-700 mb-6 md:mb-10 mx-auto">
               Bring the authentic taste of Bengal to your special occasions. We offer customized catering menus for corporate events, house parties, family functions, and intimate weddings.
             </p>
             <WhatsAppButton 
@@ -349,7 +346,7 @@ export default function Home() {
         </section>
 
         {/* Final CTA */}
-        <section className="relative py-20 lg:py-24 bg-orange-900 text-white text-center overflow-hidden flex flex-col justify-center">
+        <section className="relative py-10 md:py-20 lg:py-24 bg-orange-900 text-white text-center overflow-hidden flex flex-col justify-center">
           {/* Decorative pattern */}
           <div 
             className="absolute inset-0 opacity-10" 
@@ -360,15 +357,14 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-orange-900/50 to-orange-950/90"></div>
           
           <div className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Good food takes time. Book your meal today.</h2>
-            <p className="text-lg text-orange-100 mb-10">Limited orders accepted daily to ensure the highest quality.</p>
+            <h2 className="text-2xl md:text-4xl font-serif font-bold mb-4 md:mb-6">Good food takes time. Book your meal today.</h2>
+            <p className="text-base md:text-lg text-orange-100 mb-6 md:mb-10">Limited orders accepted daily to ensure the highest quality.</p>
             <WhatsAppButton text="Order on WhatsApp" className="" />
           </div>
         </section>
       </div>
 
-      {/* Testimonials — Google Reviews Ticker */}
-      <section className="py-20 bg-white overflow-hidden">
+      <section className="py-10 md:py-20 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-3">Loved by Families</h2>
@@ -470,7 +466,7 @@ export default function Home() {
       </section>
 
         {/* Gallery */}
-      <section className="py-16 bg-white">
+      <section className="py-8 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4">A Feast for the Eyes</h2>
