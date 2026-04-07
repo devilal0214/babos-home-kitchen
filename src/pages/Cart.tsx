@@ -220,14 +220,14 @@ export default function Cart() {
             <div className="space-y-4">
               {/* <h2 className="text-2xl font-serif font-bold text-stone-900">Items</h2> */}
               {cart.map((item) => (
-                <div key={item.id} className="bg-white p-4 sm:p-6 rounded-2xl border border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold font-serif text-stone-900">{item.name}</h3>
-                    <p className="text-stone-600 font-medium">{item.price}</p>
+                <div key={item.id} className="bg-white p-4 sm:p-6 rounded-2xl border border-stone-200 flex flex-row items-center justify-between gap-3 sm:gap-4">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base sm:text-lg font-bold font-serif text-stone-900 truncate">{item.name}</h3>
+                    <p className="text-stone-600 font-medium text-sm sm:text-base">{item.price}</p>
                   </div>
                   
-                  <div className="flex items-center justify-between sm:justify-end gap-6">
-                    <div className="flex items-center justify-between bg-stone-50 rounded-lg p-1 border border-stone-200 w-[120px]">
+                  <div className="flex items-center gap-3 sm:gap-6 shrink-0">
+                    <div className="flex items-center justify-between bg-stone-50 rounded-lg p-1 border border-stone-200 w-[112px] sm:w-[120px]">
                       <button 
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         className={`w-8 h-8 flex items-center justify-center rounded-md bg-white transition-colors ${
@@ -249,7 +249,7 @@ export default function Cart() {
                     
                     <button 
                       onClick={() => removeFromCart(item.id)}
-                      className="text-red-500 hover:text-red-700 p-2 transition-colors"
+                      className="hidden sm:flex text-red-500 hover:text-red-700 p-2 transition-colors"
                       aria-label="Remove item"
                     >
                       <Trash2 size={20} />
@@ -441,6 +441,10 @@ export default function Cart() {
                   <li>Delhi NCR delivery available.</li>
                   <li>Takeaway available from our kitchen.</li>
                 </ul>
+                <p className="text-xs text-stone-400 pt-1">
+                  By ordering you agree to our{' '}
+                  <Link to="/terms" className="text-orange-600 hover:underline font-medium">Terms &amp; Conditions</Link>.
+                </p>
               </div>
             </div>
           </div>

@@ -30,14 +30,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-12">
           {/* Brand */}
           <div className="lg:col-span-4">
-            <Link to="/" className="flex items-center gap-2 mb-6 transition-opacity hover:opacity-90">
+            <Link to="/" className="flex items-center justify-center lg:justify-start gap-2 mb-6 transition-opacity hover:opacity-90">
               <img src="https://babos.jaiveeru.site/uploads/gallery/footer-logo-y.svg" alt="Babo's Home Kitchen" className="h-25 w-auto brightness-100 " /> 
             </Link>
-            <p className="text-sm leading-relaxed mb-6">
+            <p className="text-sm leading-relaxed mb-6 text-center lg:text-left">
               Authentic Bengali delicacies, made fresh only when you order. No precooking. No shortcuts.<br />
               Just the warmth, nostalgia, and soul of a true Kolkata home kitchen, now in Delhi NCR.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
               <a href="https://www.facebook.com/baboshomekitchen/" className="hover:opacity-80 transition-opacity" aria-label="Facebook">
                 <img src="https://babos.jaiveeru.site/uploads/gallery/fb.svg" alt="Facebook" width={32} height={32} />
               </a>
@@ -138,8 +138,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="text-xs text-stone-500 text-center lg:text-right">
-            Made with love for the love of Bengali food <span className="text-stone-700 mx-2 hidden sm:inline">•</span><br className="sm:hidden" /> <Link to="https://jaiveeru.co.in" className="hover:text-white transition-colors">Powered by JaiVeeru Creatives</Link>
-
+            Made with love for the love of Bengali food <span className="text-stone-700 mx-2 hidden sm:inline">•</span><br className="sm:hidden" /> <Link to="https://jaiveeru.co.in" className="text-[rgb(252,179,22)] lg:text-stone-500 hover:text-white transition-colors">Powered by JaiVeeru Creatives</Link>
           </p>
         </div>
       </div>

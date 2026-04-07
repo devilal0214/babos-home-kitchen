@@ -77,3 +77,10 @@
 .ticker-track-gallery:hover {
   animation-play-state: paused;
 }
+
+.ticker-track-trust {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 28s linear infinite;
+  will-change: transform;
+}

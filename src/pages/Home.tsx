@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Clock, ShieldCheck, Utensils, Star, ArrowRight, Plus, Minus, ShoppingCart, Trash2, X } from 'lucide-react';
@@ -41,6 +41,27 @@ export default function Home() {
   };
   const closeDetail = () => setSelectedItem(null);
 
+  // Trust section: auto-scroll ref + pause-on-touch
+  const trustScrollRef = useRef<HTMLDivElement>(null);
+  const trustPaused = useRef(false);
+  useEffect(() => {
+    const el = trustScrollRef.current;
+    if (!el) return;
+    let rafId: number;
+    const step = () => {
+      if (!trustPaused.current && el) {
+        el.scrollLeft += 0.6;
+        // Loop back when reached the end
+        if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 4) {
+          el.scrollLeft = 0;
+        }
+      }
+      rafId = requestAnimationFrame(step);
+    };
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
   // Show Signature-tagged dishes first; fall back to first 6 if none
   const signatureDishes = menuItems.filter(item => item.tags?.includes('Signature'));
   const allDishes = signatureDishes.length > 0 ? signatureDishes : menuItems.slice(0, 6);
@@ -59,7 +80,7 @@ export default function Home() {
       <section
         className="relative bg-stone-900 text-white overflow-hidden w-full"
         style={{
-          backgroundImage: 'url(https://babos.jaiveeru.site/uploads/gallery/BHK-BG.jpg.jpeg)',
+          backgroundImage: 'url(https://babos.jaiveeru.site/uploads/gallery/BHK-BG-updated.jpeg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -72,7 +93,7 @@ export default function Home() {
         /> */}
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
-          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+          <div className="flex flex-col lg:flex-row items-center gap-5 lg:gap-14">
             {/* Left: content — staggered fade-up */}
             <motion.div
               className="w-full lg:w-1/2 order-2 lg:order-1"
@@ -80,21 +101,20 @@ export default function Home() {
               initial="hidden"
               animate="show"
             >
-              <motion.span variants={fadeUp} className="inline-block py-1 px-3 rounded-full text-stone-900 text-sm font-semibold mb-6 "  style={{ backgroundColor: '#fcb316'      
-        }}>
+              <motion.span variants={fadeUp} className="hidden md:inline-block py-1 px-3 rounded-full text-stone-900 text-sm font-semibold mb-6" style={{ backgroundColor: '#fcb316' }}>
                 Order at least 1 day in advance
               </motion.span>
-              <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-none mb-6">
-                This is not fast food. It’s food worth waiting for.
+              <motion.h1 variants={fadeUp} className="text-2xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-6 text-center md:text-left">
+                This is not fast food.<br className="md:hidden" /> It's food worth waiting for.
               </motion.h1>
-              <motion.p variants={fadeUp} className="text-lg md:text-xl text-stone-300 mb-10 leading-relaxed">
+              <motion.p variants={fadeUp} className="text-lg md:text-xl text-stone-300 mb-10 leading-relaxed text-center md:text-left">
                 Experience the Delicacies of Bengal.<br />  Handcrafted by Chef Babo.
               </motion.p>
               <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
                 <WhatsAppButton text="Order on WhatsApp" />
                 <Link
                   to="/menu"
-                  className="inline-flex items-center justify-center gap-2 bg-white text-stone-900 px-6 py-3 rounded-lg font-medium hover:bg-stone-100 transition-colors text-base"
+                  className="inline-flex items-center justify-center gap-2 bg-[rgb(252,179,22)] text-[#140d04] px-6 py-3 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-base"
                 >
                   View Menu
                 </Link>
@@ -108,7 +128,7 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              <div className="hero-float w-72 h-72 lg:w-full lg:aspect-square lg:h-auto rounded-2xl overflow-hidden relative">
+              <div className="hero-float w-full aspect-square lg:h-auto rounded-2xl overflow-hidden relative">
                 {/* Shimmer skeleton shown while loading */}
                 {!heroImgLoaded && (
                   <div className="absolute inset-0 bg-gradient-to-br from-stone-600 via-stone-500 to-stone-700 animate-pulse">
@@ -116,7 +136,7 @@ export default function Home() {
                   </div>
                 )}
                 <img
-                  src="https://babos.jaiveeru.site/uploads/gallery/main_banner_image.png"
+                  src="https://babos.jaiveeru.site/uploads/gallery/main-banner-image.png"
                   alt="Chef Babo cooking"
                   className={`w-full h-full object-contain transition-all duration-700 ${heroImgLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-xl scale-110'}`}
                   referrerPolicy="no-referrer"
@@ -131,8 +151,31 @@ export default function Home() {
       {/* Trust Highlights */}
       <section className="py-12 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Mobile: horizontal trust scroll — auto-scrolls AND is touch-draggable */}
+          <div
+            ref={trustScrollRef}
+            className="md:hidden overflow-x-auto flex gap-4 px-1 pb-2"
+            style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
+            onTouchStart={() => { trustPaused.current = true; }}
+            onTouchEnd={() => { setTimeout(() => { trustPaused.current = false; }, 1200); }}
+          >
+            {[
+              { Icon: Clock, label: 'Freshly Cooked', desc: 'No storage, no reheating. Your food is cooked just hours before delivery.' },
+              { Icon: Utensils, label: 'Authentic Recipes', desc: 'Traditional Bengali recipes passed down through generations.' },
+              { Icon: ShieldCheck, label: 'Limited Orders', desc: 'We take limited orders per day to maintain uncompromising quality.' },
+            ].map((item, i) => (
+              <div key={i} className="flex-shrink-0 w-56 flex flex-col items-center p-5 bg-stone-50 rounded-2xl text-center">
+                <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-3">
+                  <item.Icon size={28} />
+                </div>
+                <h3 className="text-base font-bold mb-1 font-serif text-stone-800">{item.label}</h3>
+                <p className="text-stone-600 text-xs leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+            className="hidden md:grid md:grid-cols-3 gap-8 text-center"
             variants={stagger(0.15)}
             initial="hidden"
             whileInView="show"
@@ -167,8 +210,8 @@ export default function Home() {
       <section className="py-20 bg-stone-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4">Signature Delicacies</h2>
-            <p className="text-lg text-stone-600 max-w-2xl mx-auto mb-8">A glimpse of our most loved dishes, prepared with care and authentic spices.</p>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4">Our Signature Delicacies</h2>
+            <p className="hidden md:block text-lg text-stone-600 max-w-2xl mx-auto mb-8">A glimpse of our most loved dishes, prepared with care and authentic spices.</p>
             
             <div className="flex flex-wrap justify-center gap-2 mb-8">
               {categories.filter(c => c !== 'Signature').map((category) => (
@@ -257,7 +300,7 @@ export default function Home() {
           </motion.div>
           
           <div className="text-center">
-            <Link to="/menu" className="inline-flex items-center justify-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-orange-700 transition-colors text-base">
+            <Link to="/menu" className="inline-flex items-center justify-center gap-2 bg-[rgb(252,179,22)] text-[#140d04] px-6 py-3 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-base">
               See Full Menu <ArrowRight size={20} />
             </Link>
           </div>
@@ -268,34 +311,39 @@ export default function Home() {
       <section className="py-20 bg-white border-y border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-6">Simple. Fresh. Made for You.</h2>
-              <p className="text-lg text-stone-600 mb-10">We operate differently from restaurants. Every meal is planned and cooked specifically for the families who order.</p>
+            <div className="order-2 lg:order-1">
+              <h2 className="text-xl md:text-4xl font-serif font-bold text-stone-900 mb-6 text-center lg:text-left">Simple. Fresh. Made for You.</h2>
+              <p className="text-lg text-stone-600 mb-10 text-center lg:text-left">We operate differently from restaurants. Every meal is planned and cooked specifically for the families who order.</p>
               
-              <div className="space-y-6 mb-10">
+              <div className="mb-10">
                 {[
                   "Browse our authentic Bengali menu",
                   "Message us your selection on WhatsApp",
                   "Confirm your order 1 day in advance",
                   "Enjoy freshly prepared, home-cooked food"
                 ].map((step, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold shrink-0 mt-1">
-                      {i + 1}
+                  <React.Fragment key={i}>
+                    <div className="flex items-start gap-4 py-4 lg:py-3">
+                      <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold shrink-0 mt-1">
+                        {i + 1}
+                      </div>
+                      <p className="text-stone-800 font-medium text-lg pt-1">{step}</p>
                     </div>
-                    <p className="text-stone-800 font-medium text-lg pt-1">{step}</p>
-                  </div>
+                    {i < 3 && <hr className="border-[#e4d5c1] lg:hidden" />}
+                  </React.Fragment>
                 ))}
               </div>
               
-              <WhatsAppButton text="Place Your Order" />
+              <div className="flex justify-center lg:justify-start">
+                <WhatsAppButton text="Place Your Order" />
+              </div>
             </div>
-            <div className="relative">
-              <div className="absolute inset-0 bg-orange-100 rounded-3xl transform translate-x-4 translate-y-4"></div>
+            <div className="relative order-1 lg:order-2">
+              <div className="absolute inset-0 bg-orange-100 rounded-3xl transform translate-x-4 translate-y-4 hidden lg:block"></div>
               <img 
                 src="https://babos.jaiveeru.site/uploads/gallery/SHORSHE_ILISH.png" 
                 alt="Cooking process" 
-                className="relative rounded-3xl object-cover w-full h-[500px]"
+                className="relative rounded-3xl object-cover w-full aspect-square lg:aspect-auto lg:h-[500px]"
                 referrerPolicy="no-referrer"
               />
             </div>

@@ -45,7 +45,7 @@ export default function Header() {
           <div className="flex items-center gap-4 lg:gap-6">
             <Link
               to="/cart"
-              className={`relative text-sm font-medium transition-colors hover:text-orange-600 flex items-center gap-1 ${
+              className={`relative -top-0.5 lg:top-0 text-sm font-medium transition-colors hover:text-orange-600 flex items-center gap-1 ${
                 location.pathname === '/cart' ? 'text-orange-600' : 'text-stone-600'
               }`}
             >
@@ -56,7 +56,7 @@ export default function Header() {
                 </span>
               )}
             </Link>
-            
+
             <div className="hidden lg:block">
               <WhatsAppButton text="Order on WhatsApp" />
             </div>

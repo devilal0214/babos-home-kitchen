@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Info, Search, Plus, Minus, ShoppingCart, Trash2, X } from 'lucide-react';
+import { Info, Search, Filter, Plus, Minus, ShoppingCart, Trash2, X } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
 import { useCart } from '../context/CartContext';
 import { useMenuData } from '../context/MenuDataContext';
@@ -8,6 +8,8 @@ export default function Menu() {
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedItem, setSelectedItem] = useState<import('../services/api').MenuItem | null>(null);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
   const { cart, addToCart, updateQuantity } = useCart();
   const { menuItems, categories, loading, error } = useMenuData();
 
@@ -76,33 +78,75 @@ export default function Menu() {
   }
 
   return (
-    <div className="bg-stone-50 min-h-screen py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header & Search */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-stone-900 mb-6">Our Menu</h1>
-          <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium mb-8">
-            <Info size={16} />
-            All dishes are made fresh on order (1 day advance required)
-          </div>
-          
-          <div className="relative max-w-md mx-auto">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-stone-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search for dishes, ingredients..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="block w-full pl-11 pr-4 py-3 border border-stone-200 rounded-full leading-5 bg-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-            />
-          </div>
+    <>
+      {/* Breadcrumb / Hero */}
+      <div
+        className="relative flex items-center justify-center overflow-hidden"
+        style={{
+          height: '200px',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1600&auto=format&fit=crop)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="absolute inset-0 bg-stone-900/60" />
+        <div className="relative text-center">
+          <p className="text-orange-300 text-sm font-semibold uppercase tracking-widest mb-2">Babo's Home Kitchen</p>
+          <h1 className="text-4xl md:text-5xl font-serif font-bold text-white">Our Menu</h1>
         </div>
+      </div>
 
-        {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+      <div className="bg-stone-50 min-h-screen py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* Mobile: search button + filter icon row */}
+          <div className="md:hidden flex gap-3 mb-8">
+            <button
+              onClick={() => setShowMobileSearch(true)}
+              className="flex-1 flex items-center gap-3 px-4 py-3 bg-white border border-stone-200 rounded-full text-stone-400"
+            >
+              <Search size={18} />
+              <span className="text-sm">{searchQuery || 'Search dishes…'}</span>
+            </button>
+            <button
+              onClick={() => setShowMobileFilter(true)}
+              className={`flex items-center gap-2 px-4 py-3 rounded-full border text-sm font-medium transition-colors ${
+                activeCategories.length > 0
+                  ? 'bg-stone-900 text-white border-stone-900'
+                  : 'bg-white border-stone-200 text-stone-600'
+              }`}
+            >
+              <Filter size={18} />
+              {activeCategories.length > 0 && (
+                <span className="w-5 h-5 bg-orange-600 text-white rounded-full text-xs flex items-center justify-center">
+                  {activeCategories.length}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Desktop: Header & Search */}
+          <div className="hidden md:block text-center max-w-3xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium mb-8">
+              <Info size={16} />
+              All dishes are made fresh on order (1 day advance required)
+            </div>
+            <div className="relative max-w-md mx-auto">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-stone-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search for dishes, ingredients..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="block w-full pl-11 pr-4 py-3 border border-stone-200 rounded-full leading-5 bg-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+              />
+            </div>
+          </div>
+
+          {/* Categories (desktop only) */}
+          <div className="hidden md:flex flex-wrap justify-center gap-3 mb-12">
           {categories.map(category => {
             const isActive = category === "All" ? activeCategories.length === 0 : activeCategories.includes(category);
             return (
@@ -298,6 +342,111 @@ export default function Menu() {
           </div>
         </div>
       )}
+
+      {/* ── Mobile Search Overlay ── */}
+      {showMobileSearch && (
+        <div className="fixed inset-0 z-[60] md:hidden bg-white flex flex-col">
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-stone-100 shrink-0">
+            <button
+              onClick={() => setShowMobileSearch(false)}
+              className="text-stone-500 hover:text-stone-800 p-1"
+              aria-label="Close search"
+            >
+              <X size={24} />
+            </button>
+            <input
+              autoFocus
+              type="text"
+              placeholder="Search dishes, ingredients…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-1 py-2 text-base outline-none text-stone-900 placeholder-stone-400"
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery('')} className="text-stone-400 hover:text-stone-600 p-1">
+                <X size={18} />
+              </button>
+            )}
+          </div>
+          <div className="overflow-y-auto flex-1">
+            {searchQuery.trim() === '' ? (
+              <div className="flex flex-col items-center justify-center py-20 text-stone-400">
+                <Search size={40} className="mb-3 opacity-30" />
+                <p className="text-sm">Type to search dishes…</p>
+              </div>
+            ) : (
+              menuItems
+                .filter(item =>
+                  item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                  item.description.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+                .slice(0, 12)
+                .map(item => (
+                  <button
+                    key={item.id}
+                    className="w-full flex items-center gap-4 px-4 py-3 border-b border-stone-50 active:bg-stone-50 text-left"
+                    onClick={() => setShowMobileSearch(false)}
+                  >
+                    <img src={item.img} alt={item.name} className="w-14 h-14 rounded-xl object-cover shrink-0" referrerPolicy="no-referrer" />
+                    <div className="min-w-0">
+                      <p className="font-semibold text-stone-900 text-sm">{item.name}</p>
+                      <p className="text-xs text-stone-400 line-clamp-1">{item.description}</p>
+                      <p className="text-xs font-medium text-orange-600 mt-0.5">{item.price}</p>
+                    </div>
+                  </button>
+                ))
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ── Mobile Filter Bottom Sheet ── */}
+      {showMobileFilter && (
+        <div className="fixed inset-0 z-[60] md:hidden" onClick={() => setShowMobileFilter(false)}>
+          <div className="absolute inset-0 bg-black/40" />
+          <div
+            className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 pb-10"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="font-bold text-stone-900 text-xl font-serif">Filter by Category</h3>
+              <div className="flex items-center gap-2">
+                {activeCategories.length > 0 && (
+                  <button
+                    onClick={() => { setActiveCategories([]); setShowMobileFilter(false); }}
+                    className="text-xs font-medium text-orange-600 hover:text-orange-700 px-3 py-1.5 rounded-full border border-orange-200 bg-orange-50 transition-colors"
+                  >
+                    Clear filters
+                  </button>
+                )}
+                <button
+                  onClick={() => setShowMobileFilter(false)}
+                  className="w-8 h-8 bg-stone-100 rounded-full flex items-center justify-center"
+                >
+                  <X size={18} className="text-stone-500" />
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {categories.map(category => {
+                const isActive = category === "All" ? activeCategories.length === 0 : activeCategories.includes(category);
+                return (
+                  <button
+                    key={category}
+                    onClick={() => { toggleCategory(category); setShowMobileFilter(false); }}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      isActive ? 'bg-stone-900 text-white' : 'bg-stone-100 text-stone-600'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+    </>
   );
 }
