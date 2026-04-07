@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Clock, ShieldCheck, Utensils, Star, ArrowRight, Plus, Minus, ShoppingCart, Trash2, X } from 'lucide-react';
@@ -40,27 +40,6 @@ export default function Home() {
     if (window.innerWidth < 768) setSelectedItem(item);
   };
   const closeDetail = () => setSelectedItem(null);
-
-  // Trust section: auto-scroll ref + pause-on-touch
-  const trustScrollRef = useRef<HTMLDivElement>(null);
-  const trustPaused = useRef(false);
-  useEffect(() => {
-    const el = trustScrollRef.current;
-    if (!el) return;
-    let rafId: number;
-    const step = () => {
-      if (!trustPaused.current && el) {
-        el.scrollLeft += 0.6;
-        // Loop back when reached the end
-        if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 4) {
-          el.scrollLeft = 0;
-        }
-      }
-      rafId = requestAnimationFrame(step);
-    };
-    rafId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(rafId);
-  }, []);
 
   // Show Signature-tagged dishes first; fall back to first 6 if none
   const signatureDishes = menuItems.filter(item => item.tags?.includes('Signature'));
@@ -152,26 +131,26 @@ export default function Home() {
       <section className="py-12 bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Mobile: horizontal trust scroll — auto-scrolls AND is touch-draggable */}
-          <div
-            ref={trustScrollRef}
-            className="md:hidden overflow-x-auto flex gap-4 px-1 pb-2"
-            style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
-            onTouchStart={() => { trustPaused.current = true; }}
-            onTouchEnd={() => { setTimeout(() => { trustPaused.current = false; }, 1200); }}
-          >
-            {[
-              { Icon: Clock, label: 'Freshly Cooked', desc: 'No storage, no reheating. Your food is cooked just hours before delivery.' },
-              { Icon: Utensils, label: 'Authentic Recipes', desc: 'Traditional Bengali recipes passed down through generations.' },
-              { Icon: ShieldCheck, label: 'Limited Orders', desc: 'We take limited orders per day to maintain uncompromising quality.' },
-            ].map((item, i) => (
-              <div key={i} className="flex-shrink-0 w-56 flex flex-col items-center p-5 bg-stone-50 rounded-2xl text-center">
-                <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-3">
-                  <item.Icon size={28} />
+          {/* Mobile: horizontal trust ticker — CSS transform (GPU, never lags) */}
+          <div className="md:hidden overflow-hidden">
+            <div className="ticker-track-trust">
+              {[
+                { Icon: Clock, label: 'Freshly Cooked', desc: 'No storage, no reheating. Your food is cooked just hours before delivery.' },
+                { Icon: Utensils, label: 'Authentic Recipes', desc: 'Traditional Bengali recipes passed down through generations.' },
+                { Icon: ShieldCheck, label: 'Limited Orders', desc: 'We take limited orders per day to maintain uncompromising quality.' },
+                { Icon: Clock, label: 'Freshly Cooked', desc: 'No storage, no reheating. Your food is cooked just hours before delivery.' },
+                { Icon: Utensils, label: 'Authentic Recipes', desc: 'Traditional Bengali recipes passed down through generations.' },
+                { Icon: ShieldCheck, label: 'Limited Orders', desc: 'We take limited orders per day to maintain uncompromising quality.' },
+              ].map((item, i) => (
+                <div key={i} className="flex-shrink-0 w-56 flex flex-col items-center p-5 bg-stone-50 rounded-2xl mx-3 text-center">
+                  <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-3">
+                    <item.Icon size={28} />
+                  </div>
+                  <h3 className="text-base font-bold mb-1 font-serif text-stone-800">{item.label}</h3>
+                  <p className="text-stone-600 text-xs leading-relaxed">{item.desc}</p>
                 </div>
-                <h3 className="text-base font-bold mb-1 font-serif text-stone-800">{item.label}</h3>
-                <p className="text-stone-600 text-xs leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           <motion.div
