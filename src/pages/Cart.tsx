@@ -230,9 +230,13 @@ export default function Cart() {
                     <div className="flex items-center justify-between bg-stone-50 rounded-lg p-1 border border-stone-200 w-[120px]">
                       <button 
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="w-8 h-8 flex items-center justify-center rounded-md bg-white text-stone-600 hover:bg-stone-100 transition-colors"
+                        className={`w-8 h-8 flex items-center justify-center rounded-md bg-white transition-colors ${
+                          item.quantity === 1
+                            ? 'text-red-500 hover:bg-red-50'
+                            : 'text-stone-600 hover:bg-stone-100'
+                        }`}
                       >
-                        <Minus size={16} />
+                        {item.quantity === 1 ? <Trash2 size={16} /> : <Minus size={16} />}
                       </button>
                       <span className="font-bold text-stone-800 w-8 text-center">{item.quantity}</span>
                       <button 
@@ -256,7 +260,7 @@ export default function Cart() {
             </div>
 
             {/* Delivery Details Form */}
-            <div className="bg-white p-6 rounded-2xl border border-stone-200">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl border border-stone-200 overflow-hidden">
               <h2 className="text-2xl font-serif font-bold text-stone-900 mb-6">Delivery Details</h2>
               
               {formError && (
@@ -267,8 +271,8 @@ export default function Cart() {
               )}
 
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  <div className="min-w-0">
                     <label className="block text-sm font-medium text-stone-700 mb-2">Name *</label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -279,12 +283,12 @@ export default function Cart() {
                         name="name"
                         value={customerInfo.name}
                         onChange={handleInputChange}
-                        className="w-full pl-10 pr-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
+                        className="w-full min-w-0 pl-10 pr-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
                         placeholder="Your full name"
                       />
                     </div>
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <label className="block text-sm font-medium text-stone-700 mb-2">Mobile Number *</label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -295,7 +299,7 @@ export default function Cart() {
                         name="mobile"
                         value={customerInfo.mobile}
                         onChange={handleInputChange}
-                        className="w-full pl-10 pr-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
+                        className="w-full min-w-0 pl-10 pr-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
                         placeholder="10-digit mobile number"
                       />
                     </div>
@@ -334,8 +338,8 @@ export default function Cart() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  <div className="min-w-0">
                     <label className="block text-sm font-medium text-stone-700 mb-2">Date *</label>
                     <input 
                       type="date" 
@@ -343,10 +347,10 @@ export default function Cart() {
                       value={customerInfo.date}
                       onChange={handleInputChange}
                       min={todayStr}
-                      className="w-full px-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
+                      className="w-full min-w-0 px-4 py-3 rounded-lg border border-stone-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
                     />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <label className="block text-sm font-medium text-stone-700 mb-2">Time *</label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -459,8 +463,21 @@ export default function Cart() {
 
       {/* Same Day Order Modal */}
       {showSameDayModal && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl">
+        <div
+          className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowSameDayModal(false)}
+        >
+          <div
+            className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl relative"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowSameDayModal(false)}
+              className="absolute top-4 right-4 text-stone-400 hover:text-stone-700 transition-colors"
+              aria-label="Close"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
             <div className="flex items-center gap-3 text-orange-600 mb-4">
               <AlertCircle size={28} />
               <h3 className="text-xl font-bold font-serif text-stone-900">Same-Day Order Request</h3>

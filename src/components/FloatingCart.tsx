@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, ChevronRight, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
@@ -7,8 +7,15 @@ export default function FloatingCart() {
   const { cart, totalItems } = useCart();
   const location = useLocation();
   const [dismissedAt, setDismissedAt] = useState(0);
+  const [itemDetailOpen, setItemDetailOpen] = useState(false);
 
-  if (totalItems === 0 || location.pathname === '/cart' || (dismissedAt > 0 && totalItems === dismissedAt)) {
+  useEffect(() => {
+    const handler = (e: Event) => setItemDetailOpen((e as CustomEvent).detail.open);
+    document.addEventListener('itemDetailToggle', handler);
+    return () => document.removeEventListener('itemDetailToggle', handler);
+  }, []);
+
+  if (totalItems === 0 || location.pathname === '/cart' || (dismissedAt > 0 && totalItems === dismissedAt) || itemDetailOpen) {
     return null;
   }
 
