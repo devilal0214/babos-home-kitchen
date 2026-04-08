@@ -241,7 +241,7 @@ export default function Menu() {
           <WhatsAppButton 
             message="Hi, I'd like to place an order from the menu for tomorrow." 
             text="Order on WhatsApp with selected items" 
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto max-w-xs sm:max-w-none mx-auto"
           />
         </div>
 

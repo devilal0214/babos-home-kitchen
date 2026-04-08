@@ -43,8 +43,8 @@ export default function WhatsAppButton({
       onClick={onClick}
       className={`inline-flex items-center justify-center gap-2 bg-[#25D366] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#128C7E] transition-colors text-base ${className}`}
     >
-      <WhatsAppIcon size={20} />
-      <span className="whitespace-nowrap">{text || "Order on WhatsApp"}</span>
+      <WhatsAppIcon size={20} className="shrink-0" />
+      <span className="text-center leading-snug">{text || "Order on WhatsApp"}</span>
     </a>
   );
 }
