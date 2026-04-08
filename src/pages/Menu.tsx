@@ -173,8 +173,8 @@ export default function Menu() {
               <div key={item.id} className="bg-white rounded-2xl overflow-hidden border border-stone-100 group flex flex-col hover:border-orange-200 transition-colors">
                 {/* Clickable area (mobile: opens bottom sheet) */}
                 <div className="flex flex-col flex-1 md:cursor-default cursor-pointer" onClick={() => openDetail(item)}>
-                  <div className="aspect-[4/3] overflow-hidden relative bg-stone-200 animate-pulse">
-                    <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" loading="lazy" decoding="async" />
+                  <div className="aspect-[4/3] overflow-hidden relative">
+                    <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                     {/* Veg / Non-Veg indicator */}
                     <img src={item.dietary === 'Veg' ? 'https://babos.jaiveeru.site/uploads/gallery/Veg.svg' : 'https://babos.jaiveeru.site/uploads/gallery/Non_Veg_.svg'} alt={item.dietary} title={item.dietary} className="absolute top-3 left-3 w-6 h-6 drop-shadow" />
                     {item.tags && item.tags.length > 0 && (

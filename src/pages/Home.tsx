@@ -220,8 +220,8 @@ export default function Home() {
                 <motion.div key={i} variants={fadeUp} className="bg-white rounded-2xl overflow-hidden border border-stone-100 group flex flex-col">
                   {/* Clickable area (mobile: opens bottom sheet) */}
                   <div className="flex flex-col flex-1 md:cursor-default cursor-pointer" onClick={() => openDetail(dish)}>
-                    <div className="aspect-[4/3] overflow-hidden relative bg-stone-200 animate-pulse">
-                      <img src={dish.img} alt={dish.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" loading="lazy" decoding="async" />
+                    <div className="aspect-[4/3] overflow-hidden relative">
+                      <img src={dish.img} alt={dish.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                       <img src={dish.dietary === 'Veg' ? 'https://babos.jaiveeru.site/uploads/gallery/Veg.svg' : 'https://babos.jaiveeru.site/uploads/gallery/Non_Veg_.svg'} alt={dish.dietary} title={dish.dietary} className="absolute top-3 left-3 w-6 h-6 drop-shadow" />
                       {dish.tags && dish.tags.length > 0 && (
                         <div className="absolute top-4 right-4 flex flex-col gap-1 items-end">
