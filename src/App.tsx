@@ -17,6 +17,7 @@ import Reviews from './pages/Reviews';
 import Terms from './pages/Terms';
 import Refund from './pages/Refund';
 import Cart from './pages/Cart';
+import Media from './pages/Media';
 import { CartProvider } from './context/CartContext';
 import { MenuDataProvider } from './context/MenuDataContext';
 import { AdminAuthProvider } from './context/AdminAuthContext';
@@ -54,7 +55,7 @@ export default function App() {
                 <Route path="terms" element={<Terms />} />
                 <Route path="refund" element={<Refund />} />
                 <Route path="cart" element={<Cart />} />
-                <Route path="media" element={<UnderConstruction />} />
+                <Route path="media" element={<Media />} />
                 <Route path="brand" element={<UnderConstruction />} />
                 <Route path="csr" element={<UnderConstruction />} />
                 <Route path="partner" element={<UnderConstruction />} />

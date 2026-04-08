@@ -126,13 +126,13 @@ export default function AdminGallery() {
           <Upload size={24} className={`transition-colors ${dragOver ? 'text-orange-500' : 'text-stone-400'}`} />
         </div>
         <p className="font-medium text-stone-700 mb-1">
-          {uploading ? 'Uploading…' : 'Drag & drop images here, or click to select'}
+          {uploading ? 'Uploading…' : 'Drag & drop images or PDFs here, or click to select'}
         </p>
-        <p className="text-sm text-stone-400">PNG, JPG, WEBP, GIF, SVG supported</p>
+        <p className="text-sm text-stone-400">PNG, JPG, WEBP, GIF, SVG, PDF supported</p>
         <input
           ref={fileRef}
           type="file"
-          accept="image/*,.svg"
+          accept="image/*,.svg,.pdf"
           multiple
           className="hidden"
           onChange={handleInputChange}

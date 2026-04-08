@@ -329,7 +329,7 @@ export default function Home() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2">
         {/* Catering Highlight */}
-        <section className="py-10 md:py-20 lg:py-24 bg-orange-50 relative overflow-hidden flex flex-col justify-center">
+        <section className="py-10 md:py-20 lg:py-24 xl:py-16 bg-orange-50 relative overflow-hidden flex flex-col justify-center">
           <div className="absolute top-0 right-0 w-64 h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform translate-x-1/2 -translate-y-1/2"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform -translate-x-1/2 translate-y-1/2"></div>
           
@@ -346,7 +346,7 @@ export default function Home() {
         </section>
 
         {/* Final CTA */}
-        <section className="relative py-10 md:py-20 lg:py-24 bg-orange-900 text-white text-center overflow-hidden flex flex-col justify-center">
+        <section className="relative py-10 md:py-20 lg:py-24 xl:py-16 bg-orange-900 text-white text-center overflow-hidden flex flex-col justify-center">
           {/* Decorative pattern */}
           <div 
             className="absolute inset-0 opacity-10" 

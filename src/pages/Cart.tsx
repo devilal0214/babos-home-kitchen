@@ -246,14 +246,6 @@ export default function Cart() {
                         <Plus size={16} />
                       </button>
                     </div>
-                    
-                    <button 
-                      onClick={() => removeFromCart(item.id)}
-                      className="hidden sm:flex text-red-500 hover:text-red-700 p-2 transition-colors"
-                      aria-label="Remove item"
-                    >
-                      <Trash2 size={20} />
-                    </button>
                   </div>
                 </div>
               ))}

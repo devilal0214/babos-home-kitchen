@@ -127,10 +127,10 @@ export default function Menu() {
 
           {/* Desktop: Header & Search */}
           <div className="hidden md:block text-center max-w-3xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium mb-8">
+            {/* <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium mb-8">
               <Info size={16} />
               All dishes are made fresh on order (1 day advance required)
-            </div>
+            </div> */}
             <div className="relative max-w-md mx-auto">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-stone-400" />

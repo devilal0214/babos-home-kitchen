@@ -114,6 +114,8 @@ export const api = {
 
   // Gallery
   listGallery: () => request<GalleryImage[]>('/gallery'),
+  
+  listGalleryPublic: () => request<GalleryImage[]>('/gallery/public'),
 
   uploadImage: async (file: File, replace = false): Promise<GalleryImage> => {
     const token = getToken();

@@ -12,23 +12,45 @@ const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
   fileFilter: (_req, file, cb) => {
-    const allowed = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+    const allowed = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.pdf'];
     if (allowed.includes(path.extname(file.originalname).toLowerCase())) {
       cb(null, true);
     } else {
-      cb(new Error('Only image files (jpg, jpeg, png, gif, webp, svg) are allowed'));
+      cb(new Error('Only image files (jpg, jpeg, png, gif, webp, svg) and PDF are allowed'));
     }
   },
 });
 
 const router = Router();
 
+// List all images (public — no auth required)
+router.get('/public', (_req: Request, res: Response): void => {
+  try {
+    const files = fs
+      .readdirSync(GALLERY_DIR)
+      .filter((f) => /\.(jpg|jpeg|png|gif|webp|svg|pdf)$/i.test(f))
+      .map((filename) => {
+        const stat = fs.statSync(path.join(GALLERY_DIR, filename));
+        return {
+          filename,
+          url: `/uploads/gallery/${encodeURIComponent(filename)}`,
+          size: stat.size,
+          createdAt: stat.birthtime.toISOString(),
+        };
+      })
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    res.json(files);
+  } catch {
+    res.status(500).json({ error: 'Failed to list gallery files' });
+  }
+});
+
 // List all images (admin only)
 router.get('/', authenticateAdmin, (_req: Request, res: Response): void => {
   try {
     const files = fs
       .readdirSync(GALLERY_DIR)
-      .filter((f) => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(f))
+      .filter((f) => /\.(jpg|jpeg|png|gif|webp|svg|pdf)$/i.test(f))
       .map((filename) => {
         const stat = fs.statSync(path.join(GALLERY_DIR, filename));
         return {

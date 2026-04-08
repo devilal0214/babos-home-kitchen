@@ -43,9 +43,9 @@ function parseCSV(text: string): { rows: MenuItemInput[]; errors: string[] } {
     if (!row.category) { errors.push(`Row ${rowNum}: "category" is required`); continue; }
     if (!row.dietary) { errors.push(`Row ${rowNum}: "dietary" is required`); continue; }
 
-    const validCategories = ['starters', 'main course', 'desserts'];
+    const validCategories = ['starters', 'main course', 'chatni', 'sweets', 'desserts'];
     if (!validCategories.includes(row.category.toLowerCase())) {
-      errors.push(`Row ${rowNum}: category must be Starters, Main Course, or Desserts (got "${row.category}")`);
+      errors.push(`Row ${rowNum}: category must be Starters, Main Course, Chatni, Sweets, or Desserts (got "${row.category}")`);
       continue;
     }
     const validDietary = ['veg', 'non veg'];

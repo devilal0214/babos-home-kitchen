@@ -64,9 +64,9 @@ export default function HowItWorks() {
         <div ref={stickyRef} className="sticky top-0 h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
 
           {/* Header */}
-          <div className="text-center mb-6 md:mb-10">
-            <h1 className="text-2xl sm:text-3xl md:text-5xl font-serif font-bold text-stone-900 mb-2 md:mb-4">Simple. Fresh. Made for You.</h1>
-            <p className="text-sm md:text-base text-stone-500 max-w-xl mx-auto">
+          <div className="text-center mb-6 md:mb-10 xl:mb-16">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl xl:text-6xl font-serif font-bold text-stone-900 mb-2 md:mb-4">Simple. Fresh. Made for You.</h1>
+            <p className="text-sm md:text-base xl:text-lg text-stone-500 max-w-xl mx-auto">
               Scroll to see how it works
             </p>
           </div>
@@ -126,7 +126,7 @@ export default function HowItWorks() {
                   style={{ left: `calc(${linePercent}% - 8px)` }}
                 />
               </div>
-              <div className="grid grid-cols-4 gap-6 relative z-10">
+              <div className="grid grid-cols-4 gap-6 xl:gap-10 relative z-10">
                 {steps.map((step, index) => {
                   const isActive = index <= activeStep;
                   return (
@@ -136,7 +136,7 @@ export default function HowItWorks() {
                         isActive ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-3'
                       }`}
                     >
-                      <div className={`w-24 h-24 rounded-full border-4 flex items-center justify-center mb-6 relative transition-all duration-500 ${
+                      <div className={`w-24 h-24 xl:w-32 xl:h-32 rounded-full border-4 flex items-center justify-center mb-6 xl:mb-8 relative transition-all duration-500 ${
                         isActive
                           ? 'bg-orange-50 border-orange-400 text-orange-600 shadow-[0_0_0_6px_rgba(234,88,12,0.12)]'
                           : 'bg-white border-orange-100 text-stone-400'
@@ -148,10 +148,10 @@ export default function HowItWorks() {
                           {index + 1}
                         </div>
                       </div>
-                      <h3 className={`text-xl font-bold font-serif mb-3 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
+                      <h3 className={`text-xl xl:text-2xl font-bold font-serif mb-3 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
                         {step.title}
                       </h3>
-                      <p className={`text-sm leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
+                      <p className={`text-sm xl:text-base xl:leading-loose leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
                         {step.description}
                       </p>
                     </div>
@@ -163,7 +163,7 @@ export default function HowItWorks() {
           </div>
 
           {/* Scroll hint — hidden on mobile, fades out on desktop once scrolling begins */}
-          <div className={`hidden sm:flex mt-8 md:mt-12 flex-col items-center gap-2 transition-opacity duration-500 ${progress > 0.05 ? 'opacity-0' : 'opacity-100'}`}>
+          <div className={`hidden sm:flex mt-8 md:mt-12 xl:mt-20 flex-col items-center gap-2 transition-opacity duration-500 ${progress > 0.05 ? 'opacity-0' : 'opacity-100'}`}>
             <span className="text-stone-400 text-sm">Scroll down</span>
             <div className="w-5 h-8 rounded-full border-2 border-stone-300 flex justify-center pt-1.5">
               <div className="w-1 h-2 bg-stone-400 rounded-full animate-bounce" />
