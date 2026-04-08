@@ -414,10 +414,7 @@ export default function Cart() {
                   className="w-full justify-center text-lg py-4"
                   onClick={handleCheckoutClick}
                 />
-                <p className="text-center text-xs text-stone-400 mt-3">
-                  By ordering you agree to our{' '}
-                  <Link to="/terms" className="text-orange-600 hover:underline font-medium">Terms &amp; Conditions</Link>
-                </p>
+                
               </div>
               
               <div className="mt-8 space-y-4 bg-stone-50 p-5 rounded-xl border border-stone-200">
@@ -426,17 +423,17 @@ export default function Cart() {
                   Important Notes
                 </h4>
                 <ul className="text-sm text-stone-600 space-y-2 list-disc pl-5">
+                  <li>Prices inclusive of GST</li>
                   <li>Orders require at least 1 day advance notice.</li>
                   <li>Place orders before 8 PM for next-day delivery.</li>
                   <li>Delivery charges apply based on distance.</li>
                   <li>We partner with Pidge Delivery Services.</li>
                   <li>Delhi NCR delivery available.</li>
                   <li>Takeaway available from our kitchen.</li>
+                  <li> By ordering you agree to our{' '}
+                  <Link to="/terms" className="text-orange-600 hover:underline font-medium">Terms &amp; Conditions</Link>.</li>
                 </ul>
-                <p className="text-xs text-stone-400 pt-1">
-                  By ordering you agree to our{' '}
-                  <Link to="/terms" className="text-orange-600 hover:underline font-medium">Terms &amp; Conditions</Link>.
-                </p>
+               
               </div>
             </div>
           </div>

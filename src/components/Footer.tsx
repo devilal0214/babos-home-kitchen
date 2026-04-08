@@ -134,7 +134,20 @@ export default function Footer() {
               <span className="text-stone-700">•</span>
               <Link to="/refund" className="hover:text-white transition-colors">Refund Policy</Link>
               <span className="text-stone-700">•</span>
-              <Link to="https://baboshomekitchen.in/uploads/gallery/fssai-license.pdf" className="hover:text-white transition-colors"><img src="https://baboshomekitchen.in/uploads/gallery/fssai.svg" alt="FSSAI" width={32} height={32} /></Link>
+              <a 
+                  href="https://baboshomekitchen.in/uploads/gallery/fssai-license.pdf" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-white transition-colors"
+                >
+                  <img 
+                    src="https://baboshomekitchen.in/uploads/gallery/fssai.svg" 
+                    alt="FSSAI" 
+                    width={32} 
+                    height={32} 
+                  />
+                </a>
+
               
             </div>
           </div>

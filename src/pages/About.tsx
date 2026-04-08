@@ -25,14 +25,12 @@ export default function About() {
               
               <div className="space-y-6 text-lg text-stone-700 leading-relaxed">
                 <p>
-                  Babo's Home Kitchen, a boutique culinary venture in New Delhi, is the brainchild of an obsessive foodie, sometime journalist, and media relations professional Dipayan Mazumdar, lovingly known as Babo.
+                  Babo’s Home Kitchen is not fast food; it is food worth waiting for. Bringing you the true Delicacies of Bengal, every dish is handcrafted by Chef Babo using time-honoured family recipes, with no precooking and no shortcuts. What began as a deeply personal journey by Dipayan Mazumdar, an obsessive foodie and storyteller, has grown into a boutique home kitchen rooted in love, memory, and cultural pride. Inspired by cooking for his daughter, friends, and family, Babo recreates the delicate balance of spices and the richness of slow-cooked Bengali meals with uncompromising authenticity.
                 </p>
                 <p>
-                  From the delicate balance of panch phoron to the rich aromas of a slow-cooked curry, Babo's Home Kitchen is a celebration of Bengali heritage. Born out of pure love and passion for cooking for his daughter, friends, and family, Babo creates exquisite and unique Bengali delicacies with secret family recipes that have been passed down through generations.
+                  Today, from its base in Delhi NCR, Babo’s Home Kitchen serves those who seek more than just food. Whether it is corporate gatherings, house parties, family functions, intimate weddings, or custom cravings, every order is prepared fresh with care and intention. This is not just a meal, but a soulful experience of Bengal, delivered with warmth and meaning.
                 </p>
-                <p>
-                  Unlike major restaurants and delivery chains, Babo's Home Kitchen prides itself on excellence. Every dish is made to order with utmost focus on flavor, freshness, and wholesome goodness—leaving you craving for more.
-                </p>
+                
                 <p className="font-medium text-stone-900 italic border-l-4 border-orange-500 pl-4 py-2 bg-orange-50">
                   "A humble home kitchen approach that blends traditional panch phoron techniques with a modern focus on wholesome, soulful flavors."
                 </p>
