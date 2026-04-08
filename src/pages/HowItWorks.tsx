@@ -114,17 +114,19 @@ export default function HowItWorks() {
 
             {/* ── DESKTOP: horizontal animated line ── */}
             <div className="hidden md:block">
-              {/* track */}
-              <div className="absolute left-0 right-0 top-12 px-[calc(12.5%)] pointer-events-none">
-                <div className="h-0.5 w-full bg-orange-100 rounded-full" />
-                <div
-                  className="absolute top-0 left-0 h-0.5 bg-orange-500 rounded-full transition-all duration-100"
-                  style={{ width: `${linePercent}%` }}
-                />
-                <div
-                  className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-orange-500 shadow-[0_0_0_4px_rgba(234,88,12,0.25)] transition-all duration-100"
-                  style={{ left: `calc(${linePercent}% - 8px)` }}
-                />
+              {/* track — outer positions vertically, inner mx provides column-center alignment */}
+              <div className="absolute left-0 right-0 top-12 xl:top-16 pointer-events-none">
+                <div className="relative mx-[12.5%]">
+                  <div className="h-0.5 w-full bg-orange-100 rounded-full" />
+                  <div
+                    className="absolute top-0 left-0 h-0.5 bg-orange-500 rounded-full transition-all duration-100"
+                    style={{ width: `${linePercent}%` }}
+                  />
+                  <div
+                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-orange-500 shadow-[0_0_0_4px_rgba(234,88,12,0.25)] transition-all duration-100"
+                    style={{ left: `calc(${linePercent}% - 8px)` }}
+                  />
+                </div>
               </div>
               <div className="grid grid-cols-4 gap-6 xl:gap-10 relative z-10">
                 {steps.map((step, index) => {
