@@ -50,6 +50,28 @@ router.get('/', authenticateAdmin, async (_req: AuthRequest, res: Response): Pro
   }
 });
 
+// Admin: Update order status
+router.patch('/:id/status', authenticateAdmin, async (req: AuthRequest, res: Response): Promise<void> => {
+  const id = Number(req.params.id);
+  const { status } = req.body;
+  if (!['pending', 'delivered', 'rejected'].includes(status)) {
+    res.status(400).json({ error: 'Invalid status' });
+    return;
+  }
+  try {
+    const db = getDb();
+    const result = db.prepare('UPDATE orders SET status = ? WHERE id = ?').run(status, id);
+    if ((result as { changes: number }).changes === 0) {
+      res.status(404).json({ error: 'Order not found' });
+      return;
+    }
+    res.json({ success: true, status });
+  } catch (err) {
+    console.error('Update order status error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Admin: Get unique users (deduplicated by mobile — latest name per mobile)
 router.get('/users', authenticateAdmin, async (_req: AuthRequest, res: Response): Promise<void> => {
   try {

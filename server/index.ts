@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import puppeteer from 'puppeteer';
 import { initDb, closeDb } from './db.js';
 import authRouter from './routes/auth.js';
 import menusRouter from './routes/menus.js';
@@ -50,6 +51,39 @@ app.use('/api/auth', authRouter);
 app.use('/api/menus', menusRouter);
 app.use('/api/gallery', galleryRouter);
 app.use('/api/orders', ordersRouter);
+
+// PDF Generation endpoint
+app.post('/api/generate-pdf', async (req, res) => {
+  const { html } = req.body;
+  if (!html) {
+    res.status(400).json({ error: 'HTML content required' });
+    return;
+  }
+  
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      headless: true,
+    });
+    const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: 'networkidle0' });
+    const pdf = await page.pdf({
+      format: 'A4',
+      margin: { top: '0', right: '0', bottom: '0', left: '0' },
+      printBackground: true,
+    });
+    
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=invoice.pdf');
+    res.send(Buffer.from(pdf));
+  } catch (error) {
+    console.error('PDF generation error:', error);
+    res.status(500).json({ error: 'Failed to generate PDF' });
+  } finally {
+    if (browser) await browser.close();
+  }
+});
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });

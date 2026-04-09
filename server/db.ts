@@ -74,9 +74,17 @@ export async function initDb(): Promise<void> {
       address TEXT,
       items_json TEXT NOT NULL,
       subtotal INTEGER NOT NULL DEFAULT 0,
+      status TEXT NOT NULL DEFAULT 'pending',
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);
+
+  // Migration: add status column if it doesn't exist yet (existing DBs)
+  try {
+    db.exec("ALTER TABLE orders ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'");
+  } catch (_) {
+    // Column already exists — ignore
+  }
 
   // Seed default admin if not exists
   const adminExists = db.prepare('SELECT id FROM admins WHERE username = ?').get('admin');

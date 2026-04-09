@@ -48,6 +48,7 @@ export interface Order {
   items: OrderItem[];
   subtotal: number;
   created_at: string;
+  status: 'pending' | 'delivered' | 'rejected';
 }
 
 export interface OrderUser {
@@ -147,6 +148,12 @@ export const api = {
     }),
 
   getOrders: () => request<Order[]>('/orders'),
+
+  updateOrderStatus: (id: number, status: 'pending' | 'delivered' | 'rejected') =>
+    request<{ success: boolean; status: string }>(`/orders/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    }),
 
   getOrderUsers: () => request<OrderUser[]>('/orders/users'),
 };
