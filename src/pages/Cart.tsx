@@ -140,6 +140,8 @@ export default function Cart() {
     return '';
   };
 
+  const isFormValid = validateForm() === '';
+
   const handleCheckoutClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const error = validateForm();
@@ -411,10 +413,12 @@ export default function Cart() {
                 <WhatsAppButton 
                   message={generateWhatsAppMessage()} 
                   text="Confirm on WhatsApp" 
-                  className="w-full justify-center text-lg py-4"
+                  className={`w-full justify-center text-lg py-4 ${!isFormValid ? 'opacity-40 pointer-events-none cursor-not-allowed' : ''}`}
                   onClick={handleCheckoutClick}
                 />
-                
+                {!isFormValid && (
+                  <p className="text-center text-xs text-stone-400 mt-2">Fill in delivery details to continue</p>
+                )}
               </div>
               
               <div className="mt-8 space-y-4 bg-stone-50 p-5 rounded-xl border border-stone-200">
@@ -449,9 +453,12 @@ export default function Cart() {
         <WhatsAppButton 
           message={generateWhatsAppMessage()} 
           text="Confirm on WhatsApp" 
-          className="w-full justify-center text-lg py-3"
+          className={`w-full justify-center text-lg py-3 ${!isFormValid ? 'opacity-40 pointer-events-none cursor-not-allowed' : ''}`}
           onClick={handleCheckoutClick}
         />
+        {!isFormValid && (
+          <p className="text-center text-xs text-stone-400 mt-2">Fill in delivery details above to continue</p>
+        )}
       </div>
 
       {/* Same Day Order Modal */}

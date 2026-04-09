@@ -50,11 +50,11 @@ export default function Footer() {
               <a href="https://www.youtube.com/@baboshomekitchen" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" aria-label="YouTube">
                <img src="https://babos.jaiveeru.site/uploads/gallery/Layer_2.svg" alt="YouTube" width={32} height={32} />
               </a>
-              <a href="https://linktr.ee/babohomekitchen" className="hover:opacity-80 transition-opacity" aria-label="LinkedIn">
+              {/* <a href="https://linktr.ee/babohomekitchen" className="hover:opacity-80 transition-opacity" aria-label="LinkedIn">
                 <img src="https://babos.jaiveeru.site/uploads/gallery/link.svg" alt="LinkedIn" width={32} height={32} />
 
                 
-              </a>
+              </a> */}
               {/* <a href="https://linktr.ee/babohomekitchen" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" aria-label="WhatsApp">
                <svg fill="none" height="32" width="32" viewBox="0 0 28 28" class="animation_rotate__SBERF"><path d="m15.7603 6.829 4.6725-4.80317 2.712 2.77734-4.9012 4.67248h6.8944v3.85565h-6.9271l4.9339 4.7922-2.712 2.7229-6.6983-6.731-6.69829 6.731-2.712-2.712 4.93387-4.7923h-6.92703v-3.86645h6.89436l-4.9012-4.67248 2.712-2.77734 4.67249 4.80317v-6.829h4.0516zm-4.0516 12.0243h4.0516v9.1489h-4.0516z" fill="#fcb316"></path></svg>
               </a>  */}
@@ -74,9 +74,9 @@ export default function Footer() {
                           {link.name}
                         </a>
                       ) : (
-                        <Link to={link.path} className="text-sm hover:text-white transition-colors">
+                        <a href={link.path} target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors">
                           {link.name}
-                        </Link>
+                        </a>
                       )}
                     </li>
                   ))}

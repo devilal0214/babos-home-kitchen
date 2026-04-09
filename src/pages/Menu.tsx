@@ -10,6 +10,7 @@ export default function Menu() {
   const [selectedItem, setSelectedItem] = useState<import('../services/api').MenuItem | null>(null);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const [dietaryFilter, setDietaryFilter] = useState<'All' | 'Veg' | 'Non Veg'>('All');
   const { cart, addToCart, updateQuantity } = useCart();
   const { menuItems, categories, loading, error } = useMenuData();
 
@@ -50,12 +51,12 @@ export default function Menu() {
     const matchesCategory = activeCategories.length === 0 || activeCategories.some(c => {
       const lowerC = c.toLowerCase();
       return item.category.toLowerCase() === lowerC ||
-             item.dietary?.toLowerCase() === lowerC ||
              item.tags?.some(t => t.toLowerCase() === lowerC);
     });
+    const matchesDietary = dietaryFilter === 'All' || item.dietary === dietaryFilter;
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           item.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return matchesCategory && matchesDietary && matchesSearch;
   });
 
   if (loading) {
@@ -99,8 +100,9 @@ export default function Menu() {
       <div className="bg-stone-50 min-h-screen py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Mobile: search button + filter icon row */}
-          <div className="md:hidden flex gap-3 mb-8">
+          {/* Mobile: search button + filter icon row + dietary toggle */}
+          <div className="md:hidden space-y-3 mb-8">
+          <div className="flex gap-3">
             <button
               onClick={() => setShowMobileSearch(true)}
               className="flex-1 flex items-center gap-3 px-4 py-3 bg-white border border-stone-200 rounded-full text-stone-400"
@@ -124,14 +126,33 @@ export default function Menu() {
               )}
             </button>
           </div>
+          {/* Dietary toggle — mobile */}
+          <div className="flex justify-center">
+            <div className="inline-flex items-center bg-stone-100 rounded-full p-1">
+              {(['All', 'Veg', 'Non Veg'] as const).map((opt) => (
+                <button
+                  key={opt}
+                  onClick={() => setDietaryFilter(opt)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
+                    dietaryFilter === opt
+                      ? opt === 'Veg' ? 'bg-white shadow-sm text-green-700'
+                        : opt === 'Non Veg' ? 'bg-white shadow-sm text-red-700'
+                        : 'bg-white shadow-sm text-stone-800'
+                      : 'text-stone-500 hover:text-stone-700'
+                  }`}
+                >
+                  {opt === 'Veg' && <span className="w-2.5 h-2.5 rounded-full bg-green-600 shrink-0" />}
+                  {opt === 'Non Veg' && <span className="w-2.5 h-2.5 rounded-full bg-red-700 shrink-0" />}
+                  {opt}
+                </button>
+              ))}
+            </div>
+          </div>
+          </div>
 
           {/* Desktop: Header & Search */}
-          <div className="hidden md:block text-center max-w-3xl mx-auto mb-12">
-            {/* <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium mb-8">
-              <Info size={16} />
-              All dishes are made fresh on order (1 day advance required)
-            </div> */}
-            <div className="relative max-w-md mx-auto">
+          <div className="hidden md:flex items-center justify-center gap-4 max-w-3xl mx-auto mb-10">
+            <div className="relative flex-1 max-w-md">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-stone-400" />
               </div>
@@ -143,11 +164,31 @@ export default function Menu() {
                 className="block w-full pl-11 pr-4 py-3 border border-stone-200 rounded-full leading-5 bg-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
               />
             </div>
+            {/* Dietary toggle — desktop */}
+            <div className="inline-flex items-center bg-stone-100 rounded-full p-1 shrink-0">
+              {(['All', 'Veg', 'Non Veg'] as const).map((opt) => (
+                <button
+                  key={opt}
+                  onClick={() => setDietaryFilter(opt)}
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                    dietaryFilter === opt
+                      ? opt === 'Veg' ? 'bg-white shadow-sm text-green-700'
+                        : opt === 'Non Veg' ? 'bg-white shadow-sm text-red-700'
+                        : 'bg-white shadow-sm text-stone-800'
+                      : 'text-stone-500 hover:text-stone-700'
+                  }`}
+                >
+                  {opt === 'Veg' && <span className="w-3 h-3 rounded-full bg-green-600 shrink-0" />}
+                  {opt === 'Non Veg' && <span className="w-3 h-3 rounded-full bg-red-700 shrink-0" />}
+                  {opt}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Categories (desktop only) */}
           <div className="hidden md:flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map(category => {
+          {categories.filter(c => c !== 'Veg' && c !== 'Non Veg').map(category => {
             const isActive = category === "All" ? activeCategories.length === 0 : activeCategories.includes(category);
             return (
               <button
@@ -428,7 +469,7 @@ export default function Menu() {
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              {categories.map(category => {
+              {categories.filter(c => c !== 'Veg' && c !== 'Non Veg').map(category => {
                 const isActive = category === "All" ? activeCategories.length === 0 : activeCategories.includes(category);
                 return (
                   <button
