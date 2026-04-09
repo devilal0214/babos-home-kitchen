@@ -10,7 +10,7 @@ export default function Menu() {
   const [selectedItem, setSelectedItem] = useState<import('../services/api').MenuItem | null>(null);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
-  const [dietaryFilter, setDietaryFilter] = useState<'All' | 'Veg' | 'Non Veg'>('All');
+  const [dietaryFilter, setDietaryFilter] = useState<'All' | 'Veg'>('All');
   const { cart, addToCart, updateQuantity } = useCart();
   const { menuItems, categories, loading, error } = useMenuData();
 
@@ -129,20 +129,18 @@ export default function Menu() {
           {/* Dietary toggle — mobile */}
           <div className="flex justify-center">
             <div className="inline-flex items-center bg-stone-100 rounded-full p-1">
-              {(['All', 'Veg', 'Non Veg'] as const).map((opt) => (
+              {(['All', 'Veg'] as const).map((opt) => (
                 <button
                   key={opt}
                   onClick={() => setDietaryFilter(opt)}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
                     dietaryFilter === opt
                       ? opt === 'Veg' ? 'bg-white shadow-sm text-green-700'
-                        : opt === 'Non Veg' ? 'bg-white shadow-sm text-red-700'
                         : 'bg-white shadow-sm text-stone-800'
                       : 'text-stone-500 hover:text-stone-700'
                   }`}
                 >
                   {opt === 'Veg' && <span className="w-2.5 h-2.5 rounded-full bg-green-600 shrink-0" />}
-                  {opt === 'Non Veg' && <span className="w-2.5 h-2.5 rounded-full bg-red-700 shrink-0" />}
                   {opt}
                 </button>
               ))}
@@ -166,20 +164,18 @@ export default function Menu() {
             </div>
             {/* Dietary toggle — desktop */}
             <div className="inline-flex items-center bg-stone-100 rounded-full p-1 shrink-0">
-              {(['All', 'Veg', 'Non Veg'] as const).map((opt) => (
+              {(['All', 'Veg'] as const).map((opt) => (
                 <button
                   key={opt}
                   onClick={() => setDietaryFilter(opt)}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                     dietaryFilter === opt
                       ? opt === 'Veg' ? 'bg-white shadow-sm text-green-700'
-                        : opt === 'Non Veg' ? 'bg-white shadow-sm text-red-700'
                         : 'bg-white shadow-sm text-stone-800'
                       : 'text-stone-500 hover:text-stone-700'
                   }`}
                 >
                   {opt === 'Veg' && <span className="w-3 h-3 rounded-full bg-green-600 shrink-0" />}
-                  {opt === 'Non Veg' && <span className="w-3 h-3 rounded-full bg-red-700 shrink-0" />}
                   {opt}
                 </button>
               ))}
