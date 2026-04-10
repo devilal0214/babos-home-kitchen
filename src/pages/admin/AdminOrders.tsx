@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { api, Order, OrderUser } from '../../services/api';
+import { useMenuData } from '../../context/MenuDataContext';
 import AdminOrderInvoice from './AdminOrderInvoice';
 
 function formatDate(iso: string) {
@@ -45,6 +46,7 @@ interface Filters {
   month: string;
   category: string; // delivery type
   status: string;
+  itemCategory: string;
 }
 
 export default function AdminOrders() {
@@ -52,10 +54,12 @@ export default function AdminOrders() {
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [search, setSearch] = useState('');
-  const [filters, setFilters] = useState<Filters>({ year: 'all', month: 'all', category: 'all', status: 'all' });
+  const [filters, setFilters] = useState<Filters>({ year: 'all', month: 'all', category: 'all', status: 'all', itemCategory: 'all' });
   const [currentPage, setCurrentPage] = useState(1);
   const [invoiceOrder, setInvoiceOrder] = useState<Order | null>(null);
   const itemsPerPage = 10;
+
+  const { menuItems } = useMenuData();
 
   useEffect(() => {
     loadOrders();
@@ -94,6 +98,15 @@ export default function AdminOrders() {
 
     // Category (delivery type) filter
     if (filters.category !== 'all' && o.delivery_type !== filters.category) return false;
+
+    // Item category filter
+    if (filters.itemCategory !== 'all') {
+      const orderItemIds = new Set(o.items.map(i => String(i.id)));
+      const hasCategory = menuItems.some(
+        m => orderItemIds.has(String(m.id)) && m.category === filters.itemCategory
+      );
+      if (!hasCategory) return false;
+    }
 
     // Status filter
     if (filters.status !== 'all' && o.status !== filters.status) return false;
@@ -216,7 +229,7 @@ export default function AdminOrders() {
           <Filter size={18} className="text-stone-400" />
           <h3 className="font-semibold text-stone-900">Filters</h3>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
           {/* Search */}
           <input
             type="text"
@@ -289,12 +302,24 @@ export default function AdminOrders() {
             <option value="delivered">Delivered</option>
             <option value="rejected">Rejected</option>
           </select>
+
+          {/* Item Category */}
+          <select
+            value={filters.itemCategory}
+            onChange={(e) => setFilters({ ...filters, itemCategory: e.target.value })}
+            className="px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+          >
+            <option value="all">All Categories</option>
+            {['Starters', 'Main Course', 'Chatni', 'Sweets', 'Desserts', 'Combo'].map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
         </div>
-        {(search || filters.year !== 'all' || filters.month !== 'all' || filters.category !== 'all' || filters.status !== 'all') && (
+        {(search || filters.year !== 'all' || filters.month !== 'all' || filters.category !== 'all' || filters.status !== 'all' || filters.itemCategory !== 'all') && (
           <button
             onClick={() => {
               setSearch('');
-              setFilters({ year: 'all', month: 'all', category: 'all', status: 'all' });
+              setFilters({ year: 'all', month: 'all', category: 'all', status: 'all', itemCategory: 'all' });
             }}
             className="mt-3 text-xs text-orange-600 hover:text-orange-700 font-medium"
           >

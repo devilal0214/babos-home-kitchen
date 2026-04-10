@@ -18,7 +18,7 @@ const stagger = (delayChildren = 0.1) => ({
 });
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [vegOnly, setVegOnly] = useState(false);
   const [heroImgLoaded, setHeroImgLoaded] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const { cart, addToCart, updateQuantity } = useCart();
@@ -45,13 +45,9 @@ export default function Home() {
   const signatureDishes = menuItems.filter(item => item.tags?.includes('Signature'));
   const allDishes = signatureDishes.length > 0 ? signatureDishes : menuItems.slice(0, 6);
 
-  const filteredDishes = activeCategory === 'All'
-    ? allDishes
-    : allDishes.filter(dish =>
-        dish.category === activeCategory ||
-        dish.dietary === activeCategory ||
-        dish.tags?.includes(activeCategory)
-      );
+  const filteredDishes = vegOnly
+    ? allDishes.filter(dish => dish.dietary === 'Veg')
+    : allDishes;
 
   return (
     <div className="bg-stone-50">
@@ -189,21 +185,25 @@ export default function Home() {
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4">Our Signature Delicacies</h2>
             <p className="hidden md:block text-lg text-stone-600 max-w-2xl mx-auto mb-8">A glimpse of our most loved dishes, prepared with care and authentic spices.</p>
-            
-            <div className="flex flex-wrap justify-center gap-2 mb-8">
-              {categories.filter(c => c !== 'Signature').map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setActiveCategory(category)}
-                  className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
-                    activeCategory === category
-                      ? 'bg-orange-600 text-white'
-                      : 'bg-white text-stone-600 hover:bg-orange-50 border border-stone-200'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
+
+            {/* Veg / All toggle */}
+            <div className="flex justify-center mb-8">
+              <div className="inline-flex items-center bg-stone-100 rounded-full p-1">
+                {(['All', 'Veg'] as const).map((opt) => (
+                  <button
+                    key={opt}
+                    onClick={() => setVegOnly(opt === 'Veg')}
+                    className={`flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                      (opt === 'Veg') === vegOnly
+                        ? opt === 'Veg' ? 'bg-white shadow-sm text-green-700' : 'bg-white shadow-sm text-stone-800'
+                        : 'text-stone-500 hover:text-stone-700'
+                    }`}
+                  >
+                    {opt === 'Veg' && <span className="w-3 h-3 rounded-full bg-green-600 shrink-0" />}
+                    {opt}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
           
