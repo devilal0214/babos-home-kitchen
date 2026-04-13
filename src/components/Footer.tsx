@@ -38,7 +38,7 @@ export default function Footer() {
               Just the warmth, nostalgia, and soul of a true Kolkata home kitchen, now in Delhi NCR.
             </p>
             <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-              <a href="https://www.facebook.com/baboshomekitchen/" className="hover:opacity-80 transition-opacity" aria-label="Facebook">
+              <a href="https://www.facebook.com/baboshomekitchenofficial" className="hover:opacity-80 transition-opacity" aria-label="Facebook">
                 <img src="https://babos.jaiveeru.site/uploads/gallery/fb.svg" alt="Facebook" width={32} height={32} />
               </a>
               <a href="https://www.instagram.com/baboshomekitchen/" className="hover:opacity-80 transition-opacity" aria-label="Instagram">
