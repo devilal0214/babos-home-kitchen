@@ -152,7 +152,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="text-xs text-stone-500 text-center lg:text-right">
-            Made with love for the love of Bengali food <span className="text-stone-700 mx-2 hidden sm:inline">•</span><br className="sm:hidden" /> <Link to="https://jaiveeru.co.in" className="text-[rgb(252,179,22)] lg:text-stone-500 hover:text-white transition-colors">Powered by JaiVeeru Creatives</Link>
+            Made with love for the love of Bengali food <span className="text-stone-700 mx-2 hidden sm:inline">•</span><br className="sm:hidden" /> <Link to="https://jaiveeru.co.in" className="text-[#fcb316] lg:text-stone-500 hover:text-white transition-colors" >Powered by JaiVeeru Creatives</Link>
           </p>
         </div>
       </div>
