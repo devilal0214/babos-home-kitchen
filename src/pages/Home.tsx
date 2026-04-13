@@ -182,7 +182,7 @@ export default function Home() {
 
       <section className="py-8 md:py-20 bg-stone-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8 md:mb-16">
+          <div className="flex items-end justify-between mb-8 md:mb-16">
             <div>
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-2">Our Signature Delicacies</h2>
               <p className="hidden md:block text-lg text-stone-600 max-w-2xl">A glimpse of our most loved dishes, prepared with care and authentic spices.</p>

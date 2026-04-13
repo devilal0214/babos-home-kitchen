@@ -113,32 +113,15 @@ export default function HowItWorks() {
               })}
             </div>
 
-            {/* ── DESKTOP: horizontal animated line ── */}
-            <div className="hidden md:block relative">
-              {/* track — outer positions vertically, inner mx provides column-center alignment */}
-              <div className="absolute left-0 right-0 top-12 xl:top-16 pointer-events-none z-0">
-                <div className="relative mx-[12.5%]">
-                  <div className="h-0.5 w-full bg-orange-100 rounded-full" />
-                  <div
-                    className="absolute top-0 left-0 h-0.5 bg-orange-500 rounded-full transition-all duration-100"
-                    style={{ width: `${linePercent}%` }}
-                  />
-                  <div
-                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-orange-500 shadow-[0_0_0_4px_rgba(234,88,12,0.25)] transition-all duration-100"
-                    style={{ left: `calc(${linePercent}% - 8px)` }}
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-4 gap-6 xl:gap-10 relative z-10">
-                {steps.map((step, index) => {
-                  const isActive = index <= activeStep;
-                  return (
-                    <div
-                      key={index}
-                      className={`relative z-10 flex flex-col items-center text-center transition-all duration-500 ${
-                        isActive ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-3'
-                      }`}
-                    >
+            {/* ── DESKTOP: steps with inline connectors ── */}
+            <div className="hidden md:flex items-start gap-0">
+              {steps.map((step, index) => {
+                const isActive = index <= activeStep;
+                const connectorActive = index < activeStep;
+                return (
+                  <React.Fragment key={index}>
+                    {/* Step */}
+                    <div className={`flex-shrink-0 w-40 xl:w-52 flex flex-col items-center text-center transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-30'}`}>
                       <div className={`w-24 h-24 xl:w-32 xl:h-32 rounded-full border-4 flex items-center justify-center mb-6 xl:mb-8 relative transition-all duration-500 ${
                         isActive
                           ? 'bg-orange-50 border-orange-400 text-orange-600 shadow-[0_0_0_6px_rgba(234,88,12,0.12)]'
@@ -151,16 +134,27 @@ export default function HowItWorks() {
                           {index + 1}
                         </div>
                       </div>
-                      <h3 className={`text-xl xl:text-2xl font-bold font-serif mb-3 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
+                      <h3 className={`text-lg xl:text-xl font-bold font-serif mb-3 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
                         {step.title}
                       </h3>
-                      <p className={`text-sm xl:text-base xl:leading-loose leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
+                      <p className={`text-xs xl:text-sm leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
                         {step.description}
                       </p>
                     </div>
-                  );
-                })}
-              </div>
+
+                    {/* Connector between steps */}
+                    {index < steps.length - 1 && (
+                      <div className="flex-1 mt-12 xl:mt-16 relative h-0.5">
+                        <div className="absolute inset-0 bg-orange-100 rounded-full" />
+                        <div
+                          className="absolute top-0 left-0 h-full bg-orange-500 rounded-full transition-all duration-300"
+                          style={{ width: connectorActive ? '100%' : '0%' }}
+                        />
+                      </div>
+                    )}
+                  </React.Fragment>
+                );
+              })}
             </div>
 
           </div>
