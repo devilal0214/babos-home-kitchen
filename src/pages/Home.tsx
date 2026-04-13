@@ -182,12 +182,14 @@ export default function Home() {
 
       <section className="py-8 md:py-20 bg-stone-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-16">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4">Our Signature Delicacies</h2>
-            <p className="hidden md:block text-lg text-stone-600 max-w-2xl mx-auto mb-8">A glimpse of our most loved dishes, prepared with care and authentic spices.</p>
+          <div className="flex items-center justify-between mb-8 md:mb-16">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-2">Our Signature Delicacies</h2>
+              <p className="hidden md:block text-lg text-stone-600 max-w-2xl">A glimpse of our most loved dishes, prepared with care and authentic spices.</p>
+            </div>
 
             {/* Veg / All toggle */}
-            <div className="flex justify-center mb-8">
+            <div className="flex-shrink-0">
               <div className="inline-flex items-center bg-stone-100 rounded-full p-1">
                 {(['All', 'Veg'] as const).map((opt) => (
                   <button
@@ -477,14 +479,17 @@ export default function Home() {
             <div className="ticker-track-gallery">
               {[...Array(2)].flatMap((_, setIdx) =>
                 [
-                  "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800&auto=format&fit=crop",
-                  "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=800&auto=format&fit=crop",
-                  "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=800&auto=format&fit=crop",
-                  "https://images.unsplash.com/photo-1606491956689-2ea866880c84?q=80&w=800&auto=format&fit=crop",
-                  "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800&auto=format&fit=crop",
-                  "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=800&auto=format&fit=crop",
-                  "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=800&auto=format&fit=crop",
-                  "https://images.unsplash.com/photo-1606491956689-2ea866880c84?q=80&w=800&auto=format&fit=crop",
+                  "https://baboshomekitchen.in/uploads/gallery/Shorshe_Posto_with_Steam_Rice.png",
+                  "https://baboshomekitchen.in/uploads/gallery/Shukto.jpg",
+                  "https://baboshomekitchen.in/uploads/gallery/Shorshe_Posto_Bhetki__Boneless_Fish_.jpg",
+                  "https://baboshomekitchen.in/uploads/gallery/Copy_of_vegetable_chop.jpg",
+                  "https://baboshomekitchen.in/uploads/gallery/Mochar_ghonto.jpg",
+                  "https://baboshomekitchen.in/uploads/gallery/Echorer_torkari.jpg",
+                  "https://baboshomekitchen.in/uploads/gallery/Copy_of_Tomato_Chatni.jpg",
+                  "https://baboshomekitchen.in/uploads/gallery/Copy_of_Kumro_Checki.jpg",
+                  "https://baboshomekitchen.in/uploads/gallery/Copy_of_Tomato_Chatni.jpg",
+                  "https://baboshomekitchen.in/uploads/gallery/Egg__Deem__Posto.jpg",
+                  "https://baboshomekitchen.in/uploads/gallery/Chingri_Prawn__Cutlet.jpg",
                 ].map((img, i) => (
                   <div key={`${setIdx}-${i}`} className="flex-shrink-0 w-64 h-48 mx-3 rounded-2xl overflow-hidden bg-stone-100" aria-hidden={setIdx > 0}>
                     <img src={img} alt={`Gallery ${i + 1}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />

@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { useMenuData } from '../../context/MenuDataContext';
 import { MenuItemInput } from '../../services/api';
 
-const CATEGORIES = ['Starters', 'Main Course', 'Chatni', 'Sweets', 'Desserts', 'Combo'];
+const CATEGORIES = ['Starters', 'Main Course', 'Combos', 'Chatni', 'Sweets', 'Desserts'];
 const DIETARY = ['Veg', 'Non Veg'];
 const TAG_OPTIONS = ['Signature', 'Popular'];
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Info, Search, Filter, Plus, Minus, ShoppingCart, Trash2, X } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
+import GallerySection from '../components/GallerySection';
 import { useCart } from '../context/CartContext';
 import { useMenuData } from '../context/MenuDataContext';
 
@@ -185,7 +186,7 @@ export default function Menu() {
           {/* Categories (desktop only) */}
           <div className="hidden md:flex flex-wrap justify-center gap-3 mb-12">
           {categories.filter(c => c !== 'Veg' && c !== 'Non Veg').map(category => {
-            const isActive = category === "All" ? activeCategories.length === 0 : activeCategories.includes(category);
+            const isActive = activeCategories.includes(category);
             return (
               <button
                 key={category}
@@ -283,6 +284,8 @@ export default function Menu() {
         </div>
 
       </div>
+
+      <GallerySection />
 
       {/* ── Mobile Item Detail Bottom Sheet (md:hidden) ───────────────── */}
       {selectedItem && (
@@ -466,7 +469,7 @@ export default function Menu() {
             </div>
             <div className="flex flex-wrap gap-2">
               {categories.filter(c => c !== 'Veg' && c !== 'Non Veg').map(category => {
-                const isActive = category === "All" ? activeCategories.length === 0 : activeCategories.includes(category);
+                const isActive = activeCategories.includes(category);
                 return (
                   <button
                     key={category}

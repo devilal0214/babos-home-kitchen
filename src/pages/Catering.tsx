@@ -1,6 +1,7 @@
 import React from 'react';
 import { PartyPopper, Users, HeartHandshake, CheckCircle2 } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
+import GallerySection from '../components/GallerySection';
 
 export default function Catering() {
   return (
@@ -99,28 +100,7 @@ export default function Catering() {
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="py-20 bg-white border-t border-stone-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4">A Feast for the Eyes</h2>
-            <p className="text-lg text-stone-600">Glimpses of our catering spreads</p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800&auto=format&fit=crop",
-              "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=800&auto=format&fit=crop",
-              "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=800&auto=format&fit=crop",
-              "https://images.unsplash.com/photo-1606491956689-2ea866880c84?q=80&w=800&auto=format&fit=crop"
-            ].map((img, i) => (
-              <div key={i} className="aspect-square rounded-2xl overflow-hidden bg-stone-100">
-                <img src={img} alt={`Catering spread ${i+1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <GallerySection />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, Leaf, ShieldCheck } from 'lucide-react';
+import GallerySection from '../components/GallerySection';
 
 export default function About() {
   return (
@@ -78,6 +79,8 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      <GallerySection />
     </div>
   );
 }

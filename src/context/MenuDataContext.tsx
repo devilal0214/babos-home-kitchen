@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from 'react';
 import { api, MenuItem, MenuItemInput } from '../services/api';
 
-const PREFERRED_FILTER_ORDER = ['All', 'Veg', 'Non Veg', 'Starters', 'Main Course', 'Desserts', 'Popular', 'Signature'];
+const PREFERRED_FILTER_ORDER = ['Starters', 'Main Course', 'Combos', 'Chatni', 'Sweets', 'Signature', 'Popular'];
 
 interface MenuDataContextType {
   menuItems: MenuItem[];
@@ -46,7 +46,7 @@ export function MenuDataProvider({ children }: { children: ReactNode }) {
       if (item.category) found.add(item.category);
       item.tags?.forEach((t) => found.add(t));
     });
-    const ordered = PREFERRED_FILTER_ORDER.filter((f) => f === 'All' || found.has(f));
+    const ordered = PREFERRED_FILTER_ORDER.filter((f) => found.has(f));
     found.forEach((f) => { if (!PREFERRED_FILTER_ORDER.includes(f)) ordered.push(f); });
     return ordered;
   }, [menuItems]);

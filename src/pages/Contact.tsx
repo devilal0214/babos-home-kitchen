@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
+import GallerySection from '../components/GallerySection';
 
 export default function Contact() {
   return (
@@ -93,6 +94,8 @@ export default function Contact() {
 
         </div>
       </div>
+
+      <GallerySection />
     </div>
   );
 }

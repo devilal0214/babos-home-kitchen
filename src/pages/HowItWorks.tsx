@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Search, MessageCircle, CalendarCheck, UtensilsCrossed } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
+import GallerySection from '../components/GallerySection';
 
 export default function HowItWorks() {
   const steps = [
@@ -113,9 +114,9 @@ export default function HowItWorks() {
             </div>
 
             {/* ── DESKTOP: horizontal animated line ── */}
-            <div className="hidden md:block">
+            <div className="hidden md:block relative">
               {/* track — outer positions vertically, inner mx provides column-center alignment */}
-              <div className="absolute left-0 right-0 top-12 xl:top-16 pointer-events-none">
+              <div className="absolute left-0 right-0 top-12 xl:top-16 pointer-events-none z-0">
                 <div className="relative mx-[12.5%]">
                   <div className="h-0.5 w-full bg-orange-100 rounded-full" />
                   <div
@@ -134,7 +135,7 @@ export default function HowItWorks() {
                   return (
                     <div
                       key={index}
-                      className={`flex flex-col items-center text-center transition-all duration-500 ${
+                      className={`relative z-10 flex flex-col items-center text-center transition-all duration-500 ${
                         isActive ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-3'
                       }`}
                     >
@@ -186,6 +187,8 @@ export default function HowItWorks() {
           </div>
         </div>
       </div>
+
+      <GallerySection />
 
     </div>
   );
