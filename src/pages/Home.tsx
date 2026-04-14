@@ -18,7 +18,6 @@ const stagger = (delayChildren = 0.1) => ({
 });
 
 export default function Home() {
-  const [vegOnly, setVegOnly] = useState(false);
   const [heroImgLoaded, setHeroImgLoaded] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const { cart, addToCart, updateQuantity } = useCart();
@@ -45,9 +44,7 @@ export default function Home() {
   const signatureDishes = menuItems.filter(item => item.tags?.includes('Signature'));
   const allDishes = signatureDishes.length > 0 ? signatureDishes : menuItems.slice(0, 6);
 
-  const filteredDishes = vegOnly
-    ? allDishes.filter(dish => dish.dietary === 'Veg')
-    : allDishes;
+  const filteredDishes = allDishes;
 
   return (
     <div className="bg-stone-50">
@@ -80,10 +77,10 @@ export default function Home() {
                 Order at least 1 day in advance
               </motion.span>
               <motion.h1 variants={fadeUp} className="text-2xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight mb-2 md:mb-6 text-center md:text-left">
-                This is not fast food.<br className="md:hidden" /> It's food worth waiting for.
+                This is not fast food.<br className="md:hidden" /> It's food worth waiting for!
               </motion.h1>
               <motion.p variants={fadeUp} className="text-base md:text-xl text-stone-300 mb-6 md:mb-10 leading-relaxed text-center md:text-left">
-                Experience the Delicacies of Bengal.<br />  Handcrafted by Chef Babo.
+                Experience the Delicacies of Bengal,<br />  Handcrafted by <b>Chef Babo</b>.
               </motion.p>
               <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
                 <WhatsAppButton text="Order on WhatsApp" />
@@ -182,31 +179,9 @@ export default function Home() {
 
       <section className="py-8 md:py-20 bg-stone-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-4 md:mb-8">
-            <div className="min-w-0">
-              <h2 className="text-xl md:text-4xl font-serif font-bold text-stone-900 mb-0 md:mb-2">Our Signature Delicacies</h2>
-              <p className="hidden md:block text-lg text-stone-600 max-w-2xl">A glimpse of our most loved dishes, prepared with care and authentic spices.</p>
-            </div>
-
-            {/* Veg / All toggle */}
-            <div className="flex-shrink-0">
-              <div className="inline-flex items-center bg-stone-100 rounded-full p-1">
-                {(['All', 'Veg'] as const).map((opt) => (
-                  <button
-                    key={opt}
-                    onClick={() => setVegOnly(opt === 'Veg')}
-                    className={`flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                      (opt === 'Veg') === vegOnly
-                        ? opt === 'Veg' ? 'bg-white shadow-sm text-green-700' : 'bg-white shadow-sm text-stone-800'
-                        : 'text-stone-500 hover:text-stone-700'
-                    }`}
-                  >
-                    {opt === 'Veg' && <span className="w-3 h-3 rounded-full bg-green-600 shrink-0" />}
-                    {opt}
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div className="text-center mb-4 md:mb-8">
+            <h2 className="text-2xl md:text-4xl font-serif font-bold text-stone-900 mb-2">Our Signature Delicacies</h2>
+            <p className="text-sm md:text-lg text-stone-600 max-w-2xl mx-auto">A glimpse of our most loved dishes, prepared with care and authentic spices.</p>
           </div>
           
           {/* Skeleton loader */}
@@ -232,16 +207,8 @@ export default function Home() {
             </div>
           )}
 
-          {/* Empty state */}
-          {!loading && vegOnly && filteredDishes.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-16 text-center mb-8 md:mb-12">
-              <p className="text-stone-400 text-base font-medium">No Veg dishes in Signature items right now.</p>
-              <button onClick={() => setVegOnly(false)} className="mt-3 text-sm text-orange-600 underline underline-offset-2">Show all dishes</button>
-            </div>
-          )}
-
           <motion.div
-            className={`grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12 ${loading || (vegOnly && filteredDishes.length === 0) ? 'hidden' : ''}`}
+            className={`grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12 ${loading ? 'hidden' : ''}`}
             variants={stagger(0.1)}
             initial="hidden"
             whileInView="show"

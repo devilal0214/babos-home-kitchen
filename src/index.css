@@ -46,6 +46,11 @@
   100% { transform: translateX(-50%); }
 }
 
+@keyframes ticker-scroll-reverse {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
 @keyframes hero-float {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-12px); }
@@ -69,7 +74,7 @@
 .ticker-track-gallery {
   display: flex;
   width: max-content;
-  animation: ticker-scroll 40s linear infinite;
+  animation: ticker-scroll-reverse 40s linear infinite;
   will-change: transform;
   transform: translateZ(0);
 }
