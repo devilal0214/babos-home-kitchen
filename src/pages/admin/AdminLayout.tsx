@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, UtensilsCrossed, Upload, LogOut, ChefHat, Images, ShoppingBag } from 'lucide-react';
+import { LayoutDashboard, UtensilsCrossed, Upload, LogOut, Images, ShoppingBag } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 
 const navItems = [
@@ -26,8 +26,8 @@ export default function AdminLayout() {
       <aside className="w-64 bg-stone-900 text-white flex flex-col shrink-0">
         <div className="p-6 border-b border-stone-700">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center">
-              <ChefHat size={22} />
+            <div className="w-10 h-10 rounded-xl overflow-hidden">
+              <img src="https://baboshomekitchen.in/uploads/gallery/fav.png" alt="Babo's Kitchen" className="w-full h-full object-cover" />
             </div>
             <div>
               <div className="font-bold text-sm leading-tight">Babo's Kitchen</div>
