@@ -62,8 +62,44 @@ export default function Menu() {
 
   if (loading) {
     return (
-      <div className="bg-stone-50 min-h-screen flex items-center justify-center py-16">
-        <div className="text-stone-400 text-lg">Loading menu...</div>
+      <div className="bg-stone-50 min-h-screen">
+        {/* Same breadcrumb hero */}
+        <div
+          className="relative flex items-center justify-center overflow-hidden"
+          style={{
+            height: '200px',
+            backgroundImage: 'url(https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1600&auto=format&fit=crop)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-stone-900/60" />
+          <div className="relative text-center">
+            <p className="text-orange-300 text-sm font-semibold uppercase tracking-widest mb-2">Babo's Home Kitchen</p>
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white">Our Menu</h1>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl overflow-hidden border border-stone-100 animate-pulse">
+                <div className="aspect-[4/3] bg-stone-200" />
+                <div className="p-3 sm:p-6 space-y-2">
+                  <div className="h-4 bg-stone-200 rounded w-3/4" />
+                  <div className="h-3 bg-stone-100 rounded w-full" />
+                  <div className="h-3 bg-stone-100 rounded w-2/3" />
+                  <div className="flex justify-between mt-3">
+                    <div className="h-6 bg-stone-100 rounded w-16" />
+                    <div className="h-6 bg-stone-100 rounded w-12" />
+                  </div>
+                </div>
+                <div className="px-3 sm:px-6 pb-3 sm:pb-6">
+                  <div className="h-9 bg-stone-100 rounded-lg w-full" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -205,7 +241,17 @@ export default function Menu() {
 
         {/* Dish Grid */}
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-16">
-          {filteredItems.map((item) => {
+          {filteredItems.length === 0 ? (
+            <div className="col-span-2 lg:col-span-4 flex flex-col items-center justify-center py-20 text-center">
+              <p className="text-stone-400 text-base font-medium">No dishes match your current filters.</p>
+              <button
+                onClick={() => { setActiveCategories([]); setDietaryFilter('All'); setSearchQuery(''); }}
+                className="mt-3 text-sm text-orange-600 underline underline-offset-2"
+              >
+                Clear all filters
+              </button>
+            </div>
+          ) : filteredItems.map((item) => {
             const cartItem = cart.find(c => c.id === item.id);
             return (
               <div key={item.id} className="bg-white rounded-2xl overflow-hidden border border-stone-100 group flex flex-col hover:border-orange-200 transition-colors">
@@ -271,8 +317,6 @@ export default function Menu() {
             );
           })}
         </div>
-
-        {/* CTA */}
         <div className="text-center bg-orange-50 p-10 rounded-3xl border border-orange-100 max-w-3xl mx-auto">
           <h3 className="text-3xl font-serif font-bold text-stone-900 mb-4">Ready to order?</h3>
           <p className="text-lg text-stone-600 mb-8">Send us your selected items on WhatsApp. Remember, we need 1 day advance notice!</p>

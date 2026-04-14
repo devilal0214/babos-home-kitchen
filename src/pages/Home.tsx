@@ -209,8 +209,39 @@ export default function Home() {
             </div>
           </div>
           
+          {/* Skeleton loader */}
+          {loading && (
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl overflow-hidden border border-stone-100 animate-pulse">
+                  <div className="aspect-[4/3] bg-stone-200" />
+                  <div className="p-3 sm:p-6 space-y-2">
+                    <div className="h-4 bg-stone-200 rounded w-3/4" />
+                    <div className="h-3 bg-stone-100 rounded w-full" />
+                    <div className="h-3 bg-stone-100 rounded w-2/3" />
+                    <div className="flex justify-between mt-3">
+                      <div className="h-6 bg-stone-100 rounded w-16" />
+                      <div className="h-6 bg-stone-100 rounded w-12" />
+                    </div>
+                  </div>
+                  <div className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <div className="h-9 bg-stone-100 rounded-lg w-full" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Empty state */}
+          {!loading && vegOnly && filteredDishes.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-16 text-center mb-8 md:mb-12">
+              <p className="text-stone-400 text-base font-medium">No Veg dishes in Signature items right now.</p>
+              <button onClick={() => setVegOnly(false)} className="mt-3 text-sm text-orange-600 underline underline-offset-2">Show all dishes</button>
+            </div>
+          )}
+
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12"
+            className={`grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12 ${loading || (vegOnly && filteredDishes.length === 0) ? 'hidden' : ''}`}
             variants={stagger(0.1)}
             initial="hidden"
             whileInView="show"
