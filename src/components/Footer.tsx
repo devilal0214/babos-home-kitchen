@@ -38,13 +38,13 @@ export default function Footer() {
               Just the warmth, nostalgia, and soul of a true Kolkata home kitchen, now in Delhi NCR.
             </p>
             <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-              <a href="https://www.facebook.com/baboshomekitchenofficial" className="hover:opacity-80 transition-opacity" aria-label="Facebook">
+              <a href="https://www.facebook.com/baboshomekitchenofficial" target="_blank" className="hover:opacity-80 transition-opacity" aria-label="Facebook">
                 <img src="https://babos.jaiveeru.site/uploads/gallery/fb.svg" alt="Facebook" width={32} height={32} />
               </a>
-              <a href="https://www.instagram.com/baboshomekitchen/" className="hover:opacity-80 transition-opacity" aria-label="Instagram">
+              <a href="https://www.instagram.com/baboshomekitchen/" target="_blank" className="hover:opacity-80 transition-opacity" aria-label="Instagram">
                <img src="https://babos.jaiveeru.site/uploads/gallery/insta.svg" alt="Instagram" width={32} height={32} />
               </a>
-              <a href="https://x.com/babos_home" className="hover:opacity-80 transition-opacity" aria-label="X (Twitter)">
+              <a href="https://x.com/babos_home" target="_blank" className="hover:opacity-80 transition-opacity" aria-label="X (Twitter)">
                  <img src="https://babos.jaiveeru.site/uploads/gallery/x.svg" alt="Twitter" width={32} height={32} />
               </a>
               <a href="https://www.youtube.com/@baboshomekitchen" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" aria-label="YouTube">
@@ -92,7 +92,7 @@ export default function Footer() {
                           {link.name}
                         </a>
                       ) : (
-                        <Link to={link.path} className="text-sm hover:text-white transition-colors">
+                        <Link to={link.path} target="_blank" className="text-sm hover:text-white transition-colors">
                           {link.name}
                         </Link>
                       )}
