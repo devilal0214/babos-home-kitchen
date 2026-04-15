@@ -104,7 +104,7 @@ export default function AdminGallery() {
   };
 
   return (
-    <div className="p-8 max-w-6xl">
+    <div className="p-8 w-full">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-stone-900">Gallery</h1>
         <p className="text-stone-500 text-sm mt-1">Upload and manage menu images. Copy URLs to use in dish entries.</p>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://baboshomekitchen.in/sitemap.xml
