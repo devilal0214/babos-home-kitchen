@@ -68,6 +68,8 @@ export default function AdminOrders() {
   const [editOrder, setEditOrder] = useState<Order | null>(null);
   const [editItems, setEditItems] = useState<import('../../services/api').OrderItem[]>([]);
   const [addItemId, setAddItemId] = useState<string>('');
+  const [itemSearch, setItemSearch] = useState('');
+  const [showItemDropdown, setShowItemDropdown] = useState(false);
   const itemsPerPage = 10;
 
   const { menuItems } = useMenuData();
@@ -209,6 +211,7 @@ export default function AdminOrders() {
         prev.map((o) => (o.id === editOrder.id ? { ...o, items: editItems, subtotal } : o))
       );
       setEditOrder(null);
+      setItemSearch('');
       toast.success(`Order #${editOrder.id} updated`);
     } catch {
       toast.error('Failed to update order');
@@ -565,8 +568,14 @@ export default function AdminOrders() {
                       Generate Invoice
                     </button>
                     <button
-                      onClick={() => { setEditOrder(order); setEditItems([...order.items]); setAddItemId(''); }}
-                      className="flex items-center gap-2 bg-white border border-stone-200 text-stone-600 px-4 py-1.5 rounded-lg text-sm font-medium hover:border-blue-400 hover:text-blue-600 transition-colors"
+                      onClick={() => { setEditOrder(order); setEditItems([...order.items]); setAddItemId(''); setItemSearch(''); }}
+                      disabled={order.status === 'delivered'}
+                      className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                        order.status === 'delivered'
+                          ? 'bg-stone-100 border border-stone-200 text-stone-400 cursor-not-allowed'
+                          : 'bg-white border border-stone-200 text-stone-600 hover:border-blue-400 hover:text-blue-600'
+                      }`}
+                      title={order.status === 'delivered' ? 'Cannot edit a delivered order' : 'Edit items'}
                     >
                       <Pencil size={14} />
                       Edit Items
@@ -718,27 +727,55 @@ export default function AdminOrders() {
                 </div>
               ))}
 
-              {/* Add item */}
-              <div className="flex gap-2 pt-2">
-                <select
-                  value={addItemId}
-                  onChange={(e) => setAddItemId(e.target.value)}
-                  className="flex-1 px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 min-w-0"
-                >
-                  <option value="">Select a menu item to add…</option>
-                  {menuItems.map((m) => (
-                    <option key={m.id} value={m.id}>
-                      {m.name} — {m.price}
-                    </option>
-                  ))}
-                </select>
+              {/* Add item — searchable */}
+              <div className="pt-2">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search menu item to add…"
+                    value={itemSearch}
+                    onChange={(e) => { setItemSearch(e.target.value); setAddItemId(''); setShowItemDropdown(true); }}
+                    onFocus={() => setShowItemDropdown(true)}
+                    onBlur={() => setTimeout(() => setShowItemDropdown(false), 150)}
+                    className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  />
+                  {showItemDropdown && itemSearch.length > 0 && (() => {
+                    const results = menuItems.filter((m) =>
+                      m.name.toLowerCase().includes(itemSearch.toLowerCase()) ||
+                      m.category.toLowerCase().includes(itemSearch.toLowerCase())
+                    ).slice(0, 8);
+                    if (results.length === 0) return (
+                      <div className="absolute z-10 w-full mt-1 bg-white border border-stone-200 rounded-lg shadow-lg py-2 px-3 text-sm text-stone-400">
+                        No items found
+                      </div>
+                    );
+                    return (
+                      <ul className="absolute z-10 w-full mt-1 bg-white border border-stone-200 rounded-lg shadow-lg overflow-y-auto max-h-48">
+                        {results.map((m) => (
+                          <li
+                            key={m.id}
+                            onMouseDown={() => {
+                              setAddItemId(String(m.id));
+                              setItemSearch(m.name);
+                              setShowItemDropdown(false);
+                            }}
+                            className="flex items-center justify-between px-3 py-2 text-sm hover:bg-orange-50 cursor-pointer"
+                          >
+                            <span className="font-medium text-stone-800 truncate mr-2">{m.name}</span>
+                            <span className="text-stone-400 shrink-0">{m.price}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    );
+                  })()}
+                </div>
                 <button
-                  onClick={handleAddItemToEdit}
+                  onClick={() => { handleAddItemToEdit(); setItemSearch(''); }}
                   disabled={!addItemId}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium hover:bg-orange-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
+                  className="mt-2 w-full flex items-center justify-center gap-1.5 px-4 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium hover:bg-orange-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
                   <Plus size={14} />
-                  Add
+                  Add to Order
                 </button>
               </div>
 
