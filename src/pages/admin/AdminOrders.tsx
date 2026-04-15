@@ -17,6 +17,13 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
+  Archive,
+  ArchiveRestore,
+  Pencil,
+  Trash2,
+  Plus,
+  Minus,
+  X,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { api, Order, OrderUser } from '../../services/api';
@@ -57,18 +64,21 @@ export default function AdminOrders() {
   const [filters, setFilters] = useState<Filters>({ year: 'all', month: 'all', category: 'all', status: 'all', itemCategory: 'all' });
   const [currentPage, setCurrentPage] = useState(1);
   const [invoiceOrder, setInvoiceOrder] = useState<Order | null>(null);
+  const [activeTab, setActiveTab] = useState<'active' | 'archived'>('active');
+  const [editOrder, setEditOrder] = useState<Order | null>(null);
+  const [editItems, setEditItems] = useState<import('../../services/api').OrderItem[]>([]);
+  const [addItemId, setAddItemId] = useState<string>('');
   const itemsPerPage = 10;
 
   const { menuItems } = useMenuData();
 
   useEffect(() => {
-    loadOrders();
-  }, []);
+    loadOrders(activeTab);
+  }, [activeTab]);
 
-  const loadOrders = () => {
+  const loadOrders = (tab: 'active' | 'archived' = activeTab) => {
     setLoading(true);
-    api
-      .getOrders()
+    (tab === 'archived' ? api.getArchivedOrders() : api.getOrders())
       .then(setOrders)
       .catch(() => toast.error('Failed to load orders'))
       .finally(() => setLoading(false));
@@ -154,6 +164,57 @@ export default function AdminOrders() {
     }
   };
 
+  const handleArchive = async (orderId: number, archive: boolean) => {
+    try {
+      await api.archiveOrder(orderId, archive ? 1 : 0);
+      setOrders((prev) => prev.filter((o) => o.id !== orderId));
+      setExpandedId(null);
+      toast.success(archive ? `Order #${orderId} archived` : `Order #${orderId} restored to active`);
+    } catch {
+      toast.error('Failed to update order');
+    }
+  };
+
+  const updateEditItemQty = (index: number, newQty: number) => {
+    if (newQty <= 0) {
+      setEditItems((prev) => prev.filter((_, i) => i !== index));
+    } else {
+      setEditItems((prev) => prev.map((item, i) => (i === index ? { ...item, quantity: newQty } : item)));
+    }
+  };
+
+  const handleAddItemToEdit = () => {
+    if (!addItemId) return;
+    const menuItem = menuItems.find((m) => String(m.id) === addItemId);
+    if (!menuItem) return;
+    setEditItems((prev) => {
+      const existing = prev.findIndex((i) => String(i.id) === addItemId);
+      if (existing >= 0) {
+        return prev.map((item, i) => (i === existing ? { ...item, quantity: item.quantity + 1 } : item));
+      }
+      return [...prev, { id: menuItem.id, name: menuItem.name, price: menuItem.price, quantity: 1 }];
+    });
+    setAddItemId('');
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editOrder) return;
+    const subtotal = editItems.reduce((sum, item) => {
+      const price = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+      return sum + (isNaN(price) ? 0 : price * item.quantity);
+    }, 0);
+    try {
+      await api.updateOrderItems(editOrder.id, editItems, subtotal);
+      setOrders((prev) =>
+        prev.map((o) => (o.id === editOrder.id ? { ...o, items: editItems, subtotal } : o))
+      );
+      setEditOrder(null);
+      toast.success(`Order #${editOrder.id} updated`);
+    } catch {
+      toast.error('Failed to update order');
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'delivered':
@@ -194,6 +255,32 @@ export default function AdminOrders() {
           <Users size={16} />
           Export Unique Customers
           <Download size={14} />
+        </button>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-2 mb-6">
+        <button
+          onClick={() => { setActiveTab('active'); setExpandedId(null); }}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            activeTab === 'active'
+              ? 'bg-orange-600 text-white'
+              : 'bg-white border border-stone-200 text-stone-600 hover:border-orange-300 hover:text-orange-600'
+          }`}
+        >
+          <ShoppingBag size={15} />
+          Active Orders
+        </button>
+        <button
+          onClick={() => { setActiveTab('archived'); setExpandedId(null); }}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            activeTab === 'archived'
+              ? 'bg-stone-700 text-white'
+              : 'bg-white border border-stone-200 text-stone-600 hover:border-stone-400 hover:text-stone-800'
+          }`}
+        >
+          <Archive size={15} />
+          Archived
         </button>
       </div>
 
@@ -472,11 +559,35 @@ export default function AdminOrders() {
 
                     <button
                       onClick={() => setInvoiceOrder(order)}
-                      className="ml-auto flex items-center gap-2 bg-orange-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors"
+                      className="flex items-center gap-2 bg-orange-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors"
                     >
                       <FileText size={14} />
                       Generate Invoice
                     </button>
+                    <button
+                      onClick={() => { setEditOrder(order); setEditItems([...order.items]); setAddItemId(''); }}
+                      className="flex items-center gap-2 bg-white border border-stone-200 text-stone-600 px-4 py-1.5 rounded-lg text-sm font-medium hover:border-blue-400 hover:text-blue-600 transition-colors"
+                    >
+                      <Pencil size={14} />
+                      Edit Items
+                    </button>
+                    {activeTab === 'active' ? (
+                      <button
+                        onClick={() => handleArchive(order.id, true)}
+                        className="flex items-center gap-2 bg-white border border-stone-200 text-stone-600 px-4 py-1.5 rounded-lg text-sm font-medium hover:border-stone-400 hover:text-stone-800 transition-colors"
+                      >
+                        <Archive size={14} />
+                        Archive
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleArchive(order.id, false)}
+                        className="flex items-center gap-2 bg-white border border-stone-200 text-stone-600 px-4 py-1.5 rounded-lg text-sm font-medium hover:border-orange-400 hover:text-orange-600 transition-colors"
+                      >
+                        <ArchiveRestore size={14} />
+                        Unarchive
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
@@ -548,6 +659,119 @@ export default function AdminOrders() {
 
       {/* Invoice Modal */}
       {invoiceOrder && <AdminOrderInvoice order={invoiceOrder} onClose={() => setInvoiceOrder(null)} />}
+
+      {/* Edit Items Modal */}
+      {editOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setEditOrder(null)}>
+          <div className="absolute inset-0 bg-black/50" />
+          <div
+            className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-5 border-b border-stone-100">
+              <div>
+                <h2 className="text-base font-bold text-stone-900">Edit Order #{editOrder.id}</h2>
+                <p className="text-xs text-stone-400 mt-0.5">{editOrder.customer_name} · {editOrder.customer_mobile}</p>
+              </div>
+              <button
+                onClick={() => setEditOrder(null)}
+                className="w-8 h-8 bg-stone-100 hover:bg-stone-200 rounded-full flex items-center justify-center transition-colors"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Items */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-2">
+              {editItems.length === 0 && (
+                <p className="text-stone-400 text-sm text-center py-6">No items — add one below.</p>
+              )}
+              {editItems.map((item, i) => (
+                <div key={i} className="flex items-center gap-3 p-3 bg-stone-50 rounded-lg">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-stone-900 truncate">{item.name}</p>
+                    <p className="text-xs text-stone-400">{item.price} each</p>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button
+                      onClick={() => updateEditItemQty(i, item.quantity - 1)}
+                      className={`w-7 h-7 rounded-md flex items-center justify-center border transition-colors ${
+                        item.quantity === 1
+                          ? 'border-red-200 bg-white text-red-500 hover:bg-red-50'
+                          : 'border-stone-200 bg-white text-stone-600 hover:border-orange-300'
+                      }`}
+                    >
+                      {item.quantity === 1 ? <Trash2 size={12} /> : <Minus size={12} />}
+                    </button>
+                    <span className="w-7 text-center text-sm font-bold text-stone-900">{item.quantity}</span>
+                    <button
+                      onClick={() => updateEditItemQty(i, item.quantity + 1)}
+                      className="w-7 h-7 rounded-md border border-stone-200 bg-white text-stone-600 flex items-center justify-center hover:border-orange-300 transition-colors"
+                    >
+                      <Plus size={12} />
+                    </button>
+                  </div>
+                  <span className="text-sm font-semibold text-stone-800 w-16 text-right shrink-0">
+                    ₹{(parseFloat(item.price.replace(/[^0-9.]/g, '')) * item.quantity).toLocaleString('en-IN')}
+                  </span>
+                </div>
+              ))}
+
+              {/* Add item */}
+              <div className="flex gap-2 pt-2">
+                <select
+                  value={addItemId}
+                  onChange={(e) => setAddItemId(e.target.value)}
+                  className="flex-1 px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 min-w-0"
+                >
+                  <option value="">Select a menu item to add…</option>
+                  {menuItems.map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.name} — {m.price}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={handleAddItemToEdit}
+                  disabled={!addItemId}
+                  className="flex items-center gap-1.5 px-4 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium hover:bg-orange-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
+                >
+                  <Plus size={14} />
+                  Add
+                </button>
+              </div>
+
+              {/* Running total */}
+              <div className="flex justify-between items-center pt-3 border-t border-stone-200 font-bold text-stone-900">
+                <span>New Subtotal</span>
+                <span>
+                  ₹{editItems.reduce((sum, item) => {
+                    const p = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+                    return sum + (isNaN(p) ? 0 : p * item.quantity);
+                  }, 0).toLocaleString('en-IN')}
+                </span>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="flex gap-3 p-5 border-t border-stone-100">
+              <button
+                onClick={() => setEditOrder(null)}
+                className="flex-1 px-4 py-2.5 border border-stone-200 rounded-lg text-sm font-medium text-stone-600 hover:bg-stone-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveEdit}
+                className="flex-1 px-4 py-2.5 bg-orange-600 text-white rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors"
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

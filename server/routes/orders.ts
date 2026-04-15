@@ -34,11 +34,12 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-// Admin: Get all orders (newest first)
-router.get('/', authenticateAdmin, async (_req: AuthRequest, res: Response): Promise<void> => {
+// Admin: Get all orders (newest first), filtered by archived flag
+router.get('/', authenticateAdmin, async (req: Request, res: Response): Promise<void> => {
   try {
     const db = getDb();
-    const rows = db.prepare('SELECT * FROM orders ORDER BY created_at DESC').all() as Record<string, unknown>[];
+    const archived = req.query.archived === '1' ? 1 : 0;
+    const rows = db.prepare('SELECT * FROM orders WHERE archived = ? ORDER BY created_at DESC').all(archived) as Record<string, unknown>[];
     const orders = rows.map((row) => ({
       ...row,
       items: JSON.parse((row.items_json as string) || '[]'),
@@ -85,6 +86,54 @@ router.get('/users', authenticateAdmin, async (_req: AuthRequest, res: Response)
     res.json(rows);
   } catch (err) {
     console.error('Get order users error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Admin: Archive / unarchive an order
+router.patch('/:id/archive', authenticateAdmin, async (req: AuthRequest, res: Response): Promise<void> => {
+  const id = Number(req.params.id);
+  const { archived } = req.body;
+  if (archived !== 0 && archived !== 1) {
+    res.status(400).json({ error: 'archived must be 0 or 1' });
+    return;
+  }
+  try {
+    const db = getDb();
+    const result = db.prepare('UPDATE orders SET archived = ? WHERE id = ?').run(archived, id);
+    if ((result as { changes: number }).changes === 0) {
+      res.status(404).json({ error: 'Order not found' });
+      return;
+    }
+    res.json({ success: true, archived });
+  } catch (err) {
+    console.error('Archive order error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Admin: Update order items and recalculated subtotal
+router.patch('/:id/items', authenticateAdmin, async (req: AuthRequest, res: Response): Promise<void> => {
+  const id = Number(req.params.id);
+  const { items, subtotal } = req.body;
+  if (!Array.isArray(items)) {
+    res.status(400).json({ error: 'items must be an array' });
+    return;
+  }
+  try {
+    const db = getDb();
+    const result = db.prepare('UPDATE orders SET items_json = ?, subtotal = ? WHERE id = ?').run(
+      JSON.stringify(items),
+      Number(subtotal) || 0,
+      id,
+    );
+    if ((result as { changes: number }).changes === 0) {
+      res.status(404).json({ error: 'Order not found' });
+      return;
+    }
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Update order items error:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

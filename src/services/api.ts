@@ -49,6 +49,7 @@ export interface Order {
   subtotal: number;
   created_at: string;
   status: 'pending' | 'delivered' | 'rejected';
+  archived: 0 | 1;
 }
 
 export interface OrderUser {
@@ -149,10 +150,24 @@ export const api = {
 
   getOrders: () => request<Order[]>('/orders'),
 
+  getArchivedOrders: () => request<Order[]>('/orders?archived=1'),
+
   updateOrderStatus: (id: number, status: 'pending' | 'delivered' | 'rejected') =>
     request<{ success: boolean; status: string }>(`/orders/${id}/status`, {
       method: 'PATCH',
       body: JSON.stringify({ status }),
+    }),
+
+  archiveOrder: (id: number, archived: 0 | 1) =>
+    request<{ success: boolean }>(`/orders/${id}/archive`, {
+      method: 'PATCH',
+      body: JSON.stringify({ archived }),
+    }),
+
+  updateOrderItems: (id: number, items: OrderItem[], subtotal: number) =>
+    request<{ success: boolean }>(`/orders/${id}/items`, {
+      method: 'PATCH',
+      body: JSON.stringify({ items, subtotal }),
     }),
 
   getOrderUsers: () => request<OrderUser[]>('/orders/users'),

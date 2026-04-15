@@ -86,6 +86,13 @@ export async function initDb(): Promise<void> {
     // Column already exists — ignore
   }
 
+  // Migration: add archived column if it doesn't exist yet
+  try {
+    db.exec('ALTER TABLE orders ADD COLUMN archived INTEGER NOT NULL DEFAULT 0');
+  } catch (_) {
+    // Column already exists — ignore
+  }
+
   // Seed default admin if not exists
   const adminExists = db.prepare('SELECT id FROM admins WHERE username = ?').get('admin');
   if (!adminExists) {
