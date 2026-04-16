@@ -12,12 +12,12 @@ export default function HowItWorks() {
     },
     {
       icon: <MessageCircle size={32} />,
-      title: "Place order on WhatsApp",
+      title: "Place your order on WhatsApp",
       description: "Send us a message with your selected items and preferred delivery time."
     },
     {
       icon: <CalendarCheck size={32} />,
-      title: "Confirm 1 day in advance",
+      title: " Confirm at least 1 day in advance",
       description: "We need at least 24 hours notice to source fresh ingredients specifically for your meal."
     },
     {
@@ -175,7 +175,7 @@ export default function HowItWorks() {
           <div className="bg-white p-10 rounded-3xl border border-stone-200 text-center max-w-2xl mx-auto">
             <h2 className="text-2xl font-serif font-bold text-stone-900 mb-4">Why 1 Day Advance?</h2>
             <p className="text-stone-600 mb-8">
-              Unlike restaurants, we don't keep pre-cooked gravies or frozen meats. When you order, we buy fresh vegetables, fish, and meat the next morning. This ensures you get the healthiest, most authentic home-cooked meal possible.
+              Unlike restaurants, we don't keep pre-cooked gravies or frozen meat. When you order, we buy fresh vegetables, fish, and meat the next morning. This ensures you get the healthiest, most authentic home-cooked meal possible.
             </p>
             <WhatsAppButton text="Order Now on WhatsApp" />
           </div>

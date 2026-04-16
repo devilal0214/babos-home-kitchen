@@ -77,6 +77,17 @@ export async function initDb(): Promise<void> {
       status TEXT NOT NULL DEFAULT 'pending',
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS seo_settings (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      page_path TEXT UNIQUE NOT NULL,
+      page_label TEXT NOT NULL,
+      meta_title TEXT,
+      meta_description TEXT,
+      meta_keywords TEXT,
+      og_image TEXT,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 
   // Migration: add status column if it doesn't exist yet (existing DBs)
@@ -91,6 +102,25 @@ export async function initDb(): Promise<void> {
     db.exec('ALTER TABLE orders ADD COLUMN archived INTEGER NOT NULL DEFAULT 0');
   } catch (_) {
     // Column already exists — ignore
+  }
+
+  // Seed SEO pages if table is empty
+  const seoCount = db.prepare('SELECT COUNT(*) as count FROM seo_settings').get() as { count: number };
+  if (seoCount && seoCount.count === 0) {
+    const seoPages = [
+      { path: '/', label: 'Home' },
+      { path: '/menu', label: 'Menu' },
+      { path: '/about', label: 'About' },
+      { path: '/contact', label: 'Contact' },
+      { path: '/catering', label: 'Catering' },
+      { path: '/how-it-works', label: 'How It Works' },
+      { path: '/custom-orders', label: 'Custom Orders' },
+      { path: '/reviews', label: 'Reviews' },
+      { path: '/media', label: 'Media' },
+      { path: '/cart', label: 'Cart' },
+    ];
+    const seoStmt = db.prepare('INSERT INTO seo_settings (page_path, page_label) VALUES (?, ?)');
+    for (const p of seoPages) seoStmt.run(p.path, p.label);
   }
 
   // Seed default admin if not exists

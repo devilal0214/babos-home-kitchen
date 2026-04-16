@@ -7,6 +7,7 @@ import authRouter from './routes/auth.js';
 import menusRouter from './routes/menus.js';
 import galleryRouter from './routes/gallery.js';
 import ordersRouter from './routes/orders.js';
+import seoRouter from './routes/seo.js';
 
 const app = express();
 const PORT = process.env.PORT || 3003;
@@ -51,6 +52,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/menus', menusRouter);
 app.use('/api/gallery', galleryRouter);
 app.use('/api/orders', ordersRouter);
+app.use('/api/seo', seoRouter);
 
 // PDF Generation endpoint
 app.post('/api/generate-pdf', async (req, res) => {

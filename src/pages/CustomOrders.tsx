@@ -34,7 +34,7 @@ export default function CustomOrders() {
                 { icon: <Utensils className="text-orange-600" size={24} />, title: "Tell us what you want", desc: "Share your specific cravings or dietary requirements with us." },
                 { icon: <Clock className="text-orange-600" size={24} />, title: "Give us 48 hours notice", desc: "Custom dishes require special ingredients and preparation time." },
                 { icon: <Package className="text-orange-600" size={24} />, title: "Minimum order value", desc: "Custom orders require a minimum value of ₹1500." },
-                { icon: <PhoneCall className="text-orange-600" size={24} />, title: "Confirm on WhatsApp", desc: "We'll discuss the details, pricing, and confirm your order." }
+                { icon: <PhoneCall className="text-orange-600" size={24} />, title: "Confirm on WhatsApp", desc: "We'll discuss the details and pricing, then confirm your order." }
               ].map((item, i) => (
                 <div key={i} className="flex gap-4">
                   <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center shrink-0">

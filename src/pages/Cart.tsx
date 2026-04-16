@@ -395,7 +395,7 @@ export default function Cart() {
               
               <div className="space-y-3 mb-6 pb-6 border-b border-stone-100">
                 <div className="flex justify-between text-stone-600">
-                  <span>Subtotal ({totalItems} items)</span>
+                  <span>Subtotal ({totalItems} item{totalItems > 1 ? 's' : ''})</span>
                   <span>₹{calculateTotal()}</span>
                 </div>
                 <div className="flex justify-between text-stone-600">
@@ -434,7 +434,7 @@ export default function Cart() {
                   <li>We partner with Pidge Delivery Services.</li>
                   <li>Delhi NCR delivery available.</li>
                   <li>Takeaway available from our kitchen.</li>
-                  <li> By ordering you agree to our{' '}
+                  <li> By ordering, you agree to our{' '}
                   <Link to="/terms" className="text-orange-600 hover:underline font-medium">Terms &amp; Conditions</Link>.</li>
                 </ul>
                

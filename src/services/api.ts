@@ -57,6 +57,17 @@ export interface OrderUser {
   mobile: string;
 }
 
+export interface SeoSetting {
+  id: number;
+  page_path: string;
+  page_label: string;
+  meta_title: string | null;
+  meta_description: string | null;
+  meta_keywords: string | null;
+  og_image: string | null;
+  updated_at: string;
+}
+
 function getToken(): string | null {
   return sessionStorage.getItem('babos_admin_token');
 }
@@ -171,4 +182,22 @@ export const api = {
     }),
 
   getOrderUsers: () => request<OrderUser[]>('/orders/users'),
+
+  // SEO
+  getSeoSettings: () => request<SeoSetting[]>('/seo'),
+
+  updateSeoSetting: (id: number, data: Partial<Pick<SeoSetting, 'meta_title' | 'meta_description' | 'meta_keywords' | 'og_image'>>) =>
+    request<SeoSetting>(`/seo/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }),
+
+  createSeoSetting: (data: Pick<SeoSetting, 'page_path' | 'page_label'> & Partial<Pick<SeoSetting, 'meta_title' | 'meta_description' | 'meta_keywords' | 'og_image'>>) =>
+    request<SeoSetting>('/seo', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  deleteSeoSetting: (id: number) =>
+    request<{ success: boolean }>(`/seo/${id}`, { method: 'DELETE' }),
 };

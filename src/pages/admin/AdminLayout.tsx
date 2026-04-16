@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, UtensilsCrossed, Upload, LogOut, Images, ShoppingBag } from 'lucide-react';
+import { LayoutDashboard, UtensilsCrossed, Upload, LogOut, Images, ShoppingBag, Globe } from 'lucide-react';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 
 const navItems = [
@@ -9,6 +9,7 @@ const navItems = [
   { to: '/admin/orders', icon: ShoppingBag, label: 'Orders' },
   { to: '/admin/import', icon: Upload, label: 'Import CSV' },
   { to: '/admin/gallery', icon: Images, label: 'Gallery' },
+  { to: '/admin/seo', icon: Globe, label: 'SEO Settings' },
 ];
 
 export default function AdminLayout() {

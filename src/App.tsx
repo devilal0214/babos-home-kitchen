@@ -21,6 +21,7 @@ import Media from './pages/Media';
 import { CartProvider } from './context/CartContext';
 import { MenuDataProvider } from './context/MenuDataContext';
 import { AdminAuthProvider } from './context/AdminAuthContext';
+import { SEOProvider } from './context/SEOContext';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -29,12 +30,14 @@ import AdminMenuForm from './pages/admin/AdminMenuForm';
 import AdminCSVImport from './pages/admin/AdminCSVImport';
 import AdminGallery from './pages/admin/AdminGallery';
 import AdminOrders from './pages/admin/AdminOrders';
+import AdminSEO from './pages/admin/AdminSEO';
 import ProtectedAdminRoute from './pages/admin/ProtectedAdminRoute';
 import UnderConstruction from './pages/UnderConstruction';
 import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
   return (
+    <SEOProvider>
     <MenuDataProvider>
       <CartProvider>
         <AdminAuthProvider>
@@ -75,6 +78,7 @@ export default function App() {
                   <Route path="import" element={<AdminCSVImport />} />
                   <Route path="gallery" element={<AdminGallery />} />
                   <Route path="orders" element={<AdminOrders />} />
+                  <Route path="seo" element={<AdminSEO />} />
                 </Route>
               </Route>
             </Routes>
@@ -82,5 +86,6 @@ export default function App() {
         </AdminAuthProvider>
       </CartProvider>
     </MenuDataProvider>
+    </SEOProvider>
   );
 }
