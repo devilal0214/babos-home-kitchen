@@ -14,6 +14,17 @@ const app = express();
 const PORT = process.env.PORT || 3003;
 const IS_PROD = process.env.NODE_ENV === 'production';
 
+// In production: redirect non-www to www
+if (IS_PROD) {
+  app.use((req, res, next) => {
+    const host = req.headers.host || '';
+    if (host === 'baboshomekitchen.in') {
+      return res.redirect(301, `https://www.baboshomekitchen.in${req.url}`);
+    }
+    next();
+  });
+}
+
 // In production: serve static assets BEFORE CORS middleware so browser module
 // requests (which include an Origin header) are not blocked by CORS checks.
 if (IS_PROD) {

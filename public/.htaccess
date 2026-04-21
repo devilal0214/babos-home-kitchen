@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Redirect non-www to www (301 permanent)
+RewriteCond %{HTTP_HOST} ^baboshomekitchen\.in$ [NC]
+RewriteRule ^(.*)$ https://www.baboshomekitchen.in/$1 [R=301,L]
