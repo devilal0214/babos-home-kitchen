@@ -10,15 +10,15 @@ const DEFAULTS: Record<string, { title: string; description: string; keywords: s
     ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
   },
   '/menu': {
-    title: "Our Menu — Babo's Home Kitchen",
-    description: 'Explore our full menu of authentic Bengali dishes — from Kosha Mangsho and Hilsa Bhapa to sweets and starters.',
-    keywords: 'Bengali menu, Kosha Mangsho, Hilsa, Bengali sweets, home cooked Bengali food menu',
+    title: "Bengali Food Menu | Babo's Home Kitchen Delhi",
+    description: 'Explore our Bengali menu — Sorse Ilish, Kosha Mangsho, Prawn Malai Curry, Kolkata Mutton Biryani, Crab Curry and more. Order fresh, home-cooked Bengali food in Delhi.',
+    keywords: 'Bengali food menu Delhi, Sorse Ilish Delhi, Kosha Mangsho order Delhi',
     ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
   },
   '/about': {
-    title: "About Chef Babo — Babo's Home Kitchen",
-    description: "Learn about Chef Babo's culinary journey and the story behind Babo's Home Kitchen.",
-    keywords: "Chef Babo, Bengali chef, home kitchen, about us",
+    title: "About Babo | The Story Behind Babo's Home Kitchen Delhi",
+    description: "Meet Dipayan Mazumdar — Babo. An advertising professional and passionate home chef bringing authentic Bengali recipes from his mother and grandmother to your table in Delhi NCR.",
+    keywords: "Bengali home chef Delhi, authentic Bengali cooking Delhi NCR",
     ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
   },
   '/contact': {
@@ -28,9 +28,9 @@ const DEFAULTS: Record<string, { title: string; description: string; keywords: s
     ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
   },
   '/catering': {
-    title: "Catering Services — Babo's Home Kitchen",
-    description: 'Book authentic Bengali catering for your events, celebrations, and corporate gatherings.',
-    keywords: 'Bengali catering, event catering, corporate catering, Babo catering',
+    title: "Bengali Catering Delhi | Babo's Home Kitchen",
+    description: 'Bengali catering in Delhi NCR for intimate dinners to gatherings of 50. Fresh, handcrafted dishes made to order. Contact Babo to book your event.',
+    keywords: 'Bengali catering Delhi, Bengali food catering Delhi NCR, home chef catering Delhi',
     ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
   },
   '/how-it-works': {
@@ -39,12 +39,42 @@ const DEFAULTS: Record<string, { title: string; description: string; keywords: s
     keywords: 'how to order, delivery process, Babo kitchen ordering',
     ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
   },
+  '/custom-orders': {
+    title: "Custom Orders — Babo's Home Kitchen",
+    description: 'Place a custom food order with Babo\'s Home Kitchen for special occasions, get Bengali dishes made to your preference.',
+    keywords: 'custom order Bengali food, special order, Babo Home Kitchen custom',
+    ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
+  },
+  '/reviews': {
+    title: "Customer Reviews — Babo's Home Kitchen",
+    description: 'Read what our customers say about Babo\'s Home Kitchen — authentic Bengali food loved across Delhi NCR.',
+    keywords: 'Babo Home Kitchen reviews, Bengali food reviews, customer testimonials',
+    ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
+  },
+  '/media': {
+    title: "Media & Gallery — Babo's Home Kitchen",
+    description: 'Browse photos and media from Babo\'s Home Kitchen — our food, events, and behind-the-scenes moments.',
+    keywords: 'Babo kitchen gallery, Bengali food photos, food media',
+    ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
+  },
+  '/terms': {
+    title: "Terms & Conditions — Babo's Home Kitchen",
+    description: 'Read the terms and conditions for using Babo\'s Home Kitchen services and placing food orders.',
+    keywords: "Babo's Home Kitchen terms, conditions, food order policy",
+    ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
+  },
+  '/refund': {
+    title: "Refund Policy — Babo's Home Kitchen",
+    description: 'Understand the refund and cancellation policy at Babo\'s Home Kitchen for all food orders.',
+    keywords: "Babo's Home Kitchen refund policy, cancellation, food order refund",
+    ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
+  },
 };
 
 const SITE_DEFAULT = {
-  title: "Babo's Home Kitchen",
-  description: 'Authentic Bengali home-cooked food by Chef Babo. Order fresh, handcrafted meals 1 day in advance.',
-  keywords: "Babo's Home Kitchen, Bengali food, home cooked",
+  title: "Babo's Home Kitchen | Authentic Bengali Food Delivery Delhi NCR",
+  description: 'Order authentic home-cooked Bengali food in Delhi NCR. Kosha Mangsho, Sorse Ilish, Galda Chingri Malai Curry, Kolkata Biryani and more. Made fresh to order by Babo.',
+  keywords: "Bengali food delivery Delhi, authentic Bengali food Delhi NCR, home cooked Bengali food",
   ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
 };
 

@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
 import { initDb, closeDb } from './db.js';
@@ -91,11 +92,64 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// In production: SPA fallback (static files already registered above)
+// In production: SPA fallback with server-side meta tag injection
 if (IS_PROD) {
   const distPath = path.join(process.cwd(), 'dist');
-  app.use((_req, res) => {
-    res.sendFile(path.join(distPath, 'index.html'));
+  const indexHtmlPath = path.join(distPath, 'index.html');
+
+  const escHtml = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  app.use((req, res) => {
+    try {
+      let html = fs.readFileSync(indexHtmlPath, 'utf-8');
+      const db = getDb();
+
+      if (db) {
+        const row = db.prepare('SELECT * FROM seo_settings WHERE page_path = ?').get(req.path) as {
+          meta_title: string | null;
+          meta_description: string | null;
+          meta_keywords: string | null;
+          og_image: string | null;
+        } | undefined;
+
+        if (row) {
+          if (row.meta_title) {
+            const t = escHtml(row.meta_title);
+            html = html.replace(/<title>[^<]*<\/title>/, `<title>${t}</title>`);
+            html = html.replace(/(<meta\s+property="og:title"\s+content=")[^"]*(")/i, `$1${t}$2`);
+            html = html.replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*(")/i, `$1${t}$2`);
+          }
+          if (row.meta_description) {
+            const d = escHtml(row.meta_description);
+            html = html.replace(/(<meta\s+name="description"\s+content=")[^"]*(")/i, `$1${d}$2`);
+            html = html.replace(/(<meta\s+property="og:description"\s+content=")[^"]*(")/i, `$1${d}$2`);
+            html = html.replace(/(<meta\s+name="twitter:description"\s+content=")[^"]*(")/i, `$1${d}$2`);
+          }
+          if (row.meta_keywords) {
+            const k = escHtml(row.meta_keywords);
+            html = html.replace(/(<meta\s+name="keywords"\s+content=")[^"]*(")/i, `$1${k}$2`);
+          }
+          if (row.og_image) {
+            const img = escHtml(row.og_image);
+            html = html.replace(/(<meta\s+property="og:image"\s+content=")[^"]*(")/i, `$1${img}$2`);
+            html = html.replace(/(<meta\s+name="twitter:image"\s+content=")[^"]*(")/i, `$1${img}$2`);
+          }
+        }
+
+        // Always update canonical, og:url and twitter:url to match the actual page path
+        const canonicalUrl = `https://baboshomekitchen.in${req.path === '/' ? '' : req.path}`;
+        html = html.replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/i, `$1${canonicalUrl}$2`);
+        html = html.replace(/(<meta\s+property="og:url"\s+content=")[^"]*(")/i, `$1${canonicalUrl}$2`);
+        html = html.replace(/(<meta\s+name="twitter:url"\s+content=")[^"]*(")/i, `$1${canonicalUrl}$2`);
+      }
+
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(html);
+    } catch (_) {
+      // Fallback to raw static file
+      res.sendFile(path.join(distPath, 'index.html'));
+    }
   });
 }
 

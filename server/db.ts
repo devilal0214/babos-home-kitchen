@@ -123,6 +123,17 @@ export async function initDb(): Promise<void> {
     for (const p of seoPages) seoStmt.run(p.path, p.label);
   }
 
+  // Migration: ensure all expected pages exist in seo_settings (idempotent)
+  const ensureSeoPage = db.prepare('INSERT OR IGNORE INTO seo_settings (page_path, page_label) VALUES (?, ?)');
+  const requiredPages = [
+    { path: '/custom-orders', label: 'Custom Orders' },
+    { path: '/reviews', label: 'Reviews' },
+    { path: '/media', label: 'Media' },
+    { path: '/terms', label: 'Terms & Conditions' },
+    { path: '/refund', label: 'Refund Policy' },
+  ];
+  for (const p of requiredPages) ensureSeoPage.run(p.path, p.label);
+
   // Seed default admin if not exists
   const adminExists = db.prepare('SELECT id FROM admins WHERE username = ?').get('admin');
   if (!adminExists) {
