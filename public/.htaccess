@@ -1,5 +1,7 @@
 RewriteEngine On
 
 # Redirect non-www to www (301 permanent)
+# Skip redirect for API calls to prevent cross-origin CORS issues
 RewriteCond %{HTTP_HOST} ^baboshomekitchen\.in$ [NC]
+RewriteCond %{REQUEST_URI} !^/api/ [NC]
 RewriteRule ^(.*)$ https://www.baboshomekitchen.in/$1 [R=301,L]
