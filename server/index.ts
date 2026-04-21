@@ -3,7 +3,7 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
-import { initDb, closeDb } from './db.js';
+import { initDb, closeDb, getDb } from './db.js';
 import authRouter from './routes/auth.js';
 import menusRouter from './routes/menus.js';
 import galleryRouter from './routes/gallery.js';
