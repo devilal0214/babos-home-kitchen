@@ -14,9 +14,12 @@ export function SEOProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const load = () => {
+    setLoading(true);
     api.getSeoSettings()
       .then(setSettings)
-      .catch(() => {}) // fail silently — defaults will be used
+      .catch((err) => {
+        console.error('[SEO] Failed to load settings from API:', err);
+      })
       .finally(() => setLoading(false));
   };
 

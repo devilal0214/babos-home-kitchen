@@ -4,9 +4,9 @@ import { useSEO } from '../context/SEOContext';
 
 const DEFAULTS: Record<string, { title: string; description: string; keywords: string; ogImage: string }> = {
   '/': {
-    title: "Babo's Home Kitchen — Authentic Bengali Home-Cooked Food",
-    description: 'Order authentic Bengali home-cooked meals prepared by Chef Babo. Freshly made, no storage, no reheating. Order at least 1 day in advance.',
-    keywords: 'Bengali food, home cooked, Babo kitchen, Kolkata food, authentic Bengali cuisine, order Bengali food online',
+    title: "Babo's Home Kitchen | Authentic Bengali Food Delivery Delhi NCR",
+    description: 'Order authentic home-cooked Bengali food in Delhi NCR. Kosha Mangsho, Sorse Ilish, Galda Chingri Malai Curry, Kolkata Biryani and more. Made fresh to order by Babo.',
+    keywords: 'Bengali food delivery Delhi, authentic Bengali food Delhi NCR, home cooked Bengali food',
     ogImage: 'https://baboshomekitchen.in/uploads/gallery/main-banner-image.png',
   },
   '/menu': {
@@ -90,11 +90,16 @@ function setTag(selector: string, attr: string, value: string, content: string) 
 
 export default function SEOHead() {
   const { pathname } = useLocation();
-  const { settings } = useSEO();
+  const { settings, loading } = useSEO();
 
   useEffect(() => {
-    const row = settings.find((s) => s.page_path === pathname);
-    const def = DEFAULTS[pathname] || SITE_DEFAULT;
+    // Wait until the API call is done — avoids flashing defaults before DB data arrives
+    if (loading) return;
+
+    // Normalise trailing slash so '/menu/' matches '/menu' in the DB
+    const normPath = pathname === '/' ? '/' : pathname.replace(/\/+$/, '');
+    const row = settings.find((s) => s.page_path === normPath);
+    const def = DEFAULTS[normPath] || SITE_DEFAULT;
 
     const title = row?.meta_title || def.title;
     const description = row?.meta_description || def.description;
@@ -120,7 +125,7 @@ export default function SEOHead() {
     setTag('meta[name="twitter:title"]', 'name', 'twitter:title', title);
     setTag('meta[name="twitter:description"]', 'name', 'twitter:description', description);
     setTag('meta[name="twitter:image"]', 'name', 'twitter:image', ogImage);
-  }, [pathname, settings]);
+  }, [pathname, settings, loading]);
 
   return null;
 }
