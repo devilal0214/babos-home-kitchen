@@ -15,6 +15,7 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3003,
+        JWT_SECRET: 'REPLACE_WITH_A_LONG_RANDOM_SECRET',
       },
     },
   ],
