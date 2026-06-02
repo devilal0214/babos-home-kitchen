@@ -304,10 +304,10 @@ export default function Home() {
               variants={fadeUp}
               className="flex flex-col justify-center text-center lg:text-left items-center lg:items-start lg:col-span-6"
             >
-              <h2 className="text-2xl md:text-4xl font-serif w-[80%] lg:w-full mx-auto lg:mx-0 font-bold text-stone-900 mb-4 leading-10">
+              <h2 className="text-2xl md:text-4xl font-serif w-[80%] lg:w-full mx-auto lg:mx-0 font-bold text-stone-900 mb-6 leading-10">
                 The Jamai Sasthi Grand <span className="block">Bhoj thali</span>
               </h2>
-              <p className="text-stone-700 text-base w-[90%] lg:w-full mx-auto lg:mx-0 font-regular md:text-lg mb-6 leading-6">
+              <p className="text-stone-700 text-base w-[90%] lg:w-[85%] mx-auto lg:mx-0 font-regular md:text-lg mb-6 leading-6">
                 This Jamai Sasthi, book your thali for a definitive traditional
                 Grand Bhoj, crafted specifically to honour your son-in-law and
                 bring the family together.
@@ -315,7 +315,7 @@ export default function Home() {
 
               {/* Menu highlights */}
               <div className="mb-6 w-full">
-                <p className="text-stone-700 font-regular w-[90%] lg:w-full mx-auto lg:mx-0 text-base md:text-base leading-6">
+                <p className="text-stone-700 font-regular w-[90%] lg:w-[85%] mx-auto lg:mx-0 text-base md:text-base leading-6">
                   Shukto + Aam Dal + Bhetki Fish Fry (2 pcs) + Galda Chingri
                   (Prawn) Malai Curry (2 pcs) + Dak Bungalow Chicken / Railway
                   Mutton + Payesh + Ghee Bhaat / Karaishutir Kochuri
