@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -115,15 +115,35 @@ export default function Home() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isSliderHovered, setIsSliderHovered] = useState(false);
+  const [isSliderInView, setIsSliderInView] = useState(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  // Detect when slider is in the viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsSliderInView(entry.isIntersecting);
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sliderRef.current) {
+      observer.observe(sliderRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   // Auto-slide effect for Jamai Sasthi section
   useEffect(() => {
-    if (isSliderHovered) return;
+    if (!isSliderInView || isSliderHovered) return;
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % jamaiSasthiSlides.length);
-    }, 5000);
+    }, 3000);
     return () => clearInterval(interval);
-  }, [isSliderHovered]);
+  }, [isSliderInView, isSliderHovered]);
 
   // Body scroll lock + signal FloatingCart to hide when detail is open
   useEffect(() => {
@@ -378,7 +398,8 @@ export default function Home() {
               className="w-full flex items-center justify-center lg:col-span-6"
             >
               <div
-                className="relative w-full aspect-square lg:aspect-auto lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl border border-stone-200/30 group bg-stone-900"
+                ref={sliderRef}
+                className="relative w-full aspect-square lg:aspect-auto lg:h-[600px] rounded-3xl overflow-hidden"
                 onMouseEnter={() => setIsSliderHovered(true)}
                 onMouseLeave={() => setIsSliderHovered(false)}
               >
@@ -392,7 +413,7 @@ export default function Home() {
                       initial={{ opacity: 0, scale: 1.05 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+                      transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                   </AnimatePresence>
@@ -415,10 +436,10 @@ export default function Home() {
                         <div className="w-full h-full bg-amber-500 rounded-full" />
                       ) : idx === currentSlide ? (
                         <div
-                          key={`${currentSlide}-${isSliderHovered}`}
+                          key={`${currentSlide}-${isSliderInView}-${isSliderHovered}`}
                           style={{
-                            animation: "progress-fill 5s linear forwards",
-                            animationPlayState: isSliderHovered ? "paused" : "running",
+                            animation: "progress-fill 3s linear forwards",
+                            animationPlayState: (isSliderInView && !isSliderHovered) ? "running" : "paused",
                           }}
                           className="h-full bg-amber-500 rounded-full"
                         />
