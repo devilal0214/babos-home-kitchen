@@ -262,7 +262,10 @@ export default function Home() {
             viewport={{ once: true, amount: 0.3 }}
           >
             {/* Left Column: Image */}
-            <motion.div variants={fadeUp} className="w-full flex items-center justify-center">
+            <motion.div
+              variants={fadeUp}
+              className="w-full flex items-center justify-center"
+            >
               <div className="hero-float w-full rounded-3xl overflow-hidden shadow-lg border border-stone-200/30">
                 <img
                   src="/Jamai-Sasthi-Grand-Bhoj-thali.jpg"
@@ -277,7 +280,7 @@ export default function Home() {
               variants={fadeUp}
               className="flex flex-col justify-center text-center lg:text-left items-center lg:items-start"
             >
-              <h2 className="text-3xl md:text-5xl font-serif font-bold text-stone-900 mb-4 leading-tight">
+              <h2 className="text-2xl md:text-4xl font-serif font-bold text-stone-900 mb-4 leading-13">
                 The Jamai Sasthi Grand Bhoj thali
               </h2>
               <p className="text-stone-700 text-base  font-regular md:text-lg mb-6 leading-6">
@@ -288,7 +291,7 @@ export default function Home() {
 
               {/* Menu highlights */}
               <div className="mb-6">
-                <p className="text-stone-600 font-regular text-sm sm:text-base leading-6">
+                <p className="text-stone-700 font-regular text-base md:text-base leading-6">
                   Shukto + Aam Dal + Bhetki Fish Fry (2 pcs) + Galda Chingri
                   (Prawn) Malai Curry (2 pcs) + Dak Bungalow Chicken / Railway
                   Mutton + Payesh + Ghee Bhaat / Karaishutir Kochuri
