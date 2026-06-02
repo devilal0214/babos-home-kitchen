@@ -267,7 +267,7 @@ export default function Home() {
                 <img
                   src="/Jamai-Sasthi-Grand-Bhoj-thali.jpg"
                   alt="The Jamai Sasthi Grand Bhoj thali"
-                  className="w-full object-cover aspect-square lg:aspect-auto lg:h-[500px]"
+                  className="w-full object-cover aspect-square lg:aspect-auto lg:h-[600px]"
                 />
               </div>
             </motion.div>
