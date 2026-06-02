@@ -323,7 +323,7 @@ export default function Home() {
               </div>
 
               {/* Price & CTA Button */}
-              <div className="flex flex-wrap w-[50%] lg:w-full items-center justify-center lg:justify-start gap-4 sm:gap-6 mb-3">
+              <div className="flex flex-wrap w-[60%] lg:w-full items-center justify-center lg:justify-start gap-4 sm:gap-6 mb-3">
                 <span className="text-2xl sm:text-4xl font-regular text-stone-600">
                   @Rs.1499 /-
                 </span>
