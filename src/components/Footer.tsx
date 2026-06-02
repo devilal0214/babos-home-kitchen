@@ -30,25 +30,76 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-12">
           {/* Brand */}
           <div className="lg:col-span-4">
-            <Link to="/" className="flex items-center justify-center lg:justify-start gap-2 mb-6 transition-opacity hover:opacity-90">
-              <img src="https://babos.jaiveeru.site/uploads/gallery/footer-logo-y.svg" alt="Babo's Home Kitchen" className="h-25 w-auto brightness-100 " /> 
+            <Link
+              to="/"
+              className="flex items-center justify-center lg:justify-start gap-2 mb-6 transition-opacity hover:opacity-90"
+            >
+              <img
+                src="https://baboshomekitchen.in/uploads/gallery/footer-logo-y.svg"
+                alt="Babo's Home Kitchen"
+                className="h-25 w-auto brightness-100 "
+              />
             </Link>
             <p className="text-sm leading-relaxed mb-6 text-center lg:text-left">
-              Authentic Bengali delicacies, made fresh only when you order. No precooking. No shortcuts.<br />
-              Just the warmth, nostalgia, and soul of a true Kolkata home kitchen, now in Delhi NCR.
+              Authentic Bengali delicacies, made fresh only when you order. No
+              precooking. No shortcuts.
+              <br />
+              Just the warmth, nostalgia, and soul of a true Kolkata home
+              kitchen, now in Delhi NCR.
             </p>
             <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-              <a href="https://www.facebook.com/baboshomekitchenofficial" target="_blank" className="hover:opacity-80 transition-opacity" aria-label="Facebook">
-                <img src="https://babos.jaiveeru.site/uploads/gallery/fb.svg" alt="Facebook" width={32} height={32} />
+              <a
+                href="https://www.facebook.com/baboshomekitchenofficial"
+                target="_blank"
+                className="hover:opacity-80 transition-opacity"
+                aria-label="Facebook"
+              >
+                <img
+                  src="https://baboshomekitchen.in/uploads/gallery/fb.svg"
+                  alt="Facebook"
+                  width={32}
+                  height={32}
+                />
               </a>
-              <a href="https://www.instagram.com/baboshomekitchen/" target="_blank" className="hover:opacity-80 transition-opacity" aria-label="Instagram">
-               <img src="https://babos.jaiveeru.site/uploads/gallery/insta.svg" alt="Instagram" width={32} height={32} />
+              <a
+                href="https://www.instagram.com/baboshomekitchen/"
+                target="_blank"
+                className="hover:opacity-80 transition-opacity"
+                aria-label="Instagram"
+              >
+                <img
+                  src="https://baboshomekitchen.in/uploads/gallery/insta.svg"
+                  alt="Instagram"
+                  width={32}
+                  height={32}
+                />
               </a>
-              <a href="https://x.com/babos_home" target="_blank" className="hover:opacity-80 transition-opacity" aria-label="X (Twitter)">
-                 <img src="https://babos.jaiveeru.site/uploads/gallery/x.svg" alt="Twitter" width={32} height={32} />
+              <a
+                href="https://x.com/babos_home"
+                target="_blank"
+                className="hover:opacity-80 transition-opacity"
+                aria-label="X (Twitter)"
+              >
+                <img
+                  src="https://baboshomekitchen.in/uploads/gallery/x.svg"
+                  alt="Twitter"
+                  width={32}
+                  height={32}
+                />
               </a>
-              <a href="https://www.youtube.com/@baboshomekitchen" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" aria-label="YouTube">
-               <img src="https://babos.jaiveeru.site/uploads/gallery/Layer_2.svg" alt="YouTube" width={32} height={32} />
+              <a
+                href="https://www.youtube.com/@baboshomekitchen"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-80 transition-opacity"
+                aria-label="YouTube"
+              >
+                <img
+                  src="https://baboshomekitchen.in/uploads/gallery/Layer_2.svg"
+                  alt="YouTube"
+                  width={32}
+                  height={32}
+                />
               </a>
               {/* <a href="https://linktr.ee/babohomekitchen" className="hover:opacity-80 transition-opacity" aria-label="LinkedIn">
                 <img src="https://babos.jaiveeru.site/uploads/gallery/link.svg" alt="LinkedIn" width={32} height={32} />
@@ -65,16 +116,28 @@ export default function Footer() {
           <div className="lg:col-span-5">
             <div className="grid grid-cols-2 gap-8">
               <div>
-                <h3 className="text-white font-semibold text-lg mb-6">Explore</h3>
+                <h3 className="text-white font-semibold text-lg mb-6">
+                  Explore
+                </h3>
                 <ul className="space-y-3">
                   {exploreLinks.map((link) => (
                     <li key={link.name}>
                       {link.external ? (
-                        <a href={link.path} target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors">
+                        <a
+                          href={link.path}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm hover:text-white transition-colors"
+                        >
                           {link.name}
                         </a>
                       ) : (
-                        <a href={link.path} target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors">
+                        <a
+                          href={link.path}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm hover:text-white transition-colors"
+                        >
                           {link.name}
                         </a>
                       )}
@@ -83,16 +146,27 @@ export default function Footer() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-white font-semibold text-lg mb-6">Company</h3>
+                <h3 className="text-white font-semibold text-lg mb-6">
+                  Company
+                </h3>
                 <ul className="space-y-3">
                   {companyLinks.map((link) => (
                     <li key={link.name}>
                       {link.external ? (
-                        <a href={link.path} target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors">
+                        <a
+                          href={link.path}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm hover:text-white transition-colors"
+                        >
                           {link.name}
                         </a>
                       ) : (
-                        <Link to={link.path} target="_blank" className="text-sm hover:text-white transition-colors">
+                        <Link
+                          to={link.path}
+                          target="_blank"
+                          className="text-sm hover:text-white transition-colors"
+                        >
                           {link.name}
                         </Link>
                       )}
@@ -105,11 +179,16 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div className="lg:col-span-3">
-            <h3 className="text-white font-semibold text-lg mb-6">Contact Us</h3>
+            <h3 className="text-white font-semibold text-lg mb-6">
+              Contact Us
+            </h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm">
                 <MapPin size={18} className="text-orange-500 shrink-0 mt-0.5" />
-                <span>N-5, Behind HDFC Bank, Block N, Kalkaji, New Delhi, Delhi 110019</span>
+                <span>
+                  N-5, Behind HDFC Bank, Block N, Kalkaji, New Delhi, Delhi
+                  110019
+                </span>
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <Phone size={18} className="text-orange-500 shrink-0 mt-0.5" />
@@ -121,38 +200,54 @@ export default function Footer() {
               </li>
             </ul>
             <div className="mt-6">
-              <WhatsAppButton text="Message Us" className="w-full justify-center" />
+              <WhatsAppButton
+                text="Message Us"
+                className="w-full justify-center"
+              />
             </div>
           </div>
         </div>
 
         <div className="border-t border-stone-800 pt-8 flex flex-col lg:flex-row justify-between items-center gap-4">
           <div className="flex flex-col md:flex-row items-center gap-4 text-xs text-stone-500">
-            <p>&copy; {new Date().getFullYear()} Babo's Home Kitchen. All rights reserved.</p>
+            <p>
+              &copy; {new Date().getFullYear()} Babo's Home Kitchen. All rights
+              reserved.
+            </p>
             <div className="flex items-center gap-3">
-              <Link to="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
+              <Link to="/terms" className="hover:text-white transition-colors">
+                Terms & Conditions
+              </Link>
               <span className="text-stone-700">•</span>
-              <Link to="/refund" className="hover:text-white transition-colors">Refund Policy</Link>
+              <Link to="/refund" className="hover:text-white transition-colors">
+                Refund Policy
+              </Link>
               <span className="text-stone-700">•</span>
-              <a 
-                  href="https://baboshomekitchen.in/uploads/gallery/fssai-license.pdf" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="hover:text-white transition-colors"
-                >
-                  <img 
-                    src="https://baboshomekitchen.in/uploads/gallery/fssai.svg" 
-                    alt="FSSAI" 
-                    width={32} 
-                    height={32} 
-                  />
-                </a>
-
-              
+              <a
+                href="https://baboshomekitchen.in/uploads/gallery/fssai-license.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors"
+              >
+                <img
+                  src="https://baboshomekitchen.in/uploads/gallery/fssai.svg"
+                  alt="FSSAI"
+                  width={32}
+                  height={32}
+                />
+              </a>
             </div>
           </div>
           <p className="text-xs text-stone-500 text-center lg:text-right">
-            Made with love for the love of Bengali food <span className="text-stone-700 mx-2 hidden sm:inline">•</span><br className="sm:hidden" /> <Link to="https://jaiveeru.co.in" className="text-[#fcb316] hover:text-white transition-colors" >Powered by JaiVeeru Creatives</Link>
+            Made with love for the love of Bengali food{" "}
+            <span className="text-stone-700 mx-2 hidden sm:inline">•</span>
+            <br className="sm:hidden" />{" "}
+            <Link
+              to="https://jaiveeru.co.in"
+              className="text-[#fcb316] hover:text-white transition-colors"
+            >
+              Powered by JaiVeeru Creatives
+            </Link>
           </p>
         </div>
       </div>

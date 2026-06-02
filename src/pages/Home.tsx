@@ -152,7 +152,7 @@ export default function Home() {
                   </div>
                 )}
                 <img
-                  src="https://babos.jaiveeru.site/uploads/gallery/main-banner-image.png"
+                  src="https://baboshomekitchen.in/uploads/gallery/main-banner-image.png"
                   alt="Chef Babo cooking"
                   className={`w-full h-auto lg:h-full object-contain transition-all duration-700 ${heroImgLoaded ? "opacity-100 blur-0 scale-100" : "opacity-0 blur-xl scale-110"}`}
                   referrerPolicy="no-referrer"

@@ -22,8 +22,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 transition-opacity hover:opacity-90">
-            <img src="https://babos.jaiveeru.site/uploads/gallery/logo-d.svg" alt="Babo's Home Kitchen" className="h-16 w-auto" />
+          <Link
+            to="/"
+            className="flex items-center gap-2 transition-opacity hover:opacity-90"
+          >
+            <img
+              src="https://baboshomekitchen.in/uploads/gallery/logo.png"
+              alt="Babo's Home Kitchen"
+              className="h-16 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -33,7 +40,9 @@ export default function Header() {
                 key={link.name}
                 to={link.path}
                 className={`text-sm font-medium transition-colors hover:text-orange-600 ${
-                  location.pathname === link.path ? 'text-orange-600 border-b-2 border-orange-600 pb-1' : 'text-stone-600'
+                  location.pathname === link.path
+                    ? "text-orange-600 border-b-2 border-orange-600 pb-1"
+                    : "text-stone-600"
                 }`}
               >
                 {link.name}
@@ -46,7 +55,9 @@ export default function Header() {
             <Link
               to="/cart"
               className={`relative -top-0.5 lg:top-0 text-sm font-medium transition-colors hover:text-orange-600 flex items-center gap-1 ${
-                location.pathname === '/cart' ? 'text-orange-600' : 'text-stone-600'
+                location.pathname === "/cart"
+                  ? "text-orange-600"
+                  : "text-stone-600"
               }`}
             >
               <ShoppingCart size={24} />
@@ -60,8 +71,6 @@ export default function Header() {
             <div className="hidden lg:block">
               <WhatsAppButton text="Order on WhatsApp" />
             </div>
-            
-            
 
             <button
               className="lg:hidden p-2 -mr-2 text-stone-600 hover:text-orange-600"
@@ -84,8 +93,8 @@ export default function Header() {
                 to={link.path}
                 className={`block px-3 py-3 rounded-md text-base font-medium ${
                   location.pathname === link.path
-                    ? 'bg-orange-50 text-orange-700'
-                    : 'text-stone-600 hover:bg-stone-50 hover:text-orange-600'
+                    ? "bg-orange-50 text-orange-700"
+                    : "text-stone-600 hover:bg-stone-50 hover:text-orange-600"
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -93,7 +102,10 @@ export default function Header() {
               </Link>
             ))}
             <div className="pt-4 px-3">
-              <WhatsAppButton text="Order on WhatsApp" className="w-full justify-center" />
+              <WhatsAppButton
+                text="Order on WhatsApp"
+                className="w-full justify-center"
+              />
             </div>
           </div>
         </div>
