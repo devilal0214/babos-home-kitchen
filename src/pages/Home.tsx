@@ -275,12 +275,12 @@ export default function Home() {
             {/* Right Column: Content */}
             <motion.div
               variants={fadeUp}
-              className="flex flex-col justify-center text-left"
+              className="flex flex-col justify-center text-center lg:text-left items-center lg:items-start"
             >
               <h2 className="text-3xl md:text-5xl font-serif font-bold text-stone-900 mb-4 leading-tight">
                 The Jamai Sasthi Grand Bhoj thali
               </h2>
-              <p className="text-stone-600 text-base  font-regular md:text-lg mb-6 leading-relaxed">
+              <p className="text-stone-700 text-base  font-regular md:text-lg mb-6 leading-6">
                 This Jamai Sasthi, book your thali for a definitive traditional
                 Grand Bhoj, crafted specifically to honour your son-in-law and
                 bring the family together.
@@ -288,7 +288,7 @@ export default function Home() {
 
               {/* Menu highlights */}
               <div className="mb-6">
-                <p className="text-stone-600 font-regular text-sm sm:text-base leading-relaxed">
+                <p className="text-stone-600 font-regular text-sm sm:text-base leading-6">
                   Shukto + Aam Dal + Bhetki Fish Fry (2 pcs) + Galda Chingri
                   (Prawn) Malai Curry (2 pcs) + Dak Bungalow Chicken / Railway
                   Mutton + Payesh + Ghee Bhaat / Karaishutir Kochuri
@@ -296,7 +296,7 @@ export default function Home() {
               </div>
 
               {/* Price & CTA Button */}
-              <div className="flex flex-wrap items-center gap-4 sm:gap-6 mb-3">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 mb-3">
                 <span className="text-2xl sm:text-4xl font-regular text-stone-600">
                   @Rs.1499 /-
                 </span>
