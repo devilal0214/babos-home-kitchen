@@ -89,3 +89,8 @@
   animation: ticker-scroll 28s linear infinite;
   will-change: transform;
 }
+
+@keyframes progress-fill {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}

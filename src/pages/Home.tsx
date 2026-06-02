@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Clock,
   ShieldCheck,
@@ -32,11 +32,98 @@ const stagger = (delayChildren = 0.1) => ({
   show: { transition: { staggerChildren: delayChildren } },
 });
 
+const jamaiSasthiSlides = [
+  {
+    src: "/Jamai-Sasthi-Grand-Bhoj-thali.jpg",
+    alt: "The Jamai Sasthi Grand Bhoj thali",
+    title: "The Grand Bhoj Thali",
+    description: "An elaborate assortment of traditional Bengali delicacies",
+  },
+  {
+    src: "https://baboshomekitchen.in/uploads/gallery/Shukto1.jpg",
+    alt: "Shukto",
+    title: "Traditional Shukto",
+    description:
+      "A bitter-sweet traditional Bengali vegetable medley simmered in a milk-mustard gravy",
+  },
+  {
+    src: "https://baboshomekitchen.in/uploads/gallery/Aam_Dal.jpg",
+    alt: "Aam Dal",
+    title: "Aam Dal",
+    description:
+      "Light and refreshing green mango lentil soup, perfect for summer",
+  },
+  {
+    src: "https://baboshomekitchen.in/uploads/gallery/Bhetki_Fish_Fry.jpg",
+    alt: "Bhetki Fish Fry",
+    title: "Crispy Bhetki Fish Fry",
+    description:
+      "Pure Bhetki fillet marinated in green herbs and breadcrumb fried",
+  },
+  {
+    src: "https://baboshomekitchen.in/uploads/gallery/Galda_Chingri_Malai_Curry.jpg",
+    alt: "Galda Chingri Malai Curry",
+    title: "Golda Chingri Malai Curry",
+    description: "Large tiger prawns simmered in a rich coconut milk gravy",
+  },
+  {
+    src: "https://baboshomekitchen.in/uploads/gallery/Dak_Bungalow_Chicken.jpg",
+    alt: "Dak Bungalow Chicken",
+    title: "Dak Bungalow Chicken",
+    description:
+      "Traditional Anglo-Indian chicken curry cooked with egg and potato",
+  },
+  {
+    src: "https://baboshomekitchen.in/uploads/gallery/Railway_Mutton.jpg",
+    alt: "Railway Mutton Curry",
+    title: "Railway Mutton Curry",
+    description: "Slow-cooked tender mutton cooked with boiled egg and potato",
+  },
+  {
+    src: "https://baboshomekitchen.in/uploads/gallery/Payesh.jpg",
+    alt: "Gobindobhog Rice Payesh",
+    title: "Gobindobhog Rice Payesh",
+    description:
+      "Fragrant rice pudding cooked with thick milk, saffron, and nuts",
+  },
+  {
+    src: "https://baboshomekitchen.in/uploads/gallery/Ghee_Bhaat_1.jpg",
+    alt: "Ghee Bhaat",
+    title: "Ghee Bhaat",
+    description:
+      "Aromatic basmati rice cooked and tossed with pure ghee and dry fruits",
+  },
+  {
+    src: "https://baboshomekitchen.in/uploads/gallery/Karaishutir_Kochuri.jpg",
+    alt: "Karaishutir Kochuri",
+    title: "Karaishutir Kochuri",
+    description: "Deep-fried bread stuffed with spiced green peas filling",
+  },
+  {
+    src: "https://baboshomekitchen.in/uploads/gallery/Shorshe_Ilish.jpg",
+    alt: "Shorshe Ilish",
+    title: "Shorshe Ilish",
+    description: "Classic Bengali hilsa fish cooked in a sharp mustard gravy",
+  },
+];
+
 export default function Home() {
   const [heroImgLoaded, setHeroImgLoaded] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const { cart, addToCart, updateQuantity } = useCart();
   const { menuItems, categories, loading } = useMenuData();
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isSliderHovered, setIsSliderHovered] = useState(false);
+
+  // Auto-slide effect for Jamai Sasthi section
+  useEffect(() => {
+    if (isSliderHovered) return;
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % jamaiSasthiSlides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isSliderHovered]);
 
   // Body scroll lock + signal FloatingCart to hide when detail is open
   useEffect(() => {
@@ -285,17 +372,62 @@ export default function Home() {
             whileInView="show"
             viewport={{ once: true, amount: 0.3 }}
           >
-            {/* Left Column: Image */}
+            {/* Left Column: Image Slider */}
             <motion.div
               variants={fadeUp}
               className="w-full flex items-center justify-center lg:col-span-6"
             >
-              <div className="hero-float w-full rounded-3xl overflow-hidden shadow-lg border border-stone-200/30">
-                <img
-                  src="/Jamai-Sasthi-Grand-Bhoj-thali.jpg"
-                  alt="The Jamai Sasthi Grand Bhoj thali"
-                  className="w-full object-cover aspect-square lg:aspect-auto lg:h-[600px]"
-                />
+              <div
+                className="relative w-full aspect-square lg:aspect-auto lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl border border-stone-200/30 group bg-stone-900"
+                onMouseEnter={() => setIsSliderHovered(true)}
+                onMouseLeave={() => setIsSliderHovered(false)}
+              >
+                {/* Images */}
+                <div className="absolute inset-0 w-full h-full">
+                  <AnimatePresence mode="popLayout">
+                    <motion.img
+                      key={currentSlide}
+                      src={jamaiSasthiSlides[currentSlide].src}
+                      alt={jamaiSasthiSlides[currentSlide].alt}
+                      initial={{ opacity: 0, scale: 1.05 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </AnimatePresence>
+                </div>
+
+                {/* Subtle bottom shadow to ensure pagination readability */}
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
+
+                {/* Rectangle Pagination with Progress Bars */}
+                <div className="absolute bottom-6 left-6 right-6 z-10 flex gap-2 justify-center items-center">
+                  {jamaiSasthiSlides.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentSlide(idx)}
+                      className="relative h-1.5 flex-1 rounded-full overflow-hidden bg-white/20 transition-all duration-300 hover:bg-white/40 cursor-pointer"
+                      aria-label={`Go to slide ${idx + 1}`}
+                    >
+                      {/* Completed/Filling/Empty logic */}
+                      {idx < currentSlide ? (
+                        <div className="w-full h-full bg-amber-500 rounded-full" />
+                      ) : idx === currentSlide ? (
+                        <div
+                          key={`${currentSlide}-${isSliderHovered}`}
+                          style={{
+                            animation: "progress-fill 5s linear forwards",
+                            animationPlayState: isSliderHovered ? "paused" : "running",
+                          }}
+                          className="h-full bg-amber-500 rounded-full"
+                        />
+                      ) : (
+                        <div className="w-0 h-full bg-transparent" />
+                      )}
+                    </button>
+                  ))}
+                </div>
               </div>
             </motion.div>
 
