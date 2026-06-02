@@ -1,20 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Clock, ShieldCheck, Utensils, Star, ArrowRight, Plus, Minus, ShoppingCart, Trash2, X } from 'lucide-react';
-import WhatsAppButton from '../components/WhatsAppButton';
-import { useCart } from '../context/CartContext';
-import { useMenuData } from '../context/MenuDataContext';
-import type { MenuItem } from '../services/api';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  Clock,
+  ShieldCheck,
+  Utensils,
+  Star,
+  ArrowRight,
+  Plus,
+  Minus,
+  ShoppingCart,
+  Trash2,
+  X,
+} from "lucide-react";
+import WhatsAppButton from "../components/WhatsAppButton";
+import { useCart } from "../context/CartContext";
+import { useMenuData } from "../context/MenuDataContext";
+import type { MenuItem } from "../services/api";
 
 // ── shared animation presets ──────────────────────────────────
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.25, 0.1, 0.25, 1] } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.25, 0.1, 0.25, 1] },
+  },
 };
 const stagger = (delayChildren = 0.1) => ({
   hidden: {},
-  show:   { transition: { staggerChildren: delayChildren } },
+  show: { transition: { staggerChildren: delayChildren } },
 });
 
 export default function Home() {
@@ -26,13 +41,19 @@ export default function Home() {
   // Body scroll lock + signal FloatingCart to hide when detail is open
   useEffect(() => {
     if (selectedItem) {
-      document.body.style.overflow = 'hidden';
-      document.dispatchEvent(new CustomEvent('itemDetailToggle', { detail: { open: true } }));
+      document.body.style.overflow = "hidden";
+      document.dispatchEvent(
+        new CustomEvent("itemDetailToggle", { detail: { open: true } }),
+      );
     } else {
-      document.body.style.overflow = '';
-      document.dispatchEvent(new CustomEvent('itemDetailToggle', { detail: { open: false } }));
+      document.body.style.overflow = "";
+      document.dispatchEvent(
+        new CustomEvent("itemDetailToggle", { detail: { open: false } }),
+      );
     }
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [selectedItem]);
 
   const openDetail = (item: MenuItem) => {
@@ -41,8 +62,11 @@ export default function Home() {
   const closeDetail = () => setSelectedItem(null);
 
   // Show Signature-tagged dishes first; fall back to first 6 if none
-  const signatureDishes = menuItems.filter(item => item.tags?.includes('Signature'));
-  const allDishes = signatureDishes.length > 0 ? signatureDishes : menuItems.slice(0, 6);
+  const signatureDishes = menuItems.filter((item) =>
+    item.tags?.includes("Signature"),
+  );
+  const allDishes =
+    signatureDishes.length > 0 ? signatureDishes : menuItems.slice(0, 6);
 
   const filteredDishes = allDishes;
 
@@ -253,9 +277,9 @@ export default function Home() {
 
       {/* Jamai Sasthi Special Promo Section */}
       <section className="py-12 md:py-20 bg-white border-b border-stone-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center"
+            className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center"
             variants={stagger(0.12)}
             initial="hidden"
             whileInView="show"
@@ -264,7 +288,7 @@ export default function Home() {
             {/* Left Column: Image */}
             <motion.div
               variants={fadeUp}
-              className="w-full flex items-center justify-center"
+              className="w-full flex items-center justify-center lg:col-span-6"
             >
               <div className="hero-float w-full rounded-3xl overflow-hidden shadow-lg border border-stone-200/30">
                 <img
@@ -278,20 +302,20 @@ export default function Home() {
             {/* Right Column: Content */}
             <motion.div
               variants={fadeUp}
-              className="flex flex-col justify-center text-center lg:text-left items-center lg:items-start"
+              className="flex flex-col justify-center text-center lg:text-left items-center lg:items-start lg:col-span-6"
             >
-              <h2 className="text-2xl md:text-4xl font-serif font-bold text-stone-900 mb-4 leading-13">
-                The Jamai Sasthi Grand Bhoj thali
+              <h2 className="text-2xl md:text-4xl font-serif w-[80%] lg:w-full mx-auto lg:mx-0 font-bold text-stone-900 mb-4 leading-10">
+                The Jamai Sasthi Grand <span className="block">Bhoj thali</span>
               </h2>
-              <p className="text-stone-700 text-base  font-regular md:text-lg mb-6 leading-6">
+              <p className="text-stone-700 text-base w-[90%] lg:w-full mx-auto lg:mx-0 font-regular md:text-lg mb-6 leading-6">
                 This Jamai Sasthi, book your thali for a definitive traditional
                 Grand Bhoj, crafted specifically to honour your son-in-law and
                 bring the family together.
               </p>
 
               {/* Menu highlights */}
-              <div className="mb-6">
-                <p className="text-stone-700 font-regular text-base md:text-base leading-6">
+              <div className="mb-6 w-full">
+                <p className="text-stone-700 font-regular w-[90%] lg:w-full mx-auto lg:mx-0 text-base md:text-base leading-6">
                   Shukto + Aam Dal + Bhetki Fish Fry (2 pcs) + Galda Chingri
                   (Prawn) Malai Curry (2 pcs) + Dak Bungalow Chicken / Railway
                   Mutton + Payesh + Ghee Bhaat / Karaishutir Kochuri
