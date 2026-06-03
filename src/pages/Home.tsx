@@ -392,6 +392,16 @@ export default function Home() {
             whileInView="show"
             viewport={{ once: true, amount: 0.3 }}
           >
+            {/* Heading on Mobile */}
+            <motion.div
+              variants={fadeUp}
+              className="lg:hidden text-center"
+            >
+              <h2 className="text-2xl md:text-4xl font-serif w-[80%] mx-auto font-bold text-stone-900 leading-8 md:leading-10">
+                The Jamai Sasthi Grand <span className="block">Bhoj thali</span>
+              </h2>
+            </motion.div>
+
             {/* Left Column: Image Slider */}
             <motion.div
               variants={fadeUp}
@@ -457,7 +467,7 @@ export default function Home() {
               variants={fadeUp}
               className="flex flex-col justify-center text-center lg:text-left items-center lg:items-start lg:col-span-6"
             >
-              <h2 className="text-2xl md:text-4xl font-serif w-[80%] lg:w-full mx-auto lg:mx-0 font-bold text-stone-900 mb-6 leading-8 md:leading-10">
+              <h2 className="hidden lg:block text-2xl md:text-4xl font-serif w-[80%] lg:w-full mx-auto lg:mx-0 font-bold text-stone-900 mb-6 leading-8 md:leading-10">
                 The Jamai Sasthi Grand <span className="block">Bhoj thali</span>
               </h2>
               <p className="text-stone-600 text-base w-[90%] lg:w-[85%] mx-auto lg:mx-0 md:text-lg mb-6 leading-6">
