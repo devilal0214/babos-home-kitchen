@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChefHat, ShoppingCart } from 'lucide-react';
+import { Menu, X, ChefHat, ShoppingCart, Phone } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 const navLinks = [
@@ -36,7 +36,7 @@ export default function Header() {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-orange-600 ${
+                className={`text-xl font-medium transition-colors hover:text-orange-600 ${
                   location.pathname === link.path
                     ? "text-orange-600 border-b-2 border-orange-600 pb-1"
                     : "text-stone-600"
@@ -49,6 +49,15 @@ export default function Header() {
 
           {/* Mobile & Desktop Cart + Mobile Menu Button */}
           <div className="flex items-center gap-4 lg:gap-6">
+            <div className="hidden lg:block text-stone-700 font-semibold text-xl">
+              <a
+                href="tel:+917428666405"
+                className="flex items-center gap-1.5 hover:text-orange-600 transition-colors"
+              >
+                <span>+91 7428666405</span>
+              </a>
+            </div>
+
             <Link
               to="/cart"
               className={`relative -top-0.5 lg:top-0 text-sm font-medium transition-colors hover:text-orange-600 flex items-center gap-1 ${
@@ -64,15 +73,6 @@ export default function Header() {
                 </span>
               )}
             </Link>
-
-            <div className="hidden lg:block">
-              <Link
-                to="/menu"
-                className="inline-flex items-center justify-center bg-[#fcb316] text-[#140d04] px-5 py-2.5 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-sm shadow-sm"
-              >
-                Delicacies of Bengal
-              </Link>
-            </div>
 
             <button
               className="lg:hidden p-2 -mr-2 text-stone-600 hover:text-orange-600"
@@ -103,14 +103,15 @@ export default function Header() {
                 {link.name}
               </Link>
             ))}
-            <div className="pt-4 px-3">
-              <Link
-                to="/menu"
-                className="w-full inline-flex items-center justify-center bg-[#fcb316] text-[#140d04] px-5 py-2.5 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-sm shadow-sm"
+            <div className="pt-4 px-6 text-stone-700 font-semibold text-base">
+              <a
+                href="tel:+917428666405"
+                className="flex items-center justify-center gap-2 hover:text-orange-600 transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Delicacies of Bengal
-              </Link>
+                <Phone size={18} className="text-orange-500" />
+                <span>+91 7428666405</span>
+              </a>
             </div>
           </div>
         </div>

@@ -133,11 +133,27 @@ export default function Home() {
       const rect = scroller.getBoundingClientRect();
       const scrollerHeight = scroller.offsetHeight;
       const windowHeight = window.innerHeight;
-      // How far through the tall scroller have we scrolled
-      const scrolled = -rect.top;
-      const scrollable = scrollerHeight - windowHeight;
-      const p = Math.min(1, Math.max(0, scrolled / scrollable));
-      setStepsProgress(p);
+      
+      const isMobileViewport = window.innerWidth < 1024; // lg breakpoint
+      
+      if (isMobileViewport) {
+        // Normal scroll progress (non-sticky) relative to viewport center
+        // Offset progress specifically for the timeline list boundaries to avoid pre-filling
+        const startOffset = 120; // height of header + margins
+        const endOffset = 80;
+        const listTop = rect.top + startOffset;
+        const listHeight = scrollerHeight - startOffset - endOffset;
+        const triggerLine = windowHeight * 0.6; // step crosses 60% of viewport height
+        const scrolledDistance = triggerLine - listTop;
+        const p = Math.min(1, Math.max(0, scrolledDistance / listHeight));
+        setStepsProgress(p);
+      } else {
+        // Sticky scroll progress
+        const scrolled = -rect.top;
+        const scrollable = scrollerHeight - windowHeight;
+        const p = Math.min(1, Math.max(0, scrolled / scrollable));
+        setStepsProgress(p);
+      }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -304,7 +320,7 @@ export default function Home() {
                   to="/menu"
                   className="inline-flex items-center justify-center gap-2 bg-[rgb(252,179,22)] text-[#140d04] px-6 py-3 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-base"
                 >
-                  View All Delicacies
+                  View all Delicacies
                 </Link>
               </motion.div>
             </motion.div>
@@ -749,20 +765,19 @@ export default function Home() {
       {/* ── Sticky scroll steps section ── */}
       <div
         ref={stepsScrollerRef}
-        style={{ height: '300vh' }}
-        className="relative bg-white border-b border-stone-200"
+        className="relative bg-white border-b border-stone-200 h-auto lg:h-[300vh] py-16 lg:py-0"
       >
         <div
           ref={stepsStickyRef}
-          className="sticky top-0 h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-1 sm:py-4 md:py-6 overflow-hidden"
+          className="relative lg:sticky lg:top-0 h-auto lg:h-screen flex flex-col items-center justify-start lg:justify-center px-4 sm:px-6 lg:px-8 py-0 lg:py-6 overflow-visible lg:overflow-hidden"
         >
           
           {/* Header */}
-          <div className="text-center mb-1 sm:mb-4 md:mb-6 xl:mb-8">
-            <h2 className="text-xl sm:text-2xl md:text-4xl xl:text-5xl font-serif font-bold text-stone-900 mb-0.5 sm:mb-1.5 md:mb-3">
+          <div className="text-center mb-6 lg:mb-8">
+            <h2 className="text-3xl lg:text-4xl xl:text-5xl font-serif font-bold text-stone-900 mb-2 lg:mb-3">
               How it Works
             </h2>
-            <p className="text-[10px] sm:text-xs md:text-sm xl:text-base text-stone-500 max-w-xl mx-auto">
+            <p className="text-sm lg:text-base text-stone-500 max-w-xl mx-auto">
               Scroll down to trace our step-by-step ordering process
             </p>
           </div>
@@ -773,7 +788,7 @@ export default function Home() {
             {/* Left side: Timeline */}
             <div className="lg:col-span-7 relative pl-0">
               {/* Vertical timeline connector */}
-              <div className="absolute left-[24px] sm:left-[28px] md:left-[32px] xl:left-[40px] top-[24px] sm:top-[28px] md:top-[32px] xl:top-[40px] bottom-[24px] sm:bottom-[28px] md:bottom-[32px] xl:bottom-[40px] w-0.5 bg-orange-100 -translate-x-1/2">
+              <div className="absolute left-[24px] lg:left-[32px] xl:left-[40px] top-[24px] lg:top-[32px] xl:top-[40px] bottom-[24px] lg:bottom-[32px] xl:bottom-[40px] w-0.5 bg-orange-100 -translate-x-1/2">
                 <div
                   className="h-full bg-orange-500 rounded-full transition-all duration-150 ease-out origin-top"
                   style={{ height: `${stepsProgress * 100}%` }}
@@ -781,14 +796,14 @@ export default function Home() {
               </div>
 
               {/* Steps List */}
-              <div className="relative z-10 flex flex-col gap-y-3 sm:gap-y-4 md:gap-y-5 xl:gap-y-6">
+              <div className="relative z-10 flex flex-col gap-y-4 lg:gap-y-6">
                 {steps.map((step, index) => {
                   const isActive = index <= stepsActiveStep;
                   const StepIcon = step.icon;
                   return (
                     <div key={index} className={`flex items-start gap-4 md:gap-6 transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-30'}`}>
                       {/* Circle */}
-                      <div className={`relative z-10 shrink-0 w-12 h-12 sm:w-14 md:w-16 xl:w-20 rounded-full border-4 flex items-center justify-center transition-all duration-500 ${
+                      <div className={`relative z-10 shrink-0 w-12 h-12 lg:w-16 xl:w-20 rounded-full border-4 flex items-center justify-center transition-all duration-500 ${
                         isActive
                           ? 'bg-orange-50 border-orange-400 text-orange-600 shadow-[0_0_0_6px_rgba(234,88,12,0.12)]'
                           : 'bg-white border-orange-100 text-stone-400'
@@ -803,18 +818,12 @@ export default function Home() {
 
                       {/* Content */}
                       <div className="pt-0.5 md:pt-2 xl:pt-4">
-                        <h3 className={`text-base sm:text-lg md:text-lg lg:text-lg xl:text-2xl font-bold font-serif mb-0.5 md:mb-1 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
+                        <h3 className={`text-base lg:text-lg xl:text-2xl font-bold font-serif mb-0.5 lg:mb-1 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
                           {step.title}
                         </h3>
-                        <div className={`transition-all duration-500 ease-in-out ${
-                          isActive 
-                            ? 'max-h-24 opacity-100 mt-0.5' 
-                            : 'max-h-0 opacity-0 mt-0 overflow-hidden lg:max-h-24 lg:opacity-100 lg:mt-0.5 lg:overflow-visible'
-                        }`}>
-                          <p className={`text-sm sm:text-xs md:text-sm lg:text-sm xl:text-base leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
-                            {step.description}
-                          </p>
-                        </div>
+                        <p className={`text-sm lg:text-sm xl:text-base leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
+                          {step.description}
+                        </p>
                       </div>
                     </div>
                   );
