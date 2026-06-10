@@ -119,7 +119,7 @@ export default function Home() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isSliderHovered, setIsSliderHovered] = useState(false);
-  
+
   // Scroll-driven animation state for How It Works section
   const stepsScrollerRef = useRef<HTMLDivElement>(null);
   const stepsStickyRef = useRef<HTMLDivElement>(null);
@@ -133,9 +133,9 @@ export default function Home() {
       const rect = scroller.getBoundingClientRect();
       const scrollerHeight = scroller.offsetHeight;
       const windowHeight = window.innerHeight;
-      
+
       const isMobileViewport = window.innerWidth < 1024; // lg breakpoint
-      
+
       if (isMobileViewport) {
         // Normal scroll progress (non-sticky) relative to viewport center
         // Offset progress specifically for the timeline list boundaries to avoid pre-filling
@@ -156,9 +156,9 @@ export default function Home() {
       }
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const steps = [
@@ -200,7 +200,10 @@ export default function Home() {
     },
   ];
 
-  const stepsActiveStep = Math.min(steps.length - 1, Math.floor(stepsProgress * steps.length));
+  const stepsActiveStep = Math.min(
+    steps.length - 1,
+    Math.floor(stepsProgress * steps.length),
+  );
   const [isSliderInView, setIsSliderInView] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -210,7 +213,7 @@ export default function Home() {
       ([entry]) => {
         setIsSliderInView(entry.isIntersecting);
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
 
     if (sliderRef.current) {
@@ -478,10 +481,7 @@ export default function Home() {
             viewport={{ once: true, amount: 0.3 }}
           >
             {/* Heading on Mobile */}
-            <motion.div
-              variants={fadeUp}
-              className="lg:hidden text-center"
-            >
+            <motion.div variants={fadeUp} className="lg:hidden text-center">
               <h2 className="text-2xl md:text-4xl font-serif w-[80%] mx-auto font-bold text-stone-900 leading-8 md:leading-10">
                 The Jamai Sasthi Grand <span className="block">Bhoj thali</span>
               </h2>
@@ -494,7 +494,7 @@ export default function Home() {
             >
               <div
                 ref={sliderRef}
-                className="relative w-full aspect-[3/4] md:aspect-square lg:aspect-auto lg:h-[600px] rounded-3xl overflow-hidden"
+                className="relative w-full max-w-[400px] aspect-[3/4] md:max-w-none md:aspect-square lg:aspect-auto lg:h-[600px] rounded-3xl overflow-hidden"
                 onMouseEnter={() => setIsSliderHovered(true)}
                 onMouseLeave={() => setIsSliderHovered(false)}
               >
@@ -534,7 +534,10 @@ export default function Home() {
                           key={`${currentSlide}-${isSliderInView}-${isSliderHovered}`}
                           style={{
                             animation: "progress-fill 3s linear forwards",
-                            animationPlayState: (isSliderInView && !isSliderHovered) ? "running" : "paused",
+                            animationPlayState:
+                              isSliderInView && !isSliderHovered
+                                ? "running"
+                                : "paused",
                           }}
                           className="h-full bg-amber-500 rounded-full"
                         />
@@ -761,7 +764,6 @@ export default function Home() {
         </div>
       </section>
 
-
       {/* ── Sticky scroll steps section ── */}
       <div
         ref={stepsScrollerRef}
@@ -771,7 +773,6 @@ export default function Home() {
           ref={stepsStickyRef}
           className="relative lg:sticky lg:top-0 h-auto lg:h-screen flex flex-col items-center justify-start lg:justify-center px-4 sm:px-6 lg:px-8 py-0 lg:py-6 overflow-visible lg:overflow-hidden"
         >
-          
           {/* Header */}
           <div className="text-center mb-6 lg:mb-8">
             <h2 className="text-3xl lg:text-4xl xl:text-5xl font-serif font-bold text-stone-900 mb-2 lg:mb-3">
@@ -784,7 +785,6 @@ export default function Home() {
 
           {/* Steps + dynamic image split container */}
           <div className="w-full max-w-[85rem] mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative">
-
             {/* Left side: Timeline */}
             <div className="lg:col-span-7 relative pl-0">
               {/* Vertical timeline connector */}
@@ -801,27 +801,40 @@ export default function Home() {
                   const isActive = index <= stepsActiveStep;
                   const StepIcon = step.icon;
                   return (
-                    <div key={index} className={`flex items-start gap-4 md:gap-6 transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-30'}`}>
+                    <div
+                      key={index}
+                      className={`flex items-start gap-4 md:gap-6 transition-opacity duration-500 ${isActive ? "opacity-100" : "opacity-30"}`}
+                    >
                       {/* Circle */}
-                      <div className={`relative z-10 shrink-0 w-12 h-12 lg:w-16 xl:w-20 rounded-full border-4 flex items-center justify-center transition-all duration-500 ${
-                        isActive
-                          ? 'bg-orange-50 border-orange-400 text-orange-600 shadow-[0_0_0_6px_rgba(234,88,12,0.12)]'
-                          : 'bg-white border-orange-100 text-stone-400'
-                      }`}>
+                      <div
+                        className={`relative z-10 shrink-0 w-12 h-12 lg:w-16 xl:w-20 rounded-full border-4 flex items-center justify-center transition-all duration-500 ${
+                          isActive
+                            ? "bg-orange-50 border-orange-400 text-orange-600 shadow-[0_0_0_6px_rgba(234,88,12,0.12)]"
+                            : "bg-white border-orange-100 text-stone-400"
+                        }`}
+                      >
                         <StepIcon className="w-5 h-5 sm:w-6 md:w-7 xl:w-9 text-inherit" />
-                        <div className={`absolute -top-1 -right-1 w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center font-bold text-[10px] sm:text-[10px] md:text-xs border-2 border-white transition-colors duration-300 ${
-                          isActive ? 'bg-stone-900 text-white' : 'bg-stone-300 text-white'
-                        }`}>
+                        <div
+                          className={`absolute -top-1 -right-1 w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center font-bold text-[10px] sm:text-[10px] md:text-xs border-2 border-white transition-colors duration-300 ${
+                            isActive
+                              ? "bg-stone-900 text-white"
+                              : "bg-stone-300 text-white"
+                          }`}
+                        >
                           {index + 1}
                         </div>
                       </div>
 
                       {/* Content */}
                       <div className="pt-0.5 md:pt-2 xl:pt-4">
-                        <h3 className={`text-base lg:text-lg xl:text-2xl font-bold font-serif mb-0.5 lg:mb-1 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
+                        <h3
+                          className={`text-base lg:text-lg xl:text-2xl font-bold font-serif mb-0.5 lg:mb-1 transition-colors duration-300 ${isActive ? "text-stone-900" : "text-stone-400"}`}
+                        >
                           {step.title}
                         </h3>
-                        <p className={`text-sm lg:text-sm xl:text-base leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
+                        <p
+                          className={`text-sm lg:text-sm xl:text-base leading-relaxed transition-colors duration-300 ${isActive ? "text-stone-600" : "text-stone-400"}`}
+                        >
                           {step.description}
                         </p>
                       </div>
@@ -839,7 +852,9 @@ export default function Home() {
                   <div
                     key={index}
                     className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-                      isActive ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'
+                      isActive
+                        ? "opacity-100 scale-100 z-10"
+                        : "opacity-0 scale-95 z-0"
                     }`}
                   >
                     <img
@@ -853,17 +868,17 @@ export default function Home() {
                 );
               })}
             </div>
-
           </div>
 
           {/* Scroll hint — hidden on mobile, fades out once scrolling begins */}
-          <div className={`hidden lg:flex mt-4 md:mt-6 xl:mt-8 flex-col items-center gap-2 transition-opacity duration-500 ${stepsProgress > 0.05 ? 'opacity-0' : 'opacity-100'}`}>
+          <div
+            className={`hidden lg:flex mt-4 md:mt-6 xl:mt-8 flex-col items-center gap-2 transition-opacity duration-500 ${stepsProgress > 0.05 ? "opacity-0" : "opacity-100"}`}
+          >
             <span className="text-stone-400 text-xs">Scroll down</span>
             <div className="w-5 h-8 rounded-full border-2 border-stone-300 flex justify-center pt-1.5">
               <div className="w-1 h-2 bg-stone-400 rounded-full animate-bounce" />
             </div>
           </div>
-
         </div>
       </div>
 
