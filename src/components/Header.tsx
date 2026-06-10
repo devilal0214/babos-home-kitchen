@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChefHat, ShoppingCart } from 'lucide-react';
-import WhatsAppButton from './WhatsAppButton';
 import { useCart } from '../context/CartContext';
 
 const navLinks = [
-  { name: 'Menu', path: '/menu' },
   { name: 'Catering', path: '/catering' },
   { name: 'Custom Orders', path: '/custom-orders' },
   { name: 'About', path: '/about' },
-  { name: 'How It Works', path: '/how-it-works' },
 ];
 
 export default function Header() {
@@ -69,7 +66,12 @@ export default function Header() {
             </Link>
 
             <div className="hidden lg:block">
-              <WhatsAppButton text="Order on WhatsApp" />
+              <Link
+                to="/menu"
+                className="inline-flex items-center justify-center bg-[#fcb316] text-[#140d04] px-5 py-2.5 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-sm shadow-sm"
+              >
+                Delicacies of Bengal
+              </Link>
             </div>
 
             <button
@@ -102,10 +104,13 @@ export default function Header() {
               </Link>
             ))}
             <div className="pt-4 px-3">
-              <WhatsAppButton
-                text="Order on WhatsApp"
-                className="w-full justify-center"
-              />
+              <Link
+                to="/menu"
+                className="w-full inline-flex items-center justify-center bg-[#fcb316] text-[#140d04] px-5 py-2.5 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-sm shadow-sm"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Delicacies of Bengal
+              </Link>
             </div>
           </div>
         </div>

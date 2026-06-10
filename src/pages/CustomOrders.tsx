@@ -50,8 +50,8 @@ export default function CustomOrders() {
             
             <div className="pt-6">
               <WhatsAppButton 
-                message="Hi, I would like to place a custom order." 
-                text="Discuss Custom Order" 
+                message="Hi, I need catering for an upcoming event." 
+                text="Enquire about Catering" 
                 className="w-full sm:w-auto"
               />
             </div>

@@ -1,29 +1,39 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Search, MessageCircle, CalendarCheck, UtensilsCrossed } from 'lucide-react';
+import { Search, MessageCircle, CalendarCheck, UtensilsCrossed, ShoppingCart, Clock, Truck } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
 import GallerySection from '../components/GallerySection';
 
 export default function HowItWorks() {
   const steps = [
     {
-      icon: <Search size={32} />,
-      title: "Browse the menu",
-      description: "Explore our authentic Bengali dishes. Choose what you're craving for tomorrow."
+      icon: Search,
+      title: "Explore our Delicacies",
+      description: "Browse our menu and choose your favourites."
     },
     {
-      icon: <MessageCircle size={32} />,
-      title: "Place your order on WhatsApp",
-      description: "Send us a message with your selected items and preferred delivery time."
+      icon: ShoppingCart,
+      title: "Build your Order",
+      description: "Add dishes to your cart with ease."
     },
     {
-      icon: <CalendarCheck size={32} />,
-      title: " Confirm at least 1 day in advance",
-      description: "We need at least 24 hours notice to source fresh ingredients specifically for your meal."
+      icon: CalendarCheck,
+      title: "Schedule your order",
+      description: "Schedule your order and share contact details."
     },
     {
-      icon: <UtensilsCrossed size={32} />,
-      title: "We cook fresh for you",
-      description: "Your food is prepared from scratch, packed hygienically, and delivered to your doorstep."
+      icon: MessageCircle,
+      title: "Confirm via WhatsApp",
+      description: "Send your order directly to Babo’s team for confirmation."
+    },
+    {
+      icon: Clock,
+      title: "Allow us 24 Hours' Notice",
+      description: "We source the freshest ingredients for your meal."
+    },
+    {
+      icon: Truck,
+      title: "Delivered / Ready for Pickup",
+      description: "Get it delivered or picked up at your convenience."
     }
   ];
 
@@ -52,9 +62,9 @@ export default function HowItWorks() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Line fills across 4 steps; each step activates at its threshold
+  // Line fills across steps; each step activates at its threshold
   const linePercent = Math.round(progress * 100);
-  const activeStep = Math.min(3, Math.floor(progress * 4));
+  const activeStep = Math.min(steps.length - 1, Math.floor(progress * steps.length));
 
   return (
     <div className="bg-stone-50">
@@ -62,106 +72,73 @@ export default function HowItWorks() {
       {/* ── Sticky scroll section ── */}
       {/* tall div gives scroll room; sticky child stays on screen */}
       <div ref={scrollerRef} style={{ height: '400vh' }} className="relative">
-        <div ref={stickyRef} className="sticky top-0 h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div ref={stickyRef} className="sticky top-0 h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-2 sm:py-4 md:py-6 overflow-hidden">
 
           {/* Header */}
-          <div className="text-center mb-6 md:mb-10 xl:mb-16">
-            <h1 className="text-2xl sm:text-3xl md:text-5xl xl:text-6xl font-serif font-bold text-stone-900 mb-2 md:mb-4">Simple. Fresh. Made for You.</h1>
-            <p className="text-sm md:text-base xl:text-lg text-stone-500 max-w-xl mx-auto">
+          <div className="text-center mb-2 sm:mb-4 md:mb-6 xl:mb-8">
+            <h1 className="text-xl sm:text-2xl md:text-4xl xl:text-5xl font-serif font-bold text-stone-900 mb-1 sm:mb-1.5 md:mb-3">Simple. Fresh. Made for You.</h1>
+            <p className="text-[10px] sm:text-xs md:text-sm xl:text-base text-stone-500 max-w-xl mx-auto">
               Scroll to see how it works
             </p>
           </div>
 
           {/* Steps + animated connector */}
-          <div className="w-full max-w-5xl relative">
+          <div className="w-full max-w-2xl mx-auto px-4 md:px-8 relative">
 
-            {/* ── MOBILE: vertical animated line ── */}
-            <div className="md:hidden relative px-2">
-              {/* track */}
-              <div className="absolute left-9 top-7 bottom-7 w-0.5 bg-orange-100 rounded-full" />
-              {/* animated fill */}
+            {/* Vertical timeline connector */}
+            <div className="absolute left-[22px] sm:left-[28px] md:left-[32px] xl:left-[40px] top-[22px] sm:top-[28px] md:top-[32px] xl:top-[40px] bottom-[22px] sm:bottom-[28px] md:bottom-[32px] xl:bottom-[40px] w-0.5 bg-orange-100 -translate-x-1/2">
               <div
-                className="absolute left-9 top-7 w-0.5 bg-orange-500 rounded-full origin-top transition-all duration-100"
-                style={{ transform: `scaleY(${linePercent / 100})`, height: 'calc(100% - 56px)' }}
+                className="h-full bg-orange-500 rounded-full transition-all duration-150 ease-out origin-top"
+                style={{ height: `${progress * 100}%` }}
               />
+            </div>
+
+            {/* Steps List */}
+            <div className="relative z-10 flex flex-col gap-y-3 sm:gap-y-4 md:gap-y-5 xl:gap-y-6">
               {steps.map((step, index) => {
                 const isActive = index <= activeStep;
+                const StepIcon = step.icon;
                 return (
-                  <div key={index} className={`flex items-start gap-4 mb-8 last:mb-0 transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-30'}`}>
-                    <div className={`relative z-10 shrink-0 w-[72px] h-[72px] rounded-full border-4 flex items-center justify-center transition-all duration-500 ${
+                  <div key={index} className={`flex items-start gap-4 md:gap-6 transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-30'}`}>
+                    {/* Circle */}
+                    <div className={`relative z-10 shrink-0 w-11 h-11 sm:w-14 md:w-16 xl:w-20 rounded-full border-4 flex items-center justify-center transition-all duration-500 ${
                       isActive
                         ? 'bg-orange-50 border-orange-400 text-orange-600 shadow-[0_0_0_6px_rgba(234,88,12,0.12)]'
                         : 'bg-white border-orange-100 text-stone-400'
                     }`}>
-                      {step.icon}
-                      <div className={`absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs border-2 border-white transition-colors duration-300 ${
+                      <StepIcon className="w-5 h-5 sm:w-6 md:w-7 xl:w-9 text-inherit" />
+                      <div className={`absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center font-bold text-[8px] sm:text-[10px] md:text-xs border-2 border-white transition-colors duration-300 ${
                         isActive ? 'bg-stone-900 text-white' : 'bg-stone-300 text-white'
                       }`}>
                         {index + 1}
                       </div>
                     </div>
-                    <div className="pt-2">
-                      <h3 className={`text-base font-bold font-serif mb-1 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
+
+                    {/* Content */}
+                    <div className="pt-1 md:pt-2 xl:pt-4">
+                      <h3 className={`text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl font-bold font-serif mb-0.5 md:mb-1 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
                         {step.title}
                       </h3>
-                      <p className={`text-xs leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
-                        {step.description}
-                      </p>
+                      <div className={`transition-all duration-500 ease-in-out ${
+                        isActive 
+                          ? 'max-h-24 opacity-100 mt-0.5' 
+                          : 'max-h-0 opacity-0 mt-0 overflow-hidden lg:max-h-24 lg:opacity-100 lg:mt-0.5 lg:overflow-visible'
+                      }`}>
+                        <p className={`text-xs sm:text-xs md:text-sm lg:text-sm xl:text-base leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
+                          {step.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            {/* ── DESKTOP: steps with inline connectors ── */}
-            <div className="hidden md:flex items-start gap-0">
-              {steps.map((step, index) => {
-                const isActive = index <= activeStep;
-                const connectorActive = index < activeStep;
-                return (
-                  <React.Fragment key={index}>
-                    {/* Step */}
-                    <div className={`flex-shrink-0 w-40 xl:w-52 flex flex-col items-center text-center transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-30'}`}>
-                      <div className={`w-24 h-24 xl:w-32 xl:h-32 rounded-full border-4 flex items-center justify-center mb-6 xl:mb-8 relative transition-all duration-500 ${
-                        isActive
-                          ? 'bg-orange-50 border-orange-400 text-orange-600 shadow-[0_0_0_6px_rgba(234,88,12,0.12)]'
-                          : 'bg-white border-orange-100 text-stone-400'
-                      }`}>
-                        {step.icon}
-                        <div className={`absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm border-2 border-white transition-colors duration-300 ${
-                          isActive ? 'bg-stone-900 text-white' : 'bg-stone-300 text-white'
-                        }`}>
-                          {index + 1}
-                        </div>
-                      </div>
-                      <h3 className={`text-lg xl:text-xl font-bold font-serif mb-3 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
-                        {step.title}
-                      </h3>
-                      <p className={`text-xs xl:text-sm leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
-                        {step.description}
-                      </p>
-                    </div>
-
-                    {/* Connector between steps */}
-                    {index < steps.length - 1 && (
-                      <div className="flex-1 mt-12 xl:mt-16 relative h-0.5">
-                        <div className="absolute inset-0 bg-orange-100 rounded-full" />
-                        <div
-                          className="absolute top-0 left-0 h-full bg-orange-500 rounded-full transition-all duration-300"
-                          style={{ width: connectorActive ? '100%' : '0%' }}
-                        />
-                      </div>
-                    )}
-                  </React.Fragment>
-                );
-              })}
-            </div>
-
           </div>
 
-          {/* Scroll hint — hidden on mobile, fades out on desktop once scrolling begins */}
-          <div className={`hidden sm:flex mt-8 md:mt-12 xl:mt-20 flex-col items-center gap-2 transition-opacity duration-500 ${progress > 0.05 ? 'opacity-0' : 'opacity-100'}`}>
-            <span className="text-stone-400 text-sm">Scroll down</span>
+          {/* Scroll hint — hidden on mobile, fades out once scrolling begins */}
+          <div className={`hidden lg:flex mt-4 md:mt-6 xl:mt-8 flex-col items-center gap-2 transition-opacity duration-500 ${progress > 0.05 ? 'opacity-0' : 'opacity-100'}`}>
+            <span className="text-stone-400 text-xs">Scroll down</span>
             <div className="w-5 h-8 rounded-full border-2 border-stone-300 flex justify-center pt-1.5">
               <div className="w-1 h-2 bg-stone-400 rounded-full animate-bounce" />
             </div>
@@ -177,7 +154,7 @@ export default function HowItWorks() {
             <p className="text-stone-600 mb-8">
               Unlike restaurants, we don't keep pre-cooked gravies or frozen meat. When you order, we buy fresh vegetables, fish, and meat the next morning. This ensures you get the healthiest, most authentic home-cooked meal possible.
             </p>
-            <WhatsAppButton text="Order Now on WhatsApp" />
+            <WhatsAppButton text="Order on WhatsApp" />
           </div>
         </div>
       </div>

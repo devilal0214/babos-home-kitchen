@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import WhatsAppButton from '../components/WhatsAppButton';
 import GallerySection from '../components/GallerySection';
@@ -78,11 +79,12 @@ export default function Contact() {
               </p>
               
               <div className="space-y-4">
-                <WhatsAppButton 
-                  message="Hi, I want to place an order for tomorrow." 
-                  text="Order for Tomorrow" 
-                  className="w-full justify-center" 
-                />
+                <Link 
+                  to="/menu" 
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#fcb316] text-[#140d04] px-6 py-3 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-base shadow-sm"
+                >
+                  Delicacies of Bengal
+                </Link>
                 <WhatsAppButton 
                   message="Hi, I need catering for an event." 
                   text="Enquire about Catering" 

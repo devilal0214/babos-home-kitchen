@@ -201,7 +201,8 @@ export default function Footer() {
             </ul>
             <div className="mt-6">
               <WhatsAppButton
-                text="Message Us"
+                message="Hi, I want to enquire about catering."
+                text="Enquire Now"
                 className="w-full justify-center"
               />
             </div>

@@ -12,6 +12,10 @@ import {
   ShoppingCart,
   Trash2,
   X,
+  Search,
+  CalendarCheck,
+  MessageCircle,
+  Truck,
 } from "lucide-react";
 import WhatsAppButton from "../components/WhatsAppButton";
 import { useCart } from "../context/CartContext";
@@ -115,6 +119,72 @@ export default function Home() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isSliderHovered, setIsSliderHovered] = useState(false);
+  
+  // Scroll-driven animation state for How It Works section
+  const stepsScrollerRef = useRef<HTMLDivElement>(null);
+  const stepsStickyRef = useRef<HTMLDivElement>(null);
+  const [stepsProgress, setStepsProgress] = useState(0); // 0–1
+
+  useEffect(() => {
+    const scroller = stepsScrollerRef.current;
+    if (!scroller) return;
+
+    const onScroll = () => {
+      const rect = scroller.getBoundingClientRect();
+      const scrollerHeight = scroller.offsetHeight;
+      const windowHeight = window.innerHeight;
+      // How far through the tall scroller have we scrolled
+      const scrolled = -rect.top;
+      const scrollable = scrollerHeight - windowHeight;
+      const p = Math.min(1, Math.max(0, scrolled / scrollable));
+      setStepsProgress(p);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const steps = [
+    {
+      icon: Search,
+      title: "Explore our Delicacies",
+      description: "Browse our menu and choose your favourites.",
+      image: "https://baboshomekitchen.in/uploads/gallery/1.png",
+    },
+    {
+      icon: ShoppingCart,
+      title: "Build your Order",
+      description: "Add dishes to your cart with ease.",
+      image: "https://baboshomekitchen.in/uploads/gallery/3.png",
+    },
+    {
+      icon: CalendarCheck,
+      title: "Schedule your order",
+      description: "Schedule your order and share contact details.",
+      image: "https://baboshomekitchen.in/uploads/gallery/5.png",
+    },
+    {
+      icon: MessageCircle,
+      title: "Confirm via WhatsApp",
+      description: "Send your order directly to Babo’s team for confirmation.",
+      image: "https://baboshomekitchen.in/uploads/gallery/2.png",
+    },
+    {
+      icon: Clock,
+      title: "Allow us 24 Hours' Notice",
+      description: "We source the freshest ingredients for your meal.",
+      image: "https://baboshomekitchen.in/uploads/gallery/6.png",
+    },
+    {
+      icon: Truck,
+      title: "Delivered / Ready for Pickup",
+      description: "Get it delivered or picked up at your convenience.",
+      image: "https://baboshomekitchen.in/uploads/gallery/4.png",
+    },
+  ];
+
+  const stepsActiveStep = Math.min(steps.length - 1, Math.floor(stepsProgress * steps.length));
   const [isSliderInView, setIsSliderInView] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -230,12 +300,11 @@ export default function Home() {
                 variants={fadeUp}
                 className="flex flex-col sm:flex-row gap-4"
               >
-                <WhatsAppButton text="Order on WhatsApp" />
                 <Link
                   to="/menu"
                   className="inline-flex items-center justify-center gap-2 bg-[rgb(252,179,22)] text-[#140d04] px-6 py-3 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-base"
                 >
-                  View Menu
+                  View All Delicacies
                 </Link>
               </motion.div>
             </motion.div>
@@ -670,61 +739,124 @@ export default function Home() {
               to="/menu"
               className="inline-flex items-center justify-center gap-2 bg-[rgb(252,179,22)] text-[#140d04] px-6 py-3 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-base"
             >
-              See Full Menu <ArrowRight size={20} />
+              View All Delicacies <ArrowRight size={20} />
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-8 md:py-20 bg-white border-y border-stone-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
-            <div className="order-2 lg:order-1">
-              <h2 className="text-xl md:text-4xl font-serif font-bold text-stone-900 mb-6 text-center lg:text-left">
-                Simple. Fresh. Made for You.
-              </h2>
-              <p className="text-base md:text-lg text-stone-600 mb-6 md:mb-10 text-center lg:text-left">
-                We operate differently from restaurants. Every meal is planned
-                and cooked specifically for the families who order.
-              </p>
 
-              <div className="mb-6 md:mb-10">
-                {[
-                  "Browse our authentic Bengali menu",
-                  "Message us your selection on WhatsApp",
-                  "Confirm your order 1 day in advance",
-                  "Enjoy freshly prepared, home-cooked food",
-                ].map((step, i) => (
-                  <React.Fragment key={i}>
-                    <div className="flex items-start gap-4 py-4 lg:py-3">
-                      <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold shrink-0 mt-1">
-                        {i + 1}
-                      </div>
-                      <p className="text-stone-800 font-medium text-lg pt-1">
-                        {step}
-                      </p>
-                    </div>
-                    {i < 3 && <hr className="border-[#e4d5c1] lg:hidden" />}
-                  </React.Fragment>
-                ))}
+      {/* ── Sticky scroll steps section ── */}
+      <div
+        ref={stepsScrollerRef}
+        style={{ height: '300vh' }}
+        className="relative bg-white border-b border-stone-200"
+      >
+        <div
+          ref={stepsStickyRef}
+          className="sticky top-0 h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-1 sm:py-4 md:py-6 overflow-hidden"
+        >
+          
+          {/* Header */}
+          <div className="text-center mb-1 sm:mb-4 md:mb-6 xl:mb-8">
+            <h2 className="text-xl sm:text-2xl md:text-4xl xl:text-5xl font-serif font-bold text-stone-900 mb-0.5 sm:mb-1.5 md:mb-3">
+              How it Works
+            </h2>
+            <p className="text-[10px] sm:text-xs md:text-sm xl:text-base text-stone-500 max-w-xl mx-auto">
+              Scroll down to trace our step-by-step ordering process
+            </p>
+          </div>
+
+          {/* Steps + dynamic image split container */}
+          <div className="w-full max-w-[85rem] mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative">
+
+            {/* Left side: Timeline */}
+            <div className="lg:col-span-7 relative pl-0">
+              {/* Vertical timeline connector */}
+              <div className="absolute left-[24px] sm:left-[28px] md:left-[32px] xl:left-[40px] top-[24px] sm:top-[28px] md:top-[32px] xl:top-[40px] bottom-[24px] sm:bottom-[28px] md:bottom-[32px] xl:bottom-[40px] w-0.5 bg-orange-100 -translate-x-1/2">
+                <div
+                  className="h-full bg-orange-500 rounded-full transition-all duration-150 ease-out origin-top"
+                  style={{ height: `${stepsProgress * 100}%` }}
+                />
               </div>
 
-              <div className="flex justify-center lg:justify-start">
-                <WhatsAppButton text="Place Your Order" />
+              {/* Steps List */}
+              <div className="relative z-10 flex flex-col gap-y-3 sm:gap-y-4 md:gap-y-5 xl:gap-y-6">
+                {steps.map((step, index) => {
+                  const isActive = index <= stepsActiveStep;
+                  const StepIcon = step.icon;
+                  return (
+                    <div key={index} className={`flex items-start gap-4 md:gap-6 transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-30'}`}>
+                      {/* Circle */}
+                      <div className={`relative z-10 shrink-0 w-12 h-12 sm:w-14 md:w-16 xl:w-20 rounded-full border-4 flex items-center justify-center transition-all duration-500 ${
+                        isActive
+                          ? 'bg-orange-50 border-orange-400 text-orange-600 shadow-[0_0_0_6px_rgba(234,88,12,0.12)]'
+                          : 'bg-white border-orange-100 text-stone-400'
+                      }`}>
+                        <StepIcon className="w-5 h-5 sm:w-6 md:w-7 xl:w-9 text-inherit" />
+                        <div className={`absolute -top-1 -right-1 w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center font-bold text-[10px] sm:text-[10px] md:text-xs border-2 border-white transition-colors duration-300 ${
+                          isActive ? 'bg-stone-900 text-white' : 'bg-stone-300 text-white'
+                        }`}>
+                          {index + 1}
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="pt-0.5 md:pt-2 xl:pt-4">
+                        <h3 className={`text-base sm:text-lg md:text-lg lg:text-lg xl:text-2xl font-bold font-serif mb-0.5 md:mb-1 transition-colors duration-300 ${isActive ? 'text-stone-900' : 'text-stone-400'}`}>
+                          {step.title}
+                        </h3>
+                        <div className={`transition-all duration-500 ease-in-out ${
+                          isActive 
+                            ? 'max-h-24 opacity-100 mt-0.5' 
+                            : 'max-h-0 opacity-0 mt-0 overflow-hidden lg:max-h-24 lg:opacity-100 lg:mt-0.5 lg:overflow-visible'
+                        }`}>
+                          <p className={`text-sm sm:text-xs md:text-sm lg:text-sm xl:text-base leading-relaxed transition-colors duration-300 ${isActive ? 'text-stone-600' : 'text-stone-400'}`}>
+                            {step.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-            <div className="relative order-1 lg:order-2">
-              <div className="absolute inset-0 bg-orange-100 rounded-3xl transform translate-x-4 translate-y-4 hidden lg:block"></div>
-              <img
-                src="https://babos.jaiveeru.site/uploads/gallery/SHORSHE_ILISH.png"
-                alt="Cooking process"
-                className="relative rounded-3xl object-cover w-full aspect-square lg:aspect-auto lg:h-[500px]"
-                referrerPolicy="no-referrer"
-              />
+
+            {/* Right side: Dynamic Image Container (Desktop only) */}
+            <div className="lg:col-span-5 hidden lg:block relative h-[280px] lg:h-[360px] xl:h-[500px] w-full rounded-3xl overflow-hidden shadow-lg border border-stone-200 bg-stone-100">
+              {steps.map((step, index) => {
+                const isActive = index === stepsActiveStep;
+                return (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+                      isActive ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'
+                    }`}
+                  >
+                    <img
+                      src={step.image}
+                      alt={step.title}
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
+                  </div>
+                );
+              })}
+            </div>
+
+          </div>
+
+          {/* Scroll hint — hidden on mobile, fades out once scrolling begins */}
+          <div className={`hidden lg:flex mt-4 md:mt-6 xl:mt-8 flex-col items-center gap-2 transition-opacity duration-500 ${stepsProgress > 0.05 ? 'opacity-0' : 'opacity-100'}`}>
+            <span className="text-stone-400 text-xs">Scroll down</span>
+            <div className="w-5 h-8 rounded-full border-2 border-stone-300 flex justify-center pt-1.5">
+              <div className="w-1 h-2 bg-stone-400 rounded-full animate-bounce" />
             </div>
           </div>
+
         </div>
-      </section>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2">
         {/* Catering Highlight */}
@@ -742,14 +874,14 @@ export default function Home() {
               parties, family functions, and intimate weddings.
             </p>
             <WhatsAppButton
-              message="Hi, I need catering for an event"
-              text="Enquire on WhatsApp"
+              message="Hi, I need catering for an upcoming event."
+              text="Enquire about Catering"
             />
           </div>
         </section>
 
         {/* Final CTA */}
-        <section className="relative py-10 md:py-20 lg:py-24 xl:py-16 bg-orange-900 text-white text-center overflow-hidden flex flex-col justify-center">
+        <section className="hidden md:flex relative py-10 md:py-20 lg:py-24 xl:py-16 bg-orange-900 text-white text-center overflow-hidden flex-col justify-center">
           {/* Decorative pattern */}
           <div
             className="absolute inset-0 opacity-10"
@@ -766,7 +898,11 @@ export default function Home() {
             <p className="text-base md:text-lg text-orange-100 mb-6 md:mb-10">
               Limited orders accepted daily to ensure the highest quality.
             </p>
-            <WhatsAppButton text="Order on WhatsApp" className="" />
+            <WhatsAppButton
+              message="Hi, I need catering for an upcoming event."
+              text="Enquire about Catering"
+              className=""
+            />
           </div>
         </section>
       </div>

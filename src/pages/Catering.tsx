@@ -27,7 +27,7 @@ export default function Catering() {
           </p>
           <WhatsAppButton 
             message="Hi, I need catering for an upcoming event." 
-            text="Enquire on WhatsApp" 
+            text="Enquire about Catering" 
           />
         </div>
       </section>
@@ -88,8 +88,8 @@ export default function Catering() {
                 <div className="mt-12 pt-8 border-t border-stone-100 text-center">
                   <p className="text-stone-500 text-sm mb-4">Minimum order quantity applies for catering services. Please contact us for details.</p>
                   <WhatsAppButton 
-                    message="Hi, I'd like to discuss a custom menu for an event." 
-                    text="Discuss Your Menu" 
+                    message="Hi, I need catering for an upcoming event." 
+                    text="Enquire about Catering" 
                     className="w-full justify-center" 
                   />
                 </div>
