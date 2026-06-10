@@ -178,13 +178,13 @@ export default function Home() {
       icon: CalendarCheck,
       title: "Schedule your order",
       description: "Schedule your order and share contact details.",
-      image: "https://baboshomekitchen.in/uploads/gallery/5.png",
+      image: "https://baboshomekitchen.in/uploads/gallery/2.png",
     },
     {
       icon: MessageCircle,
       title: "Confirm via WhatsApp",
       description: "Send your order directly to Babo’s team for confirmation.",
-      image: "https://baboshomekitchen.in/uploads/gallery/2.png",
+      image: "https://baboshomekitchen.in/uploads/gallery/5.png",
     },
     {
       icon: Clock,
@@ -758,7 +758,7 @@ export default function Home() {
               to="/menu"
               className="inline-flex items-center justify-center gap-2 bg-[rgb(252,179,22)] text-[#140d04] px-6 py-3 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-base"
             >
-              View All Delicacies <ArrowRight size={20} />
+              View All Delicacies 
             </Link>
           </div>
         </div>
