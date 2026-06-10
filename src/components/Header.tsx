@@ -103,16 +103,13 @@ export default function Header() {
                 {link.name}
               </Link>
             ))}
-            <div className="pt-4 px-6 text-stone-700 font-semibold text-base">
-              <a
-                href="tel:+917428666405"
-                className="flex items-center justify-center gap-2 hover:text-orange-600 transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <Phone size={18} className="text-orange-500" />
-                <span>+91 7428666405</span>
-              </a>
-            </div>
+            <a
+              href="tel:+917428666405"
+              className="block px-3 py-3 rounded-md text-base font-medium text-stone-600 hover:bg-stone-50 hover:text-orange-600 transition-colors mt-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              +91 7428666405
+            </a>
           </div>
         </div>
       )}

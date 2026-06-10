@@ -494,7 +494,7 @@ export default function Home() {
             >
               <div
                 ref={sliderRef}
-                className="relative w-full max-w-[400px] aspect-[3/4] md:max-w-none md:aspect-square lg:aspect-auto lg:h-[600px] rounded-3xl overflow-hidden"
+                className="relative w-full max-w-[330px] aspect-[3/4] md:max-w-none md:aspect-square lg:aspect-auto lg:h-[600px] rounded-3xl overflow-hidden"
                 onMouseEnter={() => setIsSliderHovered(true)}
                 onMouseLeave={() => setIsSliderHovered(false)}
               >
