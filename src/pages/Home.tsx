@@ -758,7 +758,7 @@ export default function Home() {
               to="/menu"
               className="inline-flex items-center justify-center gap-2 bg-[rgb(252,179,22)] text-[#140d04] px-6 py-3 rounded-lg font-medium hover:bg-[rgb(240,165,10)] transition-colors text-base"
             >
-              View All Delicacies 
+              View all Delicacies 
             </Link>
           </div>
         </div>
