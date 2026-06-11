@@ -7,7 +7,6 @@ const exploreLinks: { name: string; path: string; external?: boolean }[] = [
   { name: 'Menu', path: '/menu' },
   { name: 'Catering', path: '/catering' },
   { name: 'Custom Orders', path: '/custom-orders' },
-  { name: 'How It Works', path: '/how-it-works' },
   { name: 'Order on WhatsApp', path: 'https://wa.me/917428666405', external: true },
   { name: 'Reviews', path: 'https://www.google.com/search?sca_esv=ec7c3bdcf43043be&rlz=1C1UEAD_enIN1103IN1103&sxsrf=ANbL-n6H7sTNUnsxbe1sKvz7C5jXKgRoYw:1775204154718&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOWFKEVraJLFPsGQiyKYtxbBt8XbWWHp5BYmem24NNaaag2dH4JoIeLqPoI8gtbcbaTUziwuRdNEAb63YMJ6fCcUVm6ch3YiMpvjSNH4odrsS_RS8Jw%3D%3D&q=Babo%27s+Home+Kitchen+Reviews&sa=X&ved=2ahUKEwjExK7ontGTAxVpUGcHHX1KLbYQ0bkNegQIPRAF&biw=1536&bih=730&dpr=1.25' },
   { name: 'FAQs', path: '/faqs' },

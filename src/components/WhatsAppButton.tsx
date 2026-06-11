@@ -24,8 +24,6 @@ export default function WhatsAppButton({
     return (
       <a
         href={whatsappUrl}
-        target="_blank"
-        rel="noopener noreferrer"
         onClick={onClick}
         className={`fixed right-6 bg-[#25D366] text-white p-4 rounded-full hover:bg-[#128C7E] transition-colors z-50 flex items-center justify-center shadow-lg ${className || 'bottom-6'}`}
         aria-label="Order on WhatsApp"
@@ -38,8 +36,6 @@ export default function WhatsAppButton({
   return (
     <a
       href={whatsappUrl}
-      target="_blank"
-      rel="noopener noreferrer"
       onClick={onClick}
       className={`inline-flex items-center justify-center gap-2 bg-[#25D366] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#128C7E] transition-colors text-base ${className}`}
     >

@@ -196,7 +196,7 @@ export default function Home() {
       icon: Truck,
       title: "Delivered / Ready for Pickup",
       description: "Get it delivered or picked up at your convenience.",
-      image: "https://baboshomekitchen.in/uploads/gallery/4.png",
+      image: "https://baboshomekitchen.in/uploads/gallery/4.jpg",
     },
   ];
 
@@ -844,8 +844,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right side: Dynamic Image Container (Desktop only) */}
-            <div className="lg:col-span-5 hidden lg:block relative h-[280px] lg:h-[360px] xl:h-[500px] w-full rounded-3xl overflow-hidden shadow-lg border border-stone-200 bg-stone-100">
+            {/* Right side: Dynamic Image Container */}
+            <div className="lg:col-span-5 relative w-full max-w-[330px] lg:max-w-none aspect-[3/4] lg:aspect-auto lg:h-[600px] mx-auto rounded-3xl overflow-hidden shadow-lg border border-stone-200 bg-stone-100 mt-8 lg:mt-0">
               {steps.map((step, index) => {
                 const isActive = index === stepsActiveStep;
                 return (
